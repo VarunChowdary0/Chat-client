@@ -30,6 +30,9 @@ export default function App() {
   const [newMessage,setNewMessage] = useState("");
   const [IsOnline,changeStatus]  = useState(false);
   const [AllMessages,addMessages] = useState(localStorage.getItem("Allmessages")||[])
+  const [saverModeOn,changeSavermode] = useState(localStorage.getItem('isSaverOff')||true)
+  
+  const URL = "http://192.168.61.79:10201";
   useEffect(()=>{
     axios.get(apiURl)
       .then((res)=>{
@@ -53,7 +56,10 @@ export default function App() {
             newMessage,
             setNewMessage,
             AllMessages,
-            addMessages
+            addMessages,
+            saverModeOn,
+            changeSavermode,
+            URL
             }}>
             <RouterProvider router={router} />
             </Globals.Provider>
@@ -69,5 +75,5 @@ export default function App() {
     
   )
 }
-export const socket = io.connect("https://chat-server-backend-sockets.onrender.com/");
-//export const socket = io.connect("http://192.168.61.79:10201/");
+//export const socket = io.connect("https://chat-server-backend-sockets.onrender.com/");
+export const socket = io.connect("http://192.168.61.79:10201/");

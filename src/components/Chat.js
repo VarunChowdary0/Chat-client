@@ -1,14 +1,43 @@
 import React, { useContext, useRef , useEffect } from 'react'
 import { Globals } from '../globals/Globals'
+import axios, { all } from 'axios';
 
 
 const Chat = () => {
     const {socket , username , roomID} = useContext(Globals)
     const {newMessage,setNewMessage} = useContext(Globals);
     const {AllMessages,addMessages}=useContext(Globals);
-useEffect(() => {
-        socket.emit("join_room", { 'room': roomID, 'username': username });
-    },[])
+    const {saverModeOn} = useContext(Globals);
+    const {URL} = useContext(Globals)
+
+    useEffect(() => {
+            socket.emit("join_room", { 'room': roomID, 'username': username });
+        },[])
+
+        useEffect(() => {
+           if(saverModeOn){
+            console.log('called')
+            axios.get(URL + "/get_old_messages", { params: { roomID } })
+                .then((res) => {
+                    if (res.statusText === 'OK') {
+                        const datas = res.data.data;
+                        // Call UpdateMessages_1 once with the array of messages
+                        UpdateMessages_1(datas);
+                       // console.log(datas);
+                    } else {
+                        console.log("something went wrong");
+                        console.log(res);
+                    }
+                })
+                .catch((err) => {
+                    console.log("Error: ", err);
+                })
+           }
+           else{
+            console.log('On saver')
+           }
+        }, [])
+        
 
     useEffect(() => {
         socket.on("recive_message", (data) => {
@@ -19,6 +48,13 @@ useEffect(() => {
             socket.off("recive_message");
         };
     }, [socket]);
+
+    const UpdateMessages_1=(data)=>{
+        data.map((ele)=>{
+            addMessages((list)=>[...list,ele ]);
+        })
+        //console.log(AllMessages)
+    }
 
     const SendMessage =async () => {
         if(newMessage.trim()!==""){
@@ -114,3 +150,6 @@ useEffect(() => {
 }
 
 export default Chat;
+
+
+
