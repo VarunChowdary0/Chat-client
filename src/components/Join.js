@@ -20,7 +20,8 @@ const Join = () => {
     }
     return (
       <div className='flex h-screen justify-center items-center bg-[#2f2f31]' >
-        <div className="h-[40vh] w-[30vw] bg-black/30 relative
+        <div className="h-[40vh] w-[30vw] bg-black/30 relative max-sm:w-[80vw]
+                          max-lg:w-[60vw]
                         rounded-md flex flex-col p-5 space-y-7">
           <h1 className='text-white text-2xl text-center'>Join a Chat</h1>
           <input className='h-10 pl-4 focus:outline-none rounded-md' 
