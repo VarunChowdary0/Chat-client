@@ -19,15 +19,10 @@ const Chat = () => {
             console.log('called')
             axios.get(URL + "/get_old_messages", { params: { roomID } })
                 .then((res) => {
-                    if (res.statusText === 'OK') {
                         const datas = res.data.data;
                         // Call UpdateMessages_1 once with the array of messages
                         UpdateMessages_1(datas);
                        // console.log(datas);
-                    } else {
-                        console.log("something went wrong");
-                        console.log(res);
-                    }
                 })
                 .catch((err) => {
                     console.log("Error: ", err);
