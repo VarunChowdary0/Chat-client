@@ -41,6 +41,7 @@ const Join = () => {
               <div className='h-[150px] w-[320px] bg-white fixed
                                 bottom-9 right-7 rounded-xl px-3 py-5
                                 overflow-hidden hover:cursor-pointer
+                                max-sm:w-[200px]
                         '>
                   <div className='flex flex-col space-y-3' >
                     <li><span className='t text-green-600'>STEP 1 : </span>Change or add username</li>
