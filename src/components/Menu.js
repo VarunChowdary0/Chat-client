@@ -45,7 +45,8 @@ const Menu = () => {
               <div key={ele} className='w-[100%]  bg-[#0000009d] rounded-md'>
                 <div className='text-white p-4 flex justify-between items-center'>
                     <p>{ele}</p>
-                    <button onClick={() => JoinROOM(ele)} className='px-4 py-2 bg-green-500 w-[60px]  rounded-md 
+                    <button onClick={() => JoinROOM(ele)} className='px-4 py-2 
+                    bg-green-500 w-[60px]  rounded-md 
                                 hover:bg-green-600 transition-all
                                 active:bg-green-200
                                 active:text-green-800'>
@@ -67,7 +68,13 @@ const Menu = () => {
           ${menuO}
           `
         }>
-            <div  className='h-5 w-5 bg-red-700 absolute top-3 right-3' onClick={handleClose}></div>
+            <div  className='h-5 w-5 fill-red-500 absolute top-3 right-3' onClick={handleClose}>
+              <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512">
+                <path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 
+                56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 
+                427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 
+                13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
+            </div>
           {AllRooms.map((ele,index)=>{
             return(
               <div key={ele} className='w-[100%]  bg-[#0000009d] rounded-md'>
