@@ -64,7 +64,7 @@ const Menu = () => {
           `fixed top-0 left-0 bottom-0
           bg-[#ffffffe9] flex justify-start
           items-center p-5 flex-col w-[200px]
-          gap-3 w-[200px] z-40 pt-11 transition-all
+          gap-3 w-[300px] z-40 pt-11 transition-all
           ${menuO}
           `
         }>

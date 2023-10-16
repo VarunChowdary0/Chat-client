@@ -7,5 +7,5 @@
     transition: all 0.3s;
 }
 .Off{
-    transform: translateX(-200px);
+    transform: translateX(-300px);
 }
