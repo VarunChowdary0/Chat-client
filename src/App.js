@@ -9,10 +9,35 @@ import {
 import Join from './components/Join';
 import axios from 'axios'
 import { DotWave } from '@uiball/loaders'
+import Menu from './components/Menu';
+import Login from './components/Login';
+import Redirect from './components/Redirect';
 const router = createBrowserRouter([
   {
     path : '/',
-    element: <Join/>
+    element:
+    <>
+      {localStorage.getItem('ISloggedIN')?
+      <Redirect/>
+        :
+      <Login/>
+      }
+    </>
+  },
+  {
+    path : '/next',
+    element: 
+    <>
+      <Login/>
+    </>
+  },
+  {
+    path : '/o',
+    element: 
+    <>
+      <Menu/>
+      <Join/>
+    </>
   },
   {
     path:'/chat',
@@ -24,15 +49,16 @@ const router = createBrowserRouter([
 ]);
 
 export default function App() {
-  const apiURl = 'https://chat-server-backend-sockets.onrender.com/'
+  const apiURl = 'https://chat-server-backend-sockets.onrender.com'
   const [username,setUsername] = useState(localStorage.getItem("username")||"");
   const [roomID,setRoomID] = useState(localStorage.getItem("roomID")||"");
   const [newMessage,setNewMessage] = useState("");
   const [IsOnline,changeStatus]  = useState(false);
   const [AllMessages,addMessages] = useState(localStorage.getItem("Allmessages")||[])
+  const [AllRooms,setAllRooms] = useState(localStorage.getItem('Allrooms')||[]);
   const [saverModeOn,changeSavermode] = useState(localStorage.getItem('isSaverOff')||true)
-  
-  //const URL = "http://192.168.61.79:10201";
+  //const URL = "http://localhost:10209" 
+  //const URL = "http://192.168.61.79:10209";
   const URL = "https://chat-server-backend-sockets.onrender.com"
 
   useEffect(()=>{
@@ -61,7 +87,9 @@ export default function App() {
             addMessages,
             saverModeOn,
             changeSavermode,
-            URL
+            URL,
+            AllRooms,
+            setAllRooms
             }}>
             <RouterProvider router={router} />
             </Globals.Provider>
@@ -78,4 +106,5 @@ export default function App() {
   )
 }
 export const socket = io.connect("https://chat-server-backend-sockets.onrender.com/");
-//export const socket = io.connect("http://192.168.61.79:10201/");
+//export const socket = io.connect("http://192.168.61.79:10209/");
+//export const socket = io.connect("http://localhost:10209/");
