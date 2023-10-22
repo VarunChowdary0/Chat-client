@@ -1,4 +1,4 @@
-import React, { useContext, useRef , useEffect } from 'react'
+import React, { useContext, useRef , useEffect, useState } from 'react'
 import { Globals } from '../globals/Globals'
 import axios, { all } from 'axios';
 
@@ -9,7 +9,53 @@ const Chat = () => {
     const {AllMessages,addMessages}=useContext(Globals);
     const {saverModeOn} = useContext(Globals);
     const {URL} = useContext(Globals)
+    const [i,inc]=useState(0);
+    const {LocalDataOnNotifications,updateLocalnotifiation} = useContext(Globals);
+    const [Temp , setTemp] = useState([]);
+    const [currentLen , setCurrentLen] = useState(0);
+    useEffect(()=>{
+        //console.log('f1')
+        if(i<2){
+            axios.get(URL + '/get_length_of_room',{params:{'room':roomID}})
+            .then((res)=>{
+                setCurrentLen(res.data.length)
+                if(currentLen===0){
+                    UpdayeIt(res.data.length);
+                }
+            })
+            .catch((err)=>{
+                console.log("err",err);
+            })
+            inc(()=>i+1);
+        }
+    })
+    const UpdayeIt=(x)=>{
+        console.log(currentLen)
+        const uniqueOps = new Set();
+        LocalDataOnNotifications.forEach(local => {
+            if ( local.room === roomID ) {
+                    const MyOp = { 'room': local.room, 'length': x };
+                    console.log(x)
+                    uniqueOps.add(JSON.stringify(MyOp));
+            }
+            else{
+                const MyOp = { 'room': local.room, 'length': local.length };
+                uniqueOps.add(JSON.stringify(MyOp));
+            }
+        });
+        const uniqueOpsArray = Array.from(uniqueOps).map(op => JSON.parse(op));
+        setTemp(uniqueOpsArray);
+        opu();
+    }
 
+    const opu =() =>{
+        if(i<3){
+            localStorage.setItem('_Local_Notifications_',JSON.stringify(Temp));
+            updateLocalnotifiation(Temp);
+            // console.log(Temp)
+            // console.log(i);
+        }
+    }
     useEffect(() => {
             socket.emit("join_room", { 'room': roomID, 'username': username });
         },[])
@@ -59,7 +105,7 @@ const Chat = () => {
                 time : new Date(Date.now()).getHours()+
                 ':'+ new Date(Date.now()).getMinutes()
             };
-            console.log(AllMessages.length)
+            //console.log(AllMessages.length)
 
             await socket.emit("send_message",messageINFO)
             //localStorage.setItem("Allmessages",AllMessages.concat(messageINFO))

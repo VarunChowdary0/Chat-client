@@ -12,6 +12,7 @@ import { DotWave } from '@uiball/loaders'
 import Menu from './components/Menu';
 import Login from './components/Login';
 import Redirect from './components/Redirect';
+import GetNotification from './components/GetNotification';
 const router = createBrowserRouter([
   {
     path : '/',
@@ -49,7 +50,8 @@ const router = createBrowserRouter([
 ]);
 
 export default function App() {
-  const apiURl = 'https://chat-server-backend-sockets.onrender.com'
+  //const apiURl = 'https://chat-server-backend-sockets.onrender.com'
+  const apiURl = "http://localhost:10209"
   const [username,setUsername] = useState(localStorage.getItem("username")||"");
   const [roomID,setRoomID] = useState(localStorage.getItem("roomID")||"");
   const [newMessage,setNewMessage] = useState("");
@@ -57,14 +59,16 @@ export default function App() {
   const [AllMessages,addMessages] = useState(localStorage.getItem("Allmessages")||[])
   const [AllRooms,setAllRooms] = useState(localStorage.getItem('Allrooms')||[]);
   const [saverModeOn,changeSavermode] = useState(localStorage.getItem('isSaverOff')||true)
-  //const URL = "http://localhost:10209" 
-  //const URL = "http://192.168.61.79:10209";
-  const URL = "https://chat-server-backend-sockets.onrender.com"
+  const [LocalDataOnNotifications , updateLocalnotifiation] = useState(JSON.parse(localStorage.getItem('_Local_Notifications_'))||[])
+  const [NotificationArray , UpdateNotifaction] = useState([]);
+  const [FinalNotifications , UpdateFinalNotifaction] = useState([]);
+  const URL = "http://localhost:10209" 
+ // const URL = "https://chat-server-backend-sockets.onrender.com"
 
   useEffect(()=>{
     axios.get(apiURl)
       .then((res)=>{
-        console.log(res.data)
+       // console.log(res.data)
         changeStatus(true)
       })
       .catch((err)=>{
@@ -89,9 +93,16 @@ export default function App() {
             changeSavermode,
             URL,
             AllRooms,
-            setAllRooms
+            setAllRooms,
+            LocalDataOnNotifications,
+            updateLocalnotifiation,
+            NotificationArray,
+            UpdateNotifaction,
+            FinalNotifications,
+            UpdateFinalNotifaction
             }}>
             <RouterProvider router={router} />
+            <GetNotification/>
             </Globals.Provider>
     :
           <div className='w-full h-screen flex flex-col justify-center
@@ -105,6 +116,5 @@ export default function App() {
     
   )
 }
-export const socket = io.connect("https://chat-server-backend-sockets.onrender.com/");
-//export const socket = io.connect("http://192.168.61.79:10209/");
-//export const socket = io.connect("http://localhost:10209/");
+//export const socket = io.connect("https://chat-server-backend-sockets.onrender.com/");
+export const socket = io.connect("http://localhost:10209/");

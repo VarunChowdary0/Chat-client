@@ -18,7 +18,7 @@ const Join = () => {
               'room':roomID
             }})
               .then((res)=>{
-                console.log(res)
+               // console.log(res)
                 socket.emit("join_room",{'room':roomID,'username':username});
                 window.location.href="/chat";
               })
@@ -62,7 +62,7 @@ const Join = () => {
     setAllRooms(data)
   }
   const handleShow=()=>{
-    console.log("opooas")
+    //console.log("opooas")
     setShow(true);
   }
     return (

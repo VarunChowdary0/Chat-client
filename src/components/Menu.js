@@ -1,13 +1,15 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Globals } from '../globals/Globals'
 import { socket } from '../App';
+import GetNotification from './GetNotification';
 
 const Menu = () => {
   const {AllRooms} = useContext(Globals) ; 
   const {username} = useContext(Globals);
+  const {FinalNotifications} = useContext(Globals)
   const [menuO,SetMenu]=useState('Off')
   const JoinROOM = (room)=>{
-    console.log(room)
+    //console.log(room)
     localStorage.setItem('roomID',room);
     socket.emit("join_room",{'room':room,'username':username});
     window.location.href="/chat";
@@ -40,12 +42,21 @@ const Menu = () => {
           <div className='text-white text-lg'>No Rooms</div>
           :
           <div></div>}
-          {AllRooms.map((ele,index)=>{
+          {FinalNotifications.map((ele,index)=>{
             return(
-              <div key={ele} className='w-[100%]  bg-[#0000009d] rounded-md'>
+              <div key={index} className='w-[100%]  bg-[#0000009d] rounded-md text-white relative'>
+               {ele.length===0 ? 
+                <div></div>
+                : 
+                      <div className='absolute h-5 w-5 rounded-full 
+                      bg-blue-500 right-[-5px] top-[-5px] text-sm
+                      text-center text-white
+                            '> 
+                            {ele.length}
+                  </div>}
                 <div className='text-white p-4 flex justify-between items-center'>
-                    <p>{ele}</p>
-                    <button onClick={() => JoinROOM(ele)} className='px-4 py-2 
+                    <p>{ele.room}</p>
+                    <button onClick={() => JoinROOM(ele.room)} className='px-4 py-2 
                     bg-green-500 w-[60px]  rounded-md 
                                 hover:bg-green-600 transition-all
                                 active:bg-green-200
@@ -64,23 +75,32 @@ const Menu = () => {
           `fixed top-0 left-0 bottom-0
           bg-[#ffffffe9] flex justify-start
           items-center p-5 flex-col w-[200px]
-          gap-3 w-[300px] z-40 pt-11 transition-all
+          gap-3 w-[300px] z-40 pt-11 transition-all sm:hidden
           ${menuO}
           `
         }>
-            <div  className='h-5 w-5 fill-red-500 absolute top-3 right-3' onClick={handleClose}>
+            <div  className='h-4 w-5 fill-[#000001] absolute top-4 right-3 ' onClick={handleClose}>
               <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512">
                 <path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 
                 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 
                 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 
                 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/></svg>
             </div>
-          {AllRooms.map((ele,index)=>{
+          {FinalNotifications.map((ele,index)=>{
             return(
-              <div key={ele} className='w-[100%]  bg-[#0000009d] rounded-md'>
+              <div key={index} className='w-[100%]  bg-[#0000009d] rounded-md relative'>
+                {ele.length===0 ? 
+                <></>
+                : 
+                      <div className='absolute h-5 w-5 rounded-full 
+                      bg-blue-500 right-[-5px] top-[-5px] text-sm
+                      text-center text-white
+                            '> 
+                            {ele.length}
+                  </div>}
                 <div className='text-white p-4 flex justify-between items-center'>
-                    <p>{ele}</p>
-                    <button onClick={()=>JoinROOM(ele)} className='px-4 py-2 bg-green-500 w-[60px]  rounded-md 
+                    <p>{ele.room}</p>
+                    <button onClick={()=>JoinROOM(ele.room)} className='px-4 py-2 bg-green-500 w-[60px]  rounded-md 
                                 hover:bg-green-600 transition-all
                                 active:bg-green-200
                                     active:text-green-800' >
