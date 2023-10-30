@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Globals } from '../globals/Globals'
 import { socket } from '../App';
-import GetNotification from './GetNotification';
 
 const Menu = () => {
   const {AllRooms} = useContext(Globals) ; 
@@ -44,7 +43,7 @@ const Menu = () => {
           <div></div>}
           {FinalNotifications.map((ele,index)=>{
             return(
-              <div key={index} className='w-[100%]  bg-[#0000009d] rounded-md text-white relative'>
+              <div key={index} className='w-[100%] gap-3  bg-[#0000009d] rounded-md text-white relative'>
                {ele.length===0 ? 
                 <div></div>
                 : 
@@ -73,10 +72,10 @@ const Menu = () => {
 
         <div className={
           `fixed top-0 left-0 bottom-0
-          bg-[#ffffffe9] flex justify-start
+          bg-[#515151e9] flex justify-start
           items-center p-5 flex-col w-[200px]
           gap-3 w-[300px] z-40 pt-11 transition-all sm:hidden
-          ${menuO}
+          ${menuO} overflow-y-auto
           `
         }>
             <div  className='h-4 w-5 fill-[#000001] absolute top-4 right-3 ' onClick={handleClose}>

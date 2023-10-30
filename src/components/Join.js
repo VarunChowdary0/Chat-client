@@ -1,7 +1,7 @@
 import React, { useContext , useEffect, useState} from 'react'
 import { Globals } from '../globals/Globals';
 import { socket } from '../App';
-import axios, { all } from 'axios';
+import axios from 'axios';
 
 const Join = () => {
     const {username,setUsername} = useContext(Globals);
@@ -9,7 +9,7 @@ const Join = () => {
     const {saverModeOn,changeSavermode} = useContext(Globals);
     const {URL} = useContext(Globals)
     const [showIT,setShow] = useState(false); 
-    const {setAllRooms} = useContext(Globals)
+    const {AllRooms,setAllRooms} = useContext(Globals)
     
     const JoinRoom = () => {
       if(username.trim()!=="" && roomID.trim()!==""){
@@ -31,6 +31,7 @@ const Join = () => {
       setUsername(event.target.value)
       localStorage.setItem("username",event.target.value);
     }
+    //console.log(AllRooms)
     const handleRoomID = (event)=>{
       setRoomID(event.target.value)
       localStorage.setItem('roomID',event.target.value)
@@ -81,7 +82,7 @@ const Join = () => {
               saver</div>
         }
         <div className='fixed top-10 right-[0px] mr-[100px] text-lg text-white
-                          max-sm:w-[200px]
+                          max-sm:w-[200px] max-sm:pl-8
         '>
         
           <span className=' text-yellow-300'>Me</span> : {username}
@@ -107,7 +108,7 @@ const Join = () => {
                                 value={username} placeholder='Your name..' 
                                 onChange={handleUsername}/>
            */}
-              <div className='flex justify-around items-center'>
+              <div className='flex justify-around items-center gap-2'>
                 <div onClick={handleShow} className='h-[150px] w-[150px] bg-green-500 flex 
                                 justify-center items-center text-xl 
                                 rounded-lg text-white hover:bg-green-700 

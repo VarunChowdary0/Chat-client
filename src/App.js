@@ -36,6 +36,7 @@ const router = createBrowserRouter([
     path : '/o',
     element: 
     <>
+      <GetNotification/>
       <Menu/>
       <Join/>
     </>
@@ -50,8 +51,8 @@ const router = createBrowserRouter([
 ]);
 
 export default function App() {
-  const apiURl = 'https://chat-server-backend-sockets.onrender.com'
-//  const apiURl = "http://localhost:10209"
+  //const apiURl = 'https://chat-server-backend-sockets.onrender.com'
+  const apiURl = "http://localhost:10209"
   const [username,setUsername] = useState(localStorage.getItem("username")||"");
   const [roomID,setRoomID] = useState(localStorage.getItem("roomID")||"");
   const [newMessage,setNewMessage] = useState("");
@@ -62,11 +63,11 @@ export default function App() {
   const [LocalDataOnNotifications , updateLocalnotifiation] = useState(JSON.parse(localStorage.getItem('_Local_Notifications_'))||[])
   const [NotificationArray , UpdateNotifaction] = useState([]);
   const [FinalNotifications , UpdateFinalNotifaction] = useState([]);
-  //const URL = "http://localhost:10209" 
-  const URL = "https://chat-server-backend-sockets.onrender.com"
+  const URL = "http://localhost:10209" 
+ // const URL = "https://chat-server-backend-sockets.onrender.com"
 
   useEffect(()=>{
-    axios.get(apiURl)
+    axios.get(apiURl,{params:{'username':username}})
       .then((res)=>{
        // console.log(res.data)
         changeStatus(true)
@@ -102,7 +103,6 @@ export default function App() {
             UpdateFinalNotifaction
             }}>
             <RouterProvider router={router} />
-            <GetNotification/>
             </Globals.Provider>
     :
           <div className='w-full h-screen flex flex-col justify-center
@@ -116,5 +116,5 @@ export default function App() {
     
   )
 }
-export const socket = io.connect("https://chat-server-backend-sockets.onrender.com/");
-//export const socket = io.connect("http://localhost:10209/");
+//export const socket = io.connect("https://chat-server-backend-sockets.onrender.com/");
+export const socket = io.connect("http://localhost:10209/");

@@ -1,6 +1,6 @@
 import React, { useContext, useRef , useEffect, useState } from 'react'
 import { Globals } from '../globals/Globals'
-import axios, { all } from 'axios';
+import axios from 'axios';
 
 
 const Chat = () => {
@@ -9,52 +9,47 @@ const Chat = () => {
     const {AllMessages,addMessages}=useContext(Globals);
     const {saverModeOn} = useContext(Globals);
     const {URL} = useContext(Globals)
-    const [i,inc]=useState(0);
     const {LocalDataOnNotifications,updateLocalnotifiation} = useContext(Globals);
     const [Temp , setTemp] = useState([]);
-    const [currentLen , setCurrentLen] = useState(0);
-    useEffect(()=>{
-        //console.log('f1')
-        if(i<2){
-            axios.get(URL + '/get_length_of_room',{params:{'room':roomID}})
-            .then((res)=>{
-                setCurrentLen(res.data.length)
-                if(currentLen===0){
-                    UpdayeIt(res.data.length);
-                }
-            })
-            .catch((err)=>{
-                console.log("err",err);
-            })
-            inc(()=>i+1);
-        }
-    })
-    const UpdayeIt=(x)=>{
-        console.log(currentLen)
-        const uniqueOps = new Set();
+
+    const UpdayeIt = (x)=>{
         LocalDataOnNotifications.forEach(local => {
-            if ( local.room === roomID ) {
-                    const MyOp = { 'room': local.room, 'length': x };
-                    console.log(x)
-                    uniqueOps.add(JSON.stringify(MyOp));
+            let MyOp;
+            console.log('loc') 
+            if(local['room']===roomID)  {
+                MyOp = { 'room': local['room'], 'length': x };
             }
             else{
-                const MyOp = { 'room': local.room, 'length': local.length };
-                uniqueOps.add(JSON.stringify(MyOp));
+                MyOp = local;
             }
-        });
-        const uniqueOpsArray = Array.from(uniqueOps).map(op => JSON.parse(op));
-        setTemp(uniqueOpsArray);
+              //  console.log(`{'room': ${hold.room}, 'length': ${fetched.length  - hold.length}`)
+                TempUp(MyOp)
+            });   
         opu();
     }
+    const TempUp = (gh) =>{
+        setTemp(Temp.push(gh));
+    }
+    useEffect(()=>{
+        console.log("local",LocalDataOnNotifications);
+    },[])
+
+    useEffect(()=>{
+        axios.get(URL+'/get_length_of_room',{params:{'room':roomID}})
+            .then((res)=>{
+                console.log(res.data['length']);
+                UpdayeIt(res.data['length']);
+            })
+            .catch((err)=>{
+                console.log("Error: ",err);
+            })
+    },[])
+
 
     const opu =() =>{
-        if(i<3){
-            localStorage.setItem('_Local_Notifications_',JSON.stringify(Temp));
+        console.log(Temp)
+        localStorage.setItem('_Local_Notifications_',JSON.stringify(Temp));
             updateLocalnotifiation(Temp);
-            // console.log(Temp)
-            // console.log(i);
-        }
     }
     useEffect(() => {
             socket.emit("join_room", { 'room': roomID, 'username': username });
