@@ -13,7 +13,7 @@ const GetNotification = () => {
     useEffect(()=>{
         axios.get(URL+'/get_length_of_rooms',{params:{'username':username}})
             .then((res)=>{
-                console.log(res['data']);
+               // console.log(res['data']);
                 Loogio(res['data'])
             })
             .catch((err)=>{
@@ -29,13 +29,20 @@ const GetNotification = () => {
         Check(vb);
     }
     const Check = (vb) => {
-        LocalDataOnNotifications.forEach(fetched => {
-            console.log('o')
-            const hold = vb.find(item => item.room === fetched.room);
-                const MyOp = { 'room': hold.room, 'length': hold.length  - fetched.length };
-              //  console.log(`{'room': ${hold.room}, 'length': ${fetched.length  - hold.length}`)
+        const New = LocalDataOnNotifications.find(x => x.room === vb[vb.length-1].room);
+        if(New === undefined){
+            const MyOp = { 'room': vb[vb.length-1].room, 'length': vb[vb.length-1].length};
+            UpdateFinalNotifaction((list)=>[...list,MyOp])
+        }
+        vb.forEach(fetched => {
+            const hold = LocalDataOnNotifications.find(item => item.room === fetched.room);
+                //console.log(hold)
+                const MyOp = { 'room': hold.room, 'length': fetched.length  - hold.length };
+                // console.log(vb)
+                // console.log(`{'room local': ${fetched.room},'room local': ${hold.room}, 'length': ${fetched.length  - hold.length}`)
                 UpdateFinalNotifaction((list)=>[...list,MyOp])
-        });       
+        })    
+        
     }
         
     useEffect(()=>{

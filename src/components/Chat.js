@@ -145,7 +145,12 @@ const Chat = () => {
                     {(ele.message.startsWith('http'))
   ? (ele.message.endsWith('.gif')
       ? <iframe className=' scale-100 pt-4' src={ele.message}></iframe>
-      : <a href={ele.message} target='_blank'><div className='text-lg text-violet-600'>{ele.message}</div></a>)
+      : 
+      <div>
+      <iframe className=' scale-100 pt-4' src={ele.message}></iframe>
+      <a href={ele.message} target='_blank'><div className='text-lg text-violet-600'>{ele.message}</div></a>
+      </div>
+      )
   : <div className='text-lg text-white'>{ele.message}</div>}
 
                     <div className='flex justify-between space-x-5'>
@@ -162,7 +167,12 @@ const Chat = () => {
                     {(ele.message.startsWith('http'))
                         ? (ele.message.endsWith('.gif')
                             ? <iframe className=' scale-100 pt-4' src={ele.message}></iframe>
-                            : <a href={ele.message} target='_blank'><div className='text-lg text-violet-600'>{ele.message}</div></a>)
+                            : 
+                            <div>
+                                <iframe className=' scale-100 pt-4' src={`${ele.message}`}></iframe>
+                                <a href={ele.message} target='_blank'><div className='text-lg text-violet-600'>{ele.message}</div></a>
+                            </div>
+                            )
                         : <div className='text-lg text-white'>{ele.message}</div>}                        <div className='flex justify-between space-x-5'>
                             <div className='text-sm mt-1 text-gray-500'>{ele.time}</div>
                             <div className='text-yellow-600'>~{ele.auther}</div>
