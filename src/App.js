@@ -56,6 +56,8 @@ export default function App() {
   const [username,setUsername] = useState(localStorage.getItem("username")||"");
   const [roomID,setRoomID] = useState(localStorage.getItem("roomID")||"");
   const [newMessage,setNewMessage] = useState("");
+  const [BgColor,setBgColor] = useState(localStorage.getItem('bgCol')||"#2f2f31")
+  const [TextColor,setTextColor] = useState(localStorage.getItem('TxtCol')||"#fff")
   const [IsOnline,changeStatus]  = useState(false);
   const [AllMessages,addMessages] = useState(localStorage.getItem("Allmessages")||[])
   const [AllRooms,setAllRooms] = useState(localStorage.getItem('Allrooms')||[]);
@@ -103,7 +105,11 @@ export default function App() {
             FinalNotifications,
             UpdateFinalNotifaction,
             ShowSettings,
-            ToggleSettings
+            ToggleSettings,
+            BgColor,
+            setBgColor,
+            TextColor,
+            setTextColor
             }}>
             <RouterProvider router={router} />
             </Globals.Provider>

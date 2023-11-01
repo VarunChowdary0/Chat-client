@@ -11,6 +11,8 @@ const Chat = () => {
     const {URL} = useContext(Globals)
     const {LocalDataOnNotifications,updateLocalnotifiation} = useContext(Globals);
     const [Temp , setTemp] = useState([]);
+    const {BgColor} =useContext(Globals)
+    const {TextColor} =useContext(Globals)
 
     const UpdayeIt = (x)=>{
         LocalDataOnNotifications.forEach(local => {
@@ -129,9 +131,9 @@ const Chat = () => {
       }, [UpdateMessages]);
   return (
     <div className="h-screen w-full bg-black/50 flex flex-col">
-        <div className='h-[60px] bg-black/40 flex justify-between px-10 items-center  text-white'>
+        <div style={{ color: TextColor }} className={`h-[60px] bg-black/40 flex justify-between px-10 items-center text-3xl`}>
             <p><span className='text-yellow-500'>RoomID : </span> {roomID}</p>
-            <h1 className='text-3xl text-white'>Chat</h1>
+            <h1 style={{ color: TextColor }} className={`text-3xl `}>Chat</h1>
             <p>{username}</p>
         </div>
         <div ref={chatContainerRef} className='flex-1 flex flex-col px-1 gap-4 h-fit overflow-y-auto'>
@@ -151,7 +153,7 @@ const Chat = () => {
       <a href={ele.message} target='_blank'><div className='text-lg text-violet-600'>{ele.message}</div></a>
       </div>
       )
-  : <div className='text-lg text-white'>{ele.message}</div>}
+  : <div style={{ color: TextColor }} className={`text-lg`}>{ele.message}</div>}
 
                     <div className='flex justify-between space-x-5'>
                         <div className='text-sm mt-1 text-gray-500'>{ele.time}</div>
@@ -173,7 +175,8 @@ const Chat = () => {
                                 <a href={ele.message} target='_blank'><div className='text-lg text-violet-600'>{ele.message}</div></a>
                             </div>
                             )
-                        : <div className='text-lg text-white'>{ele.message}</div>}                        <div className='flex justify-between space-x-5'>
+                        : <div style={{ color: TextColor }} className={`text-lg`}>{ele.message}</div>}                      
+                          <div className='flex justify-between space-x-5'>
                             <div className='text-sm mt-1 text-gray-500'>{ele.time}</div>
                             <div className='text-yellow-600'>~{ele.auther}</div>
                         </div>
@@ -195,7 +198,7 @@ const Chat = () => {
                                 value={newMessage}
             onKeyDown={handleKeyDown}
             onChange={handleMessageInp}/>
-            <button  onClick={SendMessage} className='text-white text-5xl fill-white scale-75 rotate-45'>
+            <button  onClick={SendMessage} style={{ color: TextColor }} className={`text-5xl fill-white scale-75 rotate-45`}>
             <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
                 <path d="M498.1 5.6c10.1 7 15.4 19.1 13.5 31.2l-64 416c-1.5 9.7-7.4 18.2-16 
                 23s-18.9 5.4-28 1.6L284 427.7l-68.5 74.1c-8.9 9.7-22.9 12.9-35.2 8.1S160 493.2 

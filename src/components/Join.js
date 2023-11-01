@@ -6,6 +6,8 @@ import Settings from './Settings';
 
 const Join = () => {
     const {username,setUsername} = useContext(Globals);
+    const {BgColor} =useContext(Globals)
+    const {TextColor} =useContext(Globals)
     const {roomID,setRoomID} =  useContext(Globals);
     const {saverModeOn,changeSavermode} = useContext(Globals);
     const {URL} = useContext(Globals)
@@ -72,10 +74,10 @@ const Join = () => {
       ToggleSettings(true);
   } 
     return (
-      <div className='flex h-screen justify-center items-center bg-[#2f2f31]' >
-        <div className='fixed top-10 right-[0px] mr-[100px] text-lg text-white
+      <div style={{ backgroundColor: BgColor }} className={`flex h-screen justify-center items-center`} >
+        <div style={{ color: TextColor }} className={`fixed top-10 right-[0px] mr-[100px] text-lg ]
                           max-sm:w-[200px] max-sm:pl-8
-        '>
+        `}>
         
           <span className=' text-yellow-300'>Me</span> : {username}
           </div>
@@ -101,18 +103,18 @@ const Join = () => {
                                 onChange={handleUsername}/>
            */}
               <div className='flex justify-around items-center gap-2'>
-                <div onClick={handleShow} className='h-[150px] w-[150px] bg-green-500 flex 
+                <div style={{ color: TextColor }} onClick={handleShow} className={`h-[150px] w-[150px] bg-green-500 flex 
                                 justify-center items-center text-xl 
-                                rounded-lg text-white hover:bg-green-700 
+                                rounded-lg  hover:bg-green-700 
                                 hover:cursor-pointer max-sm:w-[120px]  max-sm:h-[120px]
-                                transition-all'>
+                                transition-all`}>
                   Join a Room
                 </div>
-                <div onClick={handleShow} className='h-[150px] w-[150px] bg-green-500 flex 
+                <div style={{ color: TextColor }} onClick={handleShow} className={`h-[150px] w-[150px] bg-green-500 flex 
                                 justify-center items-center text-xl 
-                                rounded-lg text-white  max-sm:w-[120px]
+                                rounded-lg  max-sm:w-[120px]
                                 hover:cursor-pointer  max-sm:h-[120px]  max-sm:pl-4
-                                hover:bg-green-700 transition-all'>
+                                hover:bg-green-700 transition-all`}>
                   Create a Room
                 </div>
               </div>

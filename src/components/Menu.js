@@ -7,6 +7,8 @@ const Menu = () => {
   const {username} = useContext(Globals);
   const {FinalNotifications} = useContext(Globals)
   const [menuO,SetMenu]=useState('Off')
+  const {BgColor} =useContext(Globals)
+  const {TextColor} =useContext(Globals)
   const JoinROOM = (room)=>{
     //console.log(room)
     localStorage.setItem('roomID',room);
@@ -32,41 +34,43 @@ const Menu = () => {
       32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 
       32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg>
                     </div>
-        <div className='fixed top-0 left-0 bottom-0 w-[20vw]
-                         bg-[#121111e9] flex justify-start
-                         items-center p-5 flex-col
-                         gap-3 max-sm:hidden min-w-[200px] overflow-y-auto
-                         '>
-          {(AllRooms.length === 0)?
-          <div className='text-white text-lg'>No Rooms</div>
-          :
-          <div></div>}
-          {FinalNotifications.map((ele,index)=>{
-            return(
-              <div key={index} className='w-[100%] gap-3  bg-[#0000009d] rounded-md text-white relative'>
-               {ele.length===0 ? 
-                <div></div>
-                : 
-                      <div className='absolute h-5 w-5 rounded-full 
-                      bg-blue-500 right-[-5px] top-[-5px] text-sm
-                      text-center text-white
-                            '> 
-                            {ele.length}
-                  </div>}
-                <div className='text-white p-4 flex justify-between items-center'>
-                    <p>{ele.room}</p>
-                    <button onClick={() => JoinROOM(ele.room)} className='px-4 py-2 
-                    bg-green-500 w-[60px]  rounded-md 
-                                hover:bg-green-600 transition-all
-                                active:bg-green-200
-                                active:text-green-800'>
+        <div className=' bg-[#00000064] z-[900]'>
+          <div style={{ backgroundColor: BgColor }} className='fixed top-0 left-0 bottom-0 w-[20vw]
+                            flex justify-start
+                          items-center p-5 flex-col
+                          gap-3 max-sm:hidden min-w-[200px] overflow-y-auto
+                          '>
+            {(AllRooms.length === 0)?
+            <div style={{ color: TextColor }} className={` text-lg`}>No Rooms</div>
+            :
+            <div></div>}
+            {FinalNotifications.map((ele,index)=>{
+              return(
+                <div key={index} style={{ color: TextColor }} className={`w-[100%] gap-3  bg-[#0000009d] rounded-md relative`}>
+                {ele.length===0 ? 
+                  <div></div>
+                  : 
+                        <div className={`absolute h-5 w-5 rounded-full 
+                        bg-blue-500 right-[-5px] top-[-5px] text-sm
+                        text-center 
+                              `} style={{ color: TextColor }}> 
+                              {ele.length}
+                    </div>}
+                  <div style={{ color: TextColor }} className={` p-4 flex justify-between items-center`}>
+                      <p>{ele.room}</p>
+                      <button onClick={() => JoinROOM(ele.room)} className='px-4 py-2 
+                      bg-green-500 w-[60px]  rounded-md 
+                                  hover:bg-green-600 transition-all
+                                  active:bg-green-200
+                                  active:text-green-800'>
 
-                        Join</button>
-                </div>
-                
-                </div>
-            )
-          })}
+                          Join</button>
+                  </div>
+                  
+                  </div>
+              )
+            })}
+          </div>
         </div>
 
 
@@ -91,13 +95,13 @@ const Menu = () => {
                 {ele.length===0 ? 
                 <></>
                 : 
-                      <div className='absolute h-5 w-5 rounded-full 
+                      <div className={`absolute h-5 w-5 rounded-full 
                       bg-blue-500 right-[-5px] top-[-5px] text-sm
-                      text-center text-white
-                            '> 
+                      text-center
+                            `} style={{ color: TextColor }}> 
                             {ele.length}
                   </div>}
-                <div className='text-white p-4 flex justify-between items-center'>
+                <div className={` p-4 flex justify-between items-center`} style={{ color: TextColor }}>
                     <p>{ele.room}</p>
                     <button onClick={()=>JoinROOM(ele.room)} className='px-4 py-2 bg-green-500 w-[60px]  rounded-md 
                                 hover:bg-green-600 transition-all
