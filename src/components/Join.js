@@ -18,12 +18,12 @@ const Join = () => {
     const JoinRoom = () => {
       if(username.trim()!=="" && roomID.trim()!==""){
             axios.get(URL+'/Add_a_room',{params : {
-              'username':username,
-              'room':roomID
+              'username':username.trim(),
+              'room':roomID.trim()
             }})
               .then((res)=>{
                // console.log(res)
-                socket.emit("join_room",{'room':roomID,'username':username});
+                socket.emit("join_room",{'room':roomID.trim(),'username':username.trim()});
                 window.location.href="/chat";
               })
               .catch((err)=>{
