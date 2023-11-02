@@ -164,9 +164,9 @@ const Chat = () => {
     return (
         <div key={index}>
             {ele.auther !== username ? (
-                <div className='w-[400px] max-md:w-[30%] h-fit px-4 py-2 
-                        bg-black/70 rounded-lg max-sm:w-[45%] max-sm:w-fit
-                        '>
+                <div className='w-fit max-w-[70%]  max-md:w-[50%] h-fit px-4 py-2
+                bg-black/70 rounded-lg max-sm:w-[45%] max-sm:w-fit
+                overflow-x-auto'>
                     {(ele.message.startsWith('http'))
         ? (ele.message.endsWith('.gif')
             ? <iframe className=' scale-100 pt-4' src={ele.message}></iframe>
