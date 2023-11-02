@@ -168,75 +168,87 @@ const Chat = () => {
                         bg-black/70 rounded-lg max-sm:w-[45%] max-sm:w-fit
                         '>
                     {(ele.message.startsWith('http'))
-  ? (ele.message.endsWith('.gif')
-      ? <iframe className=' scale-100 pt-4' src={ele.message}></iframe>
-      : 
-      <div>
-      <iframe className=' scale-100 pt-4' src={ele.message}></iframe>
-      <a href={ele.message} target='_blank'><div className='text-lg text-violet-600'>{ele.message}</div></a>
-      </div>
-      )
-  : <div style={{ color: TextColor }} className={`text-lg`}>{ele.message}</div>}
+        ? (ele.message.endsWith('.gif')
+            ? <iframe className=' scale-100 pt-4' src={ele.message}></iframe>
+            : 
+            <div>
+            <iframe className=' scale-100 pt-4' src={ele.message}></iframe>
+            <a href={ele.message} target='_blank'><div className='text-lg text-violet-600'>{ele.message}</div></a>
+            </div>
+            )
+        : 
+        (ele.message.startsWith('code ') ? 
+        <div className=' w-fit  h-fit px-4 py-2
+        bg-black/70 rounded-lg  max-sm:w-fit
+        '>
+            <div className='px-2 py-1 w-fit mb-3 bg-green-600 rounded-md text-white'>Code</div>
+                <pre className={`text-lg text-[#fbaf69]`}>{ele.message.replace("code ","")}</pre>
+        </div>
 
-                    <div className='flex justify-between space-x-5'>
-                        <div className='text-sm mt-1 text-gray-500'>{ele.time}</div>
-                        <div className='text-yellow-600'>~{ele.auther}</div>
-                    </div>
-                </div>
-            ) : (
-                <div className='flex w-full'>
-                    <div className='flex-1'></div>
-                    <div className='w-fit max-w-[70%]  max-md:w-[50%] h-fit px-4 py-2
-                         bg-black/70 rounded-lg max-sm:w-[45%] max-sm:w-fit
-                          overflow-x-auto
-                         '>
-                    {(ele.message.startsWith('http'))
-                        ? (ele.message.endsWith('.gif')
-                            ? 
-                            <iframe className=' scale-100 pt-4' src={ele.message}></iframe>
-                            : 
-                            <div>
-                                <iframe className=' scale-100 pt-4' src={`${ele.message}`}></iframe>
-                                <a href={ele.message} target='_blank'><div className='text-lg text-violet-600'>{ele.message}</div></a>
-                            </div>
-                            )
-                        : 
-                          (ele.message.startsWith('code ') ? 
-                            <div className=' w-fit  h-fit px-4 py-2
-                            bg-black/70 rounded-lg  max-sm:w-fit
-                            '>
-                                <div className='px-2 py-1 w-fit mb-3 bg-green-600 rounded-md text-white'>Code</div>
-                                    <pre className={`text-lg text-[#fbaf69]`}>{ele.message.replace("code ","")}</pre>
-                            </div>
+        :
+        <div style={{ color: TextColor }} className={`text-lg`}>{ele.message}</div>
+    )
+        }
 
-                            :
-                            <div style={{ color: TextColor }} className={`text-lg`}>{ele.message}</div>
-                          )
-                        
-                    }                      
-                        <div className='flex justify-between space-x-5'>
-                            <div className='text-sm mt-1 text-gray-500'>{ele.time}</div>
+                            <div className='flex justify-between space-x-5'>
+                                <div className='text-sm mt-1 text-gray-500'>{ele.time}</div>
                                 <div className='text-yellow-600'>~{ele.auther}</div>
                             </div>
                         </div>
-                    </div>
-                )}
-                <div></div>
-                    </div>
-                );
-            })}
+                    ) : (
+                        <div className='flex w-full'>
+                            <div className='flex-1'></div>
+                            <div className='w-fit max-w-[70%]  max-md:w-[50%] h-fit px-4 py-2
+                                bg-black/70 rounded-lg max-sm:w-[45%] max-sm:w-fit
+                                overflow-x-auto
+                                '>
+                            {(ele.message.startsWith('http'))
+                                ? (ele.message.endsWith('.gif')
+                                    ? 
+                                    <iframe className=' scale-100 pt-4' src={ele.message}></iframe>
+                                    : 
+                                    <div>
+                                        <iframe className=' scale-100 pt-4' src={`${ele.message}`}></iframe>
+                                        <a href={ele.message} target='_blank'><div className='text-lg text-violet-600'>{ele.message}</div></a>
+                                    </div>
+                                    )
+                                : 
+                                (ele.message.startsWith('code ') ? 
+                                    <div className=' w-fit  h-fit px-4 py-2
+                                    bg-black/70 rounded-lg  max-sm:w-fit
+                                    '>
+                                        <div className='px-2 py-1 w-fit mb-3 bg-green-600 rounded-md text-white'>Code</div>
+                                            <pre className={`text-lg text-[#fbaf69]`}>{ele.message.replace("code ","")}</pre>
+                                    </div>
 
-            </div>
-            {/* (roomID==='Phsdvjbk00' || roomID === 'Welcome') && */}
-    {((roomID==='Phsdvjbk00' || roomID === 'Welcome') && ( username !=='Varun Chowdary' && username !=='Admin' ))
-    ?
-        <div>
-            <div style={{ color: TextColor }} className='h-[50px] bg-black/60 flex justify-center 
-                            items-center gap-4 text-lg'>
-                                Cannot reply in this room
-            </div>
-        </div>
-        :
+                                    :
+                                    <div style={{ color: TextColor }} className={`text-lg`}>{ele.message}</div>
+                                )
+                                
+                            }                      
+                                <div className='flex justify-between space-x-5'>
+                                    <div className='text-sm mt-1 text-gray-500'>{ele.time}</div>
+                                        <div className='text-yellow-600'>~{ele.auther}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                        <div></div>
+                            </div>
+                        );
+                    })}
+
+                    </div>
+                    {/* (roomID==='Phsdvjbk00' || roomID === 'Welcome') && */}
+            {((roomID==='Phsdvjbk00' || roomID === 'Welcome') && ( username !=='Varun Chowdary' && username !=='Admin' ))
+            ?
+                <div>
+                    <div style={{ color: TextColor }} className='h-[50px] bg-black/60 flex justify-center 
+                                    items-center gap-4 text-lg'>
+                                        Cannot reply in this room
+                    </div>
+                </div>
+                :
 
         (isCode) ? 
             <div className=' h-[40vh] relative  bg-black/60 flex flex-col items-center justify-center'>
