@@ -1,58 +1,59 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react';
 import { Globals } from '../globals/Globals';
 import axios from 'axios';
 
 const GetNotification = () => {
-    const {URL} = useContext(Globals)
-    const {username} = useContext(Globals)
-    const {LocalDataOnNotifications,updateLocalnotifiation} = useContext(Globals); // local.
-    const {FinalNotifications,UpdateFinalNotifaction} = useContext(Globals)
-//const {NotificationArray , UpdateNotifaction} = useContext(Globals); // fetched.
+  const { URL, username, LocalDataOnNotifications, updateLocalnotifiation, FinalNotifications, UpdateFinalNotifaction } = useContext(Globals);
 
-    
-    useEffect(()=>{
-        axios.get(URL+'/get_length_of_rooms',{params:{'username':username}})
-            .then((res)=>{
-               // console.log(res['data']);
-                Loogio(res['data'])
-            })
-            .catch((err)=>{
-                console.log("erroe: ",err);
-            })
-    },[LocalDataOnNotifications])
-    const Loogio =(vb)=>{
-       //UpdateNotifaction([...new Set(AllRoomLengths)]);
-        if(LocalDataOnNotifications.length === 0 ){
-            console.log('New')
-            localStorage.setItem('_Local_Notifications_',JSON.stringify(vb));
-        }
-        Check(vb);
+  const handleNotifications = (vb) => {
+    // Check if the LocalDataOnNotifications is empty
+    if (LocalDataOnNotifications.length === 0) {
+      localStorage.setItem('_Local_Notifications_', JSON.stringify(vb));
+      updateLocalnotifiation(vb);
     }
-    const Check = (vb) => {
-        const New = LocalDataOnNotifications.find(x => x.room === vb[vb.length-1].room);
-        if(New === undefined){
-            const MyOp = { 'room': vb[vb.length-1].room, 'length': vb[vb.length-1].length};
-            UpdateFinalNotifaction((list)=>[...list,MyOp])
-            updateLocalnotifiation((x)=>[...x,MyOp])
-            setLocal();
-        }
-        vb.forEach(fetched => {
-            const hold = LocalDataOnNotifications.find(item => item.room === fetched.room);
-                //console.log(hold)
-                const MyOp = { 'room': hold.room, 'length': fetched.length  - hold.length };
-                // console.log(vb)
-                // console.log(`{'room local': ${fetched.room},'room local': ${hold.room}, 'length': ${fetched.length  - hold.length}`)
-                UpdateFinalNotifaction((list)=>[...list,MyOp])
-        })    
-        
-    }
-    const setLocal = () =>{
-        localStorage.setItem('_Local_Notifications_',JSON.stringify(LocalDataOnNotifications));
-    }
-        
-    useEffect(()=>{
-        console.log(FinalNotifications)
-    },[])
-}
 
-export default GetNotification
+    Check(vb);
+  }
+
+  const Check = (vb) => {
+    const latestNotification = vb[vb.length - 1];
+    const existingNotification = LocalDataOnNotifications.find((x) => x.room === latestNotification.room);
+
+    if (!existingNotification && LocalDataOnNotifications.length !== 0) {
+      const newNotification = { room: latestNotification.room, length: latestNotification.length };
+      UpdateFinalNotifaction((list) => [...list, newNotification]);
+      updateLocalnotifiation((x) => [...x, newNotification]);
+    }
+
+    vb.forEach((fetched) => {
+      const hold = LocalDataOnNotifications.find((item) => item.room === fetched.room);
+      if (hold) {
+        const diffLength = fetched.length - hold.length;
+        const notificationUpdate = { room: fetched.room, length: diffLength };
+        UpdateFinalNotifaction((list) => [...list, notificationUpdate]);
+      }
+    });
+
+    // Update local storage only once at the end
+    localStorage.setItem('_Local_Notifications_', JSON.stringify(LocalDataOnNotifications));
+  };
+
+  useEffect(() => {
+    axios
+      .get(URL + '/get_length_of_rooms', { params: { username } })
+      .then((res) => {
+        handleNotifications(res.data); // Update to use handleNotifications
+      })
+      .catch((err) => {
+        console.log('error: ', err);
+      });
+  }, [LocalDataOnNotifications]);
+
+  useEffect(() => {
+    console.log(FinalNotifications);
+  }, []);
+
+  return null; // You need to return something in a React component.
+};
+
+export default GetNotification;

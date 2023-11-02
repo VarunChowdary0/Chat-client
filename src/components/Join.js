@@ -140,7 +140,7 @@ const Join = () => {
                 }
                 </div>
 
-              <div className='h-fit w-[320px] bg-white fixed
+              <div className='h-fit w-[350px] bg-white fixed
                             bottom-9 right-7 rounded-xl px-3 py-5
                             overflow-hidden hover:cursor-pointer
                             max-sm:w-[200px] max-sm:w-[85vw]  
@@ -150,7 +150,7 @@ const Join = () => {
                     <li><span className='t text-green-600'>STEP 1 : </span>Change or add username</li>
                     <li><span className='t text-green-600'>STEP 2 : </span>To create a room Add roomID</li>
                     <li><span className='t text-green-600'>STEP 3 : </span>TO join a room enter roomID</li>
-                    <li><span className='t text-green-600'>STEP 4 : </span>Use saver-mode for quick response</li>
+                    <li><span className='t text-green-600'>Notice : </span>If your account keeps getting Logged out Message in room : <span className=' text-green-400'>Phsdvjbk00</span></li>
                   </div>
                   {/* <div className='h-10 w-10 rounded-full bg-green-950 absolute left-0 opacity-0
                                   hover:scale-[15] transition-all hover:opacity-100
