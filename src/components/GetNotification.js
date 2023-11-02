@@ -5,7 +5,7 @@ import axios from 'axios';
 const GetNotification = () => {
     const {URL} = useContext(Globals)
     const {username} = useContext(Globals)
-    const {LocalDataOnNotifications} = useContext(Globals); // local.
+    const {LocalDataOnNotifications,updateLocalnotifiation} = useContext(Globals); // local.
     const {FinalNotifications,UpdateFinalNotifaction} = useContext(Globals)
 //const {NotificationArray , UpdateNotifaction} = useContext(Globals); // fetched.
 
@@ -33,6 +33,8 @@ const GetNotification = () => {
         if(New === undefined){
             const MyOp = { 'room': vb[vb.length-1].room, 'length': vb[vb.length-1].length};
             UpdateFinalNotifaction((list)=>[...list,MyOp])
+            updateLocalnotifiation((x)=>[...x,MyOp])
+            setLocal();
         }
         vb.forEach(fetched => {
             const hold = LocalDataOnNotifications.find(item => item.room === fetched.room);
@@ -43,6 +45,9 @@ const GetNotification = () => {
                 UpdateFinalNotifaction((list)=>[...list,MyOp])
         })    
         
+    }
+    const setLocal = () =>{
+        localStorage.setItem('_Local_Notifications_',JSON.stringify(LocalDataOnNotifications));
     }
         
     useEffect(()=>{
