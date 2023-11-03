@@ -307,7 +307,7 @@ const Chat = () => {
                     ) : (
                         <div className='flex w-full'>
                             <div className='flex-1'></div>
-                            <div className='w-fit max-w-[70%]  max-md:w-[50%] h-fit px-4 py-2
+                            <div className='w-fit max-w-[70vh]  max-md:w-[50%] h-fit px-4 py-2
                                 bg-black/70 rounded-lg max-sm:w-[45%] max-sm:w-fit
                                 overflow-x-auto scrollable-container
                                 '>
