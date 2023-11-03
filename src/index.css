@@ -9,3 +9,22 @@
 .Off{
     transform: translateX(-300px);
 }
+.scrollable-container {
+    max-height: 200px; /* Set a maximum height for the container */
+    overflow: auto;    /* Enable scrolling */
+    scrollbar-width: 5px; /* Hide the scrollbar in Firefox */
+    -ms-overflow-style: none; /* Hide the scrollbar in IE/Edge */
+  }
+
+  .scrollable-container::-webkit-scrollbar {
+    width: 10px;
+    height: 5px;
+  }
+  .scrollable-container::-webkit-scrollbar-track{
+    background: #f0f0f000;
+  }
+  .scrollable-container::-webkit-scrollbar-thumb {
+    height: 10px;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.349); /* Hide the scrollbar thumb */
+  }

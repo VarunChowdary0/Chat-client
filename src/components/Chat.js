@@ -18,6 +18,7 @@ const Chat = () => {
     const [Saved,setSave] = useState(false)
     const [copiedIndex , setCopiedIndex ] = useState(null)
     const [Iscopied,setCopied] = useState(false);
+    const [onlines,addOnlines] = useState(['A','B','C','A','B','C','A','B','C','A','B','C','A','B','C','A','B','C','A','B','C']);
 
     const UpdayeIt = (x)=>{
         LocalDataOnNotifications.forEach(local => {
@@ -222,6 +223,13 @@ const Chat = () => {
             <h1 style={{ color: TextColor }} className={`text-3xl `}>Chat</h1>
             <p>{username}</p>
         </div>
+        {/* <div className='w-full h-10 bg-black/60 flex gap-4 items-center px-3 overflow-x-auto scrollable-container'>
+        {onlines.map((ele)=>{
+            return(
+                <div className='text-green-500 h-5 px-2 bg-black text-center flex items-center justify-center'>{ele}</div>
+            )
+        })}
+        </div> */}
         <div  className='flex-1 flex flex-col px-1 gap-4 h-fit overflow-y-auto'>
         {AllMessages.map((ele,index) => {
                  return (
@@ -229,7 +237,7 @@ const Chat = () => {
             {ele.auther !== username ? (
                 <div className='w-fit max-w-[70%]  max-md:w-[50%] h-fit px-4 py-2
                 bg-black/70 rounded-lg max-sm:w-[45%] max-sm:w-fit max-h-[76vh]
-                overflow-x-auto overflow-y-auto mb-2'>
+                overflow-x-auto overflow-y-auto mb-2 scrollable-container'>
                     {(ele.message.startsWith('http'))
         ? (ele.message.endsWith('.gif')
             ? <iframe className=' scale-100 pt-4' src={ele.message}></iframe>
