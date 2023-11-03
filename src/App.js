@@ -79,14 +79,14 @@ export default function App() {
         console.log("Not online yet")
       })
   } ,[])
-  useEffect(()=>{
-    if(localStorage.getItem('_Local_Notifications_')){
-      if(localStorage.getItem('_Local_Notifications_').length>20000){
-        localStorage.clear();
-        window.location.href='/next';
-      }
-    }
-  },[])
+  // useEffect(()=>{
+  //   if(localStorage.getItem('_Local_Notifications_')){
+  //     if(localStorage.getItem('_Local_Notifications_').length>20000){
+  //       localStorage.clear();
+  //       window.location.href='/next';
+  //     }
+  //   }
+  // },[])
   return (
     <>
           {IsOnline ? 

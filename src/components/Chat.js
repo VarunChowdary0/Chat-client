@@ -35,7 +35,16 @@ const Chat = () => {
         opu();
     }
     const TempUp = (gh) =>{
-        setTemp(Temp.push(gh));
+        console.log(gh)
+        const MyTemp =[] 
+        gh.forEach(element => {
+            const myO = MyTemp.find(item => item.room === element.room);
+            if (myO === undefined) {
+              MyTemp.push(element);
+            }
+          });
+        // console.log(MyTemp)
+        setTemp(MyTemp);
     }
     useEffect(()=>{
         console.log("local",LocalDataOnNotifications);
@@ -54,9 +63,17 @@ const Chat = () => {
 
 
     const opu =() =>{
-        console.log(Temp)
-        localStorage.setItem('_Local_Notifications_',JSON.stringify(Temp));
-            updateLocalnotifiation(Temp);
+        const MyTemp =[] 
+        Temp.forEach(element => {
+            const myO = MyTemp.find(item => item.room === element.room);
+            if (myO === undefined) {
+              MyTemp.push(element);
+            }
+          });
+        console.log(MyTemp)
+        localStorage.setItem('_Local_Notifications_',JSON.stringify(MyTemp));
+        console.log(localStorage.getItem("_Local_Notifications_"))
+        updateLocalnotifiation(MyTemp);
     }
     useEffect(() => {
             socket.emit("join_room", { 'room': roomID, 'username': username });

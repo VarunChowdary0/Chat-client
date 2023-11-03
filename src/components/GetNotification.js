@@ -1,20 +1,31 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Globals } from '../globals/Globals';
 import axios from 'axios';
+import { json } from 'react-router-dom';
 
 const GetNotification = () => {
   const { URL, username, LocalDataOnNotifications, updateLocalnotifiation, FinalNotifications, UpdateFinalNotifaction } = useContext(Globals);
-
+  const [ml,sml] = useState(0);
   const handleNotifications = (vb) => {
     // Check if the LocalDataOnNotifications is empty
     if (LocalDataOnNotifications.length === 0) {
       localStorage.setItem('_Local_Notifications_', JSON.stringify(vb));
+      console.log(localStorage.getItem("_Local_Notifications_"))
       updateLocalnotifiation(vb);
     }
-
+    sml(vb.length);
     Check(vb);
   }
+  useEffect(()=>{
+    if(localStorage.getItem('username')==undefined){
+      localStorage.clear();
+      window.location.href = '/'
+    }
+  })
 
+  useEffect(()=>{
+    console.log(ml);
+  },[ml])
   const Check = (vb) => {
     const latestNotification = vb[vb.length - 1];
     const existingNotification = LocalDataOnNotifications.find((x) => x.room === latestNotification.room);
@@ -35,7 +46,17 @@ const GetNotification = () => {
     });
 
     // Update local storage only once at the end
-    localStorage.setItem('_Local_Notifications_', JSON.stringify(LocalDataOnNotifications));
+    const MyTemp =[] 
+        LocalDataOnNotifications.forEach(element => {
+            const myO = MyTemp.find(item => item.room === element.room);
+            if (myO === undefined) {
+              MyTemp.push(element);
+            }
+          });
+    console.log(MyTemp)
+    localStorage.setItem('_Local_Notifications_',null);
+    localStorage.setItem('_Local_Notifications_', JSON.stringify(MyTemp));
+    console.log(JSON.parse(localStorage.getItem("_Local_Notifications_")).length)
   };
 
   useEffect(() => {
