@@ -111,6 +111,7 @@ const Chat = () => {
             //localStorage.setItem("Allmessages",AllMessages.concat(messageINFO))
             UpdateMessages(messageINFO)
             setNewMessage("");
+            setSave(false)
         }
     }
     const UpdateMessages=(data)=>{
