@@ -10,7 +10,6 @@
     transform: translateX(-300px);
 }
 .scrollable-container {
-    max-height: 200px; /* Set a maximum height for the container */
     overflow: auto;    /* Enable scrolling */
     scrollbar-width: 5px; /* Hide the scrollbar in Firefox */
     -ms-overflow-style: none; /* Hide the scrollbar in IE/Edge */
