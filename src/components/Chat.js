@@ -309,7 +309,7 @@ const Chat = () => {
                             <div className='flex-1'></div>
                             <div className='w-fit max-w-[70%]  max-md:w-[50%] h-fit px-4 py-2
                                 bg-black/70 rounded-lg max-sm:w-[45%] max-sm:w-fit
-                                overflow-x-auto
+                                overflow-x-auto scrollable-container
                                 '>
                             {(ele.message.startsWith('http'))
                                 ? (ele.message.endsWith('.gif')
