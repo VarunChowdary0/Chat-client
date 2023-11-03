@@ -1,4 +1,4 @@
-import React, { useContext, useRef , useEffect, useState } from 'react'
+import React, { useContext , useEffect, useState } from 'react'
 import { Globals } from '../globals/Globals'
 import axios from 'axios';
 
@@ -16,6 +16,8 @@ const Chat = () => {
     const {TextColor} =useContext(Globals)
     const [Code_ , takeCode] = useState();
     const [Saved,setSave] = useState(false)
+    const [copiedIndex , setCopiedIndex ] = useState(null)
+    const [Iscopied,setCopied] = useState(false);
 
     const UpdayeIt = (x)=>{
         LocalDataOnNotifications.forEach(local => {
@@ -126,13 +128,7 @@ const Chat = () => {
             SendMessage();
         }
     }
-    const chatContainerRef = useRef();
-    function scrollToBottom() {
-        chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-      }
-      useEffect(() => {
-        scrollToBottom();
-      }, [UpdateMessages]);
+
 
     const ToCode = () =>{
         changeCode(true)
@@ -152,6 +148,42 @@ const Chat = () => {
         setNewMessage("code "+Code_)
         setSave(true)
     }
+    const CopyText = (ind,text) => {
+        if (navigator.clipboard) {
+            // Disable scroll behavior temporarily
+            document.body.style.overflow = 'hidden';
+        
+            navigator.clipboard.writeText(text)
+              .then(() => {
+                console.log('Text copied to clipboard:', text);
+                setCopied(true);
+                setTimeout(() => {
+                  setCopied(false);
+                }, 5000);
+        
+                // Re-enable scroll behavior
+                document.body.style.overflow = 'auto';
+              })
+              .catch((error) => {
+                console.error('Failed to copy text to clipboard:', error);
+                // Make sure to re-enable scroll behavior even on error
+                document.body.style.overflow = 'auto';
+              });
+          }
+        setCopied(true)
+        setCopiedIndex(ind)
+        setTimeout(()=>{
+            setCopied(false);
+            setCopiedIndex(null);
+        },5000
+        )
+      };      
+      useEffect(()=>{
+        var myDiv = document.getElementById("myDiv");
+        if (myDiv) {
+            myDiv.scrollIntoView({ behavior: "smooth" });
+        }
+      })
     
   return (
     <div className="h-screen w-full bg-black/50 flex flex-col">
@@ -160,14 +192,14 @@ const Chat = () => {
             <h1 style={{ color: TextColor }} className={`text-3xl `}>Chat</h1>
             <p>{username}</p>
         </div>
-        <div ref={chatContainerRef} className='flex-1 flex flex-col px-1 gap-4 h-fit overflow-y-auto'>
+        <div  className='flex-1 flex flex-col px-1 gap-4 h-fit overflow-y-auto'>
         {AllMessages.map((ele,index) => {
-    return (
+                 return (
         <div key={index}>
             {ele.auther !== username ? (
                 <div className='w-fit max-w-[70%]  max-md:w-[50%] h-fit px-4 py-2
-                bg-black/70 rounded-lg max-sm:w-[45%] max-sm:w-fit
-                overflow-x-auto'>
+                bg-black/70 rounded-lg max-sm:w-[45%] max-sm:w-fit max-h-[76vh]
+                overflow-x-auto overflow-y-auto mb-2'>
                     {(ele.message.startsWith('http'))
         ? (ele.message.endsWith('.gif')
             ? <iframe className=' scale-100 pt-4' src={ele.message}></iframe>
@@ -184,6 +216,44 @@ const Chat = () => {
         '>
             <div className='px-2 py-1 w-fit mb-3 bg-green-600 rounded-md text-white'>Code</div>
                 <pre className={`text-lg text-[#fbaf69]`}>{ele.message.replace("code ","")}</pre>
+                <div className=' fill-gray-300 text-white mt-4 flex w-full justify-start '>
+                    {(!Iscopied)
+                    ?             
+                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512" 
+                onClick={()=>CopyText(index,ele.message.replace("code ",""))}
+                >
+                    <path d="M280 64h40c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64
+                     64H64c-35.3 0-64-28.7-64-64V128C0 92.7 28.7 64 64 64h40 9.6C121
+                      27.5 153.3 0 192 0s71 27.5 78.4 64H280zM64 112c-8.8 0-16 7.2-16
+                       16V448c0 8.8 7.2 16 16 16H320c8.8 0 16-7.2 
+                       16-16V128c0-8.8-7.2-16-16-16H304v24c0 13.3-10.7 
+                       24-24 24H192 104c-13.3 0-24-10.7-24-24V112H64zm128-8a24 
+                       24 0 1 0 0-48 24 24 0 1 0 0 48z"/>    
+                </svg>
+                    :
+                    (index === copiedIndex) ? 
+                        <svg className=' fill-green-500' xmlns="http://www.w3.org/2000/svg"
+                            height="1em" viewBox="0 0 448 512"><path d="M438.6 
+                            105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 
+                            12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 
+                            0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5
+                            32.8-12.5 45.3 0z"/>
+                        </svg>
+                        :
+                        <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512">
+                            <path d="M280 64h40c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64
+                            64H64c-35.3 0-64-28.7-64-64V128C0 92.7 28.7 64 64 64h40 9.6C121
+                            27.5 153.3 0 192 0s71 27.5 78.4 64H280zM64 112c-8.8 0-16 7.2-16
+                            16V448c0 8.8 7.2 16 16 16H320c8.8 0 16-7.2 
+                            16-16V128c0-8.8-7.2-16-16-16H304v24c0 13.3-10.7 
+                            24-24 24H192 104c-13.3 0-24-10.7-24-24V112H64zm128-8a24 
+                            24 0 1 0 0-48 24 24 0 1 0 0 48z"/>    
+                        </svg>
+                    
+                }
+                
+                       
+                </div>
         </div>
 
         :
@@ -237,7 +307,8 @@ const Chat = () => {
                         <div></div>
                             </div>
                         );
-                    })}
+        })}
+        <div id='myDiv'></div>
 
                     </div>
                     {/* (roomID==='Phsdvjbk00' || roomID === 'Welcome') && */}
@@ -311,6 +382,4 @@ const Chat = () => {
 }
 
 export default Chat;
-
-
 
