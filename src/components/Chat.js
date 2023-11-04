@@ -303,7 +303,7 @@
                         <>
                             {ele.message === `[-->private<--]- ${ele.auther}`?
                             (
-                                <div className='w-full h-[40px] flex fixed top-[80px]
+                                <div className='w-full h-[40px] flex
                                 justify-center items-center text-[#9ac4ff] font-semibold text-2xl
                                 '>
                                     Private Room</div>
