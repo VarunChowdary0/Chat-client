@@ -435,11 +435,11 @@
                     {(!IsPublic && KeyWord !== username)
                     ?
                         <div>
-                            <pre style={{ color: TextColor }} className='h-[50px] bg-black/60 flex justify-center 
+                            <div style={{ color: TextColor }} className='h-[50px] bg-black/60 flex justify-center 
                             fixed bottom-0 left-0 right-0 items-center gap-4 text-lg'>
                                                 Cannot reply in this room,
                                     This is a private room only the owner send messages 
-                            </pre>
+                            </div>
                         </div>
                         :
                 (isCode) ? 
