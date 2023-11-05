@@ -1,6 +1,11 @@
     import React, { useContext , useEffect, useState } from 'react'
     import { Globals } from '../globals/Globals'
     import axios from 'axios';
+    import { infinity } from 'ldrs'
+
+    infinity.register()
+
+// Default values shown
 
 
     const Chat = () => {
@@ -20,6 +25,7 @@
         const [Iscopied,setCopied] = useState(false);
         const [IsPublic,SetPublic] = useState(true)
         const [KeyWord,setKeyWord] = useState("")
+        const [MassagesFetched,setMessageFetched] = useState(false)
         const [onlines,addOnlines] = useState(['A','B','C','A','B','C','A','B','C','A','B','C','A','B','C','A','B','C','A','B','C']);
 
         const UpdayeIt = (x)=>{
@@ -89,6 +95,7 @@
                             const datas = res.data.data;
                             // Call UpdateMessages_1 once with the array of messages
                             UpdateMessages_1(datas);
+                            setMessageFetched(true)
                         // console.log(datas);
                     })
                     .catch((err) => {
@@ -250,6 +257,12 @@
                 SendMessage()
             }
         },[newMessage])
+        const URL_domain = (url) =>{
+            const parser = document.createElement('a');
+            parser.href = url;
+            parser.remove();
+            return parser.hostname;
+        }
         
     return (
         <div className="h-screen w-full  flex flex-col">
@@ -278,7 +291,7 @@
                 )
             })}
             </div> */}
-            <div className='h-fit w-full bg-black/70 flex flex-col'>
+            <div className='h-fit w-full BG-IMG flex flex-col'>
                 
                 <div  className={`flex-1 flex flex-col px-1 gap-4 h-fit overflow-y-auto min-h-[92vh] mt-[65px]
                 ${ IsPublic ? "" : "ml-[7vw] md:ml-[20vw]"
@@ -310,17 +323,18 @@
                             )
                             :
                             <>
-                            <div key={index} className={`w-fit max-w-[70%]  max-md:w-[50%] h-fit px-4 py-2
-                                    bg-black/70 rounded-lg max-sm:w-[45%] max-sm:w-fit max-h-[76vh]
+                        <div key={index} className={`w-fit max-w-[70%]  max-md:w-[50%] h-fit px-4 py-4
+                                    bg-[#131313]  rounded-lg max-sm:w-[45%] max-sm:w-fit max-h-[76vh]
+                                    max-sm:max-w-[80vw]
                                         overflow-x-auto overflow-y-auto mb-2 scrollable-container flex flex-col
                                         
                         `}>
-                            {(ele.message.startsWith('http'))
+            {(ele.message.startsWith('http'))
                 ? (ele.message.endsWith('.gif')
                     ? <iframe className=' scale-100 pt-4' src={ele.message}></iframe>
                     : 
                     <div>
-                    <iframe className=' scale-100 pt-4' src={ele.message}></iframe>
+                        <img className='scale-100 pt-4 rounded-md mb-3' src={`https://${URL_domain(ele.message)}/favicon.ico`} alt='' />
                     <a href={ele.message} target='_blank'><div className='text-lg text-violet-600'>{ele.message}</div></a>
                     </div>
                     )
@@ -330,7 +344,13 @@
                 bg-black/70 rounded-lg  max-sm:w-fit
                 '>
                     <div className='px-2 py-1 w-fit mb-3 bg-green-600 rounded-md text-white'>Code</div>
-                        <pre className={`text-lg text-[#fbaf69]`}>{ele.message.replace("code ","")}</pre>
+                        <pre className={`text-lg text-[#fbaf69]`}>
+                        {ele.message.replace("code ","").startsWith("<blockquote")||ele.message.replace("code ","").startsWith("<iframe")?
+                                                         <div dangerouslySetInnerHTML={{ __html: (ele.message.replace('code ',"")) }}></div>
+                                                            :
+                                                         (ele.message.replace('code ',''))
+                                                        }
+                        </pre>
                         <div className=' fill-gray-300 text-white mt-4 flex w-full justify-start '>
                             {(!Iscopied)
                             ?             
@@ -376,11 +396,12 @@
                )
                 }
 
-                                    <div className='flex justify-between space-x-5'>
+                                    
+                                </div>
+                                <div className='flex justify-start space-x-5 ml-2'>
                                         <div className='text-sm mt-1 text-gray-500'>{ele.time}</div>
                                         <div className='text-yellow-600'>~{ele.auther}</div>
-                                    </div>
-                                </div>
+                </div>
                             </>
                         }
                         
@@ -388,9 +409,11 @@
                             ) : (
                                 <div className='flex w-full'>
                                     <div className='flex-1'></div>
-                                    <div className='w-fit max-w-[70%]  max-md:w-[50%] h-fit px-4 py-2
-                                    bg-black/70 rounded-lg max-sm:w-[45%] max-sm:w-fit max-h-[76vh]
-                                        overflow-x-auto overflow-y-auto mb-2 scrollable-container
+                                    <div>
+                                    <div className='w-fit h-fit px-4 py-4 max-w-[60vw]
+                                     max-sm:max-w-[80vw]
+                                    bg-[#131313] rounded-lg  max-sm:w-fit max-h-[76vh] mb-2
+                                    overflow-x-auto overflow-y-auto  scrollable-container flex w-full
                                         '>
                                     {(ele.message.startsWith('http'))
                                         ? (ele.message.endsWith('.gif')
@@ -405,10 +428,18 @@
                                         : 
                                         (ele.message.startsWith('code ') ? 
                                             <div className=' w-fit  h-fit px-4 py-2
-                                            bg-black/70 rounded-lg  max-sm:w-fit
+                                            bg-black/70 rounded-lg  max-sm:w-fit 
                                             '>
                                                 <div className='px-2 py-1 w-fit mb-3 bg-green-600 rounded-md text-white'>Code</div>
-                                                    <pre className={`text-lg text-[#fbaf69]`}>{ele.message.replace("code ","")}</pre>
+                                                    <pre className={`text-lg text-[#fbaf69]`}>
+
+                                                    {ele.message.replace("code ","").startsWith("<blockquote")||ele.message.replace("code ","").startsWith("<iframe")?
+                                                            <div dangerouslySetInnerHTML={{ __html: (ele.message.replace('code ',"")) }}></div>
+                                                         :
+                                                         (ele.message.replace('code ',''))
+                                                        }
+                                                        
+                                                        </pre>
                                             </div>
 
                                             :
@@ -416,11 +447,12 @@
                                         )
                                         
                                     }                      
-                                        <div className='flex justify-between space-x-5'>
+                                        </div>
+                                        <div className='flex space-x-9 justify-end'>
                                             <div className='text-sm mt-1 text-gray-500'>{ele.time}</div>
                                                 <div className='text-yellow-600'>~{ele.auther}</div>
-                                            </div>
                                         </div>
+                                    </div>
                                 </div>
                                 )}
                             </>
@@ -460,11 +492,15 @@
                         focus:outline-none min-h-[20vh]' value={Code_} onChange={handleCodeTake} />
                     </div>     
                 :
-                    <div className='h-[100px] bg-black/60 flex justify-center fixed bottom-0 left-0 right-0
+                    <div className='h-[70px] bg-[#262626] flex justify-center fixed bottom-3 left-[10vw] right-[10vw] rounded-lg
+                                max-sm:left-0 max-sm:right-0 max-sm:bottom-0
                                     items-center gap-4'>
-                                        <div className='h-7 w-7 bg-green-600 rounded-md fill-white flex items-center justify-center  hover:cursor-pointer'
+                                        <div className='h-10 w-10 mr-5  rounded-full fill-[#9a9a9a]
+                                         flex items-center justify-center  hover:cursor-pointer
+                                          hover:bg-[#303030]
+                                         '
                                         onClick={ToCode}>
-                                        <svg className=' scale-90' xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512">
+                                        <svg className=' scale-140 ' xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512">
                                             <path d="M392.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 
                                             39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6zm80.6 120.1c-12.5 
                                             12.5-12.5 32.8 0 45.3L562.7 256l-89.4 89.4c-12.5 12.5-12.5 32.8 0 
@@ -498,22 +534,33 @@
              rigth-[50%] max-sm:left-[25%]'>
                 {AllMessages.length === 0 ?
                     <>
-                        <div className=' h-[300px] w-[300px] bg-black/70
-                            max-sm:h-[200px] max-sm:w-[200px] flex-col gap-5
-                            rounded-md flex justify-center items-center p-1
-                            shadow-lg active:shadow-sm transition-shadow shadow-[#2c2c2c]
-                            
-                            '
-                            >
+                    {MassagesFetched ?
+                    <div className=' h-[300px] w-[300px] bg-black/70
+                        max-sm:h-[200px] max-sm:w-[200px] flex-col gap-5
+                        rounded-md flex justify-center items-center p-1
+                        shadow-lg active:shadow-sm transition-shadow shadow-[#2c2c2c] relative
+                        '
+                        >
                         <p className=' text-white font-semibold text-center'>Make This a Private room Room</p>
                         <p className=' text-[#ffbe57] text-center'>You cannot change it later if first message is sent</p>
                         <div onClick={Caller} className=' bg-green-600 px-2 py-1 rounded-md text-white font-semibold'>Make</div>
                     </div>
-                    {AllMessages.length ===0 ?
-                        <div className='max-sm:mr-[100px] mt-10 text-center text-white'>In "Private" rooms only admin can send messages</div>
-                     : 
-                     <></>
+                    : 
+                    <div className='fixed top-[40%] left-[47%]
+                                  max-sm:top-[37%] flex flex-col gap-4 text-white
+                                rigth-[50%] max-sm:left-[25%]'>
+                        <l-infinity
+                            size="55"
+                            stroke="4"
+                            stroke-length="0.15"
+                            bg-opacity="0.1"
+                            speed="1.3" 
+                            color="white" 
+                        ></l-infinity>
+                        fetching...
+                    </div>
                      }
+                        
                     </>
                 :
                 <></>

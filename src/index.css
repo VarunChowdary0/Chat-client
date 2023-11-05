@@ -14,7 +14,6 @@
     scrollbar-width: 5px; /* Hide the scrollbar in Firefox */
     -ms-overflow-style: none; /* Hide the scrollbar in IE/Edge */
   }
-
   .scrollable-container::-webkit-scrollbar {
     width: 10px;
     height: 5px;
@@ -26,4 +25,10 @@
     height: 10px;
     border-radius: 10px;
     background-color: rgba(0, 0, 0, 0.349); /* Hide the scrollbar thumb */
+  }
+  .BG-IMG{
+    background-image: url("../public/chatBG.png");
+    background-repeat: repeat;
+    background-position: center;
+    background-size: contain;
   }
