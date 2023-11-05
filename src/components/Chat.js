@@ -356,9 +356,9 @@
                             :
                             <>
                         <div key={index} className={`w-fit max-w-[70%]  max-md:w-[50%] h-fit px-4 py-4
-                                    bg-[#373737]   rounded-lg max-sm:w-[45%]  max-h-[76vh]
-                                    max-sm:max-w-[80vw]
-                                        overflow-x-auto overflow-y-auto mb-2 scrollable-container flex flex-col
+                                    bg-[#373737]   rounded-lg max-sm:w-[80vw]  max-h-[76vh]
+                                    max-sm:max-w-[80vw]     
+                                                                   overflow-x-auto overflow-y-auto mb-2 scrollable-container flex flex-col
                                         
                         `}>
             {(ele.message.startsWith('http'))
