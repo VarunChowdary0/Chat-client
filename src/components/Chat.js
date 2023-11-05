@@ -356,7 +356,7 @@
                             :
                             <>
                         <div key={index} className={`w-fit max-w-[70%]  max-md:w-[50%] h-fit px-4 py-4
-                                    bg-[#131313]  rounded-lg max-sm:w-[45%] max-sm:w-fit max-h-[76vh]
+                                    bg-[#373737]   rounded-lg max-sm:w-[45%]  max-h-[76vh]
                                     max-sm:max-w-[80vw]
                                         overflow-x-auto overflow-y-auto mb-2 scrollable-container flex flex-col
                                         
@@ -431,7 +431,7 @@
                                     
                                 </div>
                                 <div className='flex justify-start space-x-5 ml-2'>
-                                        <div className='text-sm mt-1 text-gray-500'>{ele.time}</div>
+                                        <div className='text-sm mt-1 text-gray-500'>{(ele.time.split("->"))[0]}</div>
                                         <div className='text-yellow-600'>~{ele.auther}</div>
                 </div>
                             </>
@@ -441,11 +441,11 @@
                             ) : (
                                 <div className='flex w-full'>
                                     <div className='flex-1'></div>
-                                    <div>
+                                    <div className=' w-fit'>
                                     <div className='w-fit h-fit px-4 py-4 max-w-[60vw]
-                                     max-sm:max-w-[80vw]
-                                    bg-[#131313] rounded-lg  max-sm:w-fit max-h-[76vh] mb-2
-                                    overflow-x-auto overflow-y-auto  scrollable-container flex w-full
+                                     max-sm:max-w-[80vw] pr-3
+                                    bg-[#373737] rounded-lg max-h-[76vh] mb-2
+                                    overflow-x-auto overflow-y-auto  scrollable-container flex w-full 
                                         '>
                                     {(ele.message.startsWith('http'))
                                         ? (ele.message.endsWith('.gif')
@@ -481,7 +481,7 @@
                                     }                      
                                         </div>
                                         <div className='flex space-x-9 justify-end'>
-                                            <div className='text-sm mt-1 text-gray-500'>{ele.time}</div>
+                                            <div className='text-sm mt-1 text-gray-500'>{(ele.time.split("->"))[0]}</div>
                                                 <div className='text-yellow-600'>~{ele.auther}</div>
                                         </div>
                                     </div>
