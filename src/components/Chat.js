@@ -316,7 +316,7 @@
                         <>
                             {ele.message === `[-->private<--]- ${ele.auther}`?
                             (
-                                <div className='w-full h-[40px] flex fixed top-[80px]
+                                <div className='w-full h-[40px] flex
                                 justify-center items-center text-[#9ac4ff] font-semibold text-2xl
                                 '>
                                     Private Room</div>
@@ -467,11 +467,11 @@
                     {(!IsPublic && KeyWord !== username)
                     ?
                         <div>
-                            <pre style={{ color: TextColor }} className='h-[50px] bg-black/60 flex justify-center 
+                            <div style={{ color: TextColor }} className='h-[50px] bg-black/60 flex justify-center max-sm:text-sm text-center
                             fixed bottom-0 left-0 right-0 items-center gap-4 text-lg'>
                                                 Cannot reply in this room,
-                                    This is a private room only the owner send messages 
-                            </pre>
+                                    This is a private room only the owner can send messages 
+                            </div>
                         </div>
                         :
                 (isCode) ? 
