@@ -509,8 +509,9 @@
                         </div>
                         :
                 (isCode) ? 
-                    <div className=' h-[40vh] relative  bg-black/60 flex flex-col items-center justify-center'>
-                        <div className='h-7 w-7 absolute top-3 left-[5vh] bg-green-600 rounded-md text-white font-bold flex items-center justify-center  hover:cursor-pointer'
+                    <div className=' h-[40vh] relative  bg-[#1e1e1ec0] flex flex-col items-center rounded-lg justify-center'>
+                        <div className='h-7 w-7 absolute top-3 left-[5vh] hover:bg-[#3b3b3bc0] transition-colors
+                         rounded-md text-white font-bold flex items-center justify-center  hover:cursor-pointer'
                         onClick={ToChat}>T</div>
                         {(Saved && newMessage !== "code undefined")?
                                 <div className='absolute top-2 right-[8vw] px-2 py-1 
@@ -581,8 +582,8 @@
                     </div>
                     : 
                     <div className='fixed top-[40%] left-[47%]
-                                  max-sm:top-[37%] flex flex-col gap-4 text-white
-                                rigth-[50%] max-sm:left-[25%]'>
+                                  max-sm:top-[42%] flex flex-col gap-4 text-white
+                                rigth-[50%] max-sm:left-[43%]'>
                         <l-infinity
                             size="55"
                             stroke="4"
