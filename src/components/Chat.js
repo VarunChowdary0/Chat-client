@@ -26,6 +26,7 @@
         const [IsPublic,SetPublic] = useState(true)
         const [KeyWord,setKeyWord] = useState("")
         const [MassagesFetched,setMessageFetched] = useState(false)
+        const [CurrentDate,SetCurrentDate] = useState("")
         const [onlines,addOnlines] = useState(['A','B','C','A','B','C','A','B','C','A','B','C','A','B','C','A','B','C','A','B','C']);
 
         const UpdayeIt = (x)=>{
@@ -264,6 +265,29 @@
             parser.remove();
             return parser.hostname;
         }
+
+        const Change_CurrentDate = (d) => {
+            const Date = d.split("->");
+            if (Date[1] === undefined) {
+              if (CurrentDate !== "") {
+                SetCurrentDate("");
+              }
+            } else {
+              if (CurrentDate !== Date[1]) {
+                SetCurrentDate(Date[1]);
+              }
+            }
+          };
+
+          const CheckDate = (val) => {
+            const Date = val.split("->");
+            if (Date[1] === undefined || Date[1] === CurrentDate) {
+                return false;
+            } else {
+                console.log(CurrentDate , Date[1])
+              return true;
+            }
+          };
         
     return (
         <div className="h-screen w-full  flex flex-col">
@@ -311,7 +335,14 @@
                                 </div>
                             )
                     :
-                            <>
+                    <>
+                         {(CheckDate(ele.time) ) && (
+                            <div className='w-full text-center text-[#ababab] font-semibold mt-3 mb-3'>
+                            {(ele.time.split("->"))[1]}
+                            </div>
+                        )}
+
+                     <>
                     {ele.auther !== username ? (
                         
                         <>
@@ -456,10 +487,12 @@
                                     </div>
                                 </div>
                                 )}
-                            </>
+                 </>
+                    </>
+                
                 }
                     
-            </div>);
+                        </div>);
                 })}
                 <div id='myDiv' className=' mb-[100px]'></div>
                 </div>
