@@ -168,6 +168,7 @@
             changeCode(true)
         }
         const ToChat = ()=>{
+            setNewMessage("")
             changeCode(false)
         }
         const handleCodeTake = (e) =>{
@@ -478,13 +479,13 @@
                     <div className=' h-[40vh] relative  bg-black/60 flex flex-col items-center justify-center'>
                         <div className='h-7 w-7 absolute top-3 left-[5vh] bg-green-600 rounded-md text-white font-bold flex items-center justify-center  hover:cursor-pointer'
                         onClick={ToChat}>T</div>
-                        {(Saved)?
+                        {(Saved && newMessage !== "code undefined")?
                                 <div className='absolute top-2 right-[8vw] px-2 py-1 
-                                bg-[#00000049] text-white rounded-md hover:cursor-pointer
+                                bg-[#5b5b5b49] text-white rounded-md hover:cursor-pointer
                                 ' onClick={handleSendCode}>send</div>
                             :
                             <div className='absolute bottom-2 right-[3vw] px-2 py-1 
-                            bg-[#00000049] text-white rounded-md hover:cursor-pointer' onClick={SaveIt}>save</div>
+                            bg-[#62626249] text-white rounded-md hover:cursor-pointer' onClick={SaveIt}>save</div>
                         }
                         
                         <textarea placeholder='Code starts here...' className='px-3 mt-4 py-2 w-[80vw] 
