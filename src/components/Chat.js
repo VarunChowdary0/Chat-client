@@ -29,6 +29,7 @@
         const [MembersofRoom,setMembersOfRoom] = useState([])
         const [allUsersPop,changeusrsPop]=useState("translate-y-[-30vh]")
         const [thisRoomAdmin,setRoomAdmin] = useState("")
+        const [btm,setBtm] = useState(1)
         const [onlines,addOnlines] = useState(['A','B','C','A','B','C','A','B','C','A','B','C','A','B','C','A','B','C','A','B','C']);
 
         const UpdayeIt = (x)=>{
@@ -228,13 +229,16 @@
                 setCopiedIndex(null);
             },5000
             )
-        };      
+        };   
+        const GoBottom = () =>{
+            setBtm(btm+1);
+        }   
         useEffect(()=>{
             var myDiv = document.getElementById("myDiv");
             if (myDiv) {
                 myDiv.scrollIntoView({ behavior: "smooth" });
             }
-        })
+        },[,GoBottom])
         
         const Private_ = (x)=>{
             // console.log("Called")
@@ -447,7 +451,7 @@
                     : 
                     <div>
                         <img className='scale-100 pt-4 rounded-md mb-3' src={`https://${URL_domain(ele.message)}/favicon.ico`} alt='' />
-                    <a href={ele.message} target='_blank'><div className='text-lg text-violet-600'>{ele.message}</div></a>
+                    <a href={ele.message} target='_blank'><div className='text-lg text-blue-400 font-light'>{ele.message}</div></a>
                     </div>
                     )
                 : 
@@ -505,7 +509,19 @@
                 </div>
 
                 :
-                <div key={index} style={{ color: TextColor }} className={`text-lg`}>{ele.message}</div>
+                <>
+                    {ele.message === "--DELETED--"?
+                        <>
+                            <div className={`text-lg w-[50vw] max-sm:hidden text-center text-[#818181]`}
+                        >-------- This message has been deleted --------</div>
+                            <div className={`text w-[50vw] max-sm:w-[80vw] text-sm
+                            sm:hidden text-center text-[#818181]`}
+                        >-- This message has been deleted --</div>
+                        </>
+                        :
+                        <div style={{ color: TextColor }} className={`text-lg`}>{ele.message}</div>
+                    }
+                </>
                )
                 }
 
@@ -527,7 +543,7 @@
                                     <div className= {`fill-white flex mr-5 mb-3 parentDIV bg-white/0 h-5`}>
                                         <div className=' flex w-full'>
                                             <div className='flex-1 hover:opacity-0'></div>
-                                        <svg className=' rotate-180 fill-white hover:opacity-0' xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 320 512">
+                                        <svg className=' rotate-180 fill-[#919191] hover:opacity-0' xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 320 512">
                                             <path d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 
                                             0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32
                                              192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"/>
@@ -567,7 +583,7 @@
                                             : 
                                             <div>
                                                 <img className='scale-100 pt-4 rounded-md mb-3' src={`https://${URL_domain(ele.message)}/favicon.ico`} alt='' />
-                                            <a href={ele.message} target='_blank'><div className='text-lg text-violet-600'>{ele.message}</div></a>
+                                            <a href={ele.message} target='_blank'><div className='text-lg text-blue-400 font-light'>{ele.message}</div></a>
                                             </div>
                                             )
                                         : 
@@ -759,7 +775,16 @@
                 })
             }
         </div>
-
+            <div onClick={GoBottom} className=' fixed h-[50px] w-[50px] bottom-5 
+            right-4 flex items-center justify-center opacity-60 max-sm:hidden
+            rounded-full bg-[#606060] fill-white'>
+            <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512">
+                <path d="M169.4 502.6c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5
+                 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 402.7 
+                 224 32c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 370.7L86.6 
+                 329.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128z"/>
+            </svg>
+            </div>
         </div>
     )
     }
