@@ -417,12 +417,15 @@
                             <>
                         <div key={index} className={`w-fit max-w-[70%]  max-md:w-[50%] h-fit px-4 py-4
                                     bg-[#373737]   rounded-lg max-sm:max-w-[80vw]  max-h-[76vh] max-sm:w-fit
-                                     overflow-x-auto overflow-y-auto mb-2 scrollable-container flex flex-col
+                                     overflow-x-auto overflow-y-auto mb-2 scrollable-container flex flex-col items-center
+                                    justify-center
                                         
                         `}>
             {(ele.message.startsWith('http'))
                 ? (ele.message.endsWith('.gif')
-                    ? <iframe className=' scale-100 pt-4' src={ele.message}></iframe>
+                    ? <img className=
+                    ' h-fit flex items-center w-fit justify-center scale-100 pt-4'
+                     src={ele.message}></img>
                     : 
                     <div>
                         <img className='scale-100 pt-4 rounded-md mb-3' src={`https://${URL_domain(ele.message)}/favicon.ico`} alt='' />
@@ -508,7 +511,9 @@
                                         '>
                                     {(ele.message.startsWith('http'))
                                         ? (ele.message.endsWith('.gif')
-                                            ? <iframe className=' scale-100 pt-4' src={ele.message}></iframe>
+                                            ? <img className=
+                                            ' h-fit flex items-center w-fit justify-center scale-100 pt-4'
+                                             src={ele.message}></img>
                                             : 
                                             <div>
                                                 <img className='scale-100 pt-4 rounded-md mb-3' src={`https://${URL_domain(ele.message)}/favicon.ico`} alt='' />
