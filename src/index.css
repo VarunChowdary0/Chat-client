@@ -32,6 +32,24 @@
     background-position: center;
     background-size: contain;
   }
+.Menu-container{
+  overflow-y: auto;
+  scrollbar-width: 9px;
+  -ms-overflow-style: none;
+}
+.Menu-container::-webkit-scrollbar {
+  width: 10px;
+  height: 5px;
+}
+.Menu-container::-webkit-scrollbar-track{
+  background: #f0f0f000;
+}
+.Menu-container::-webkit-scrollbar-thumb {
+  height: 10px;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.349); /* Hide the scrollbar thumb */
+}
+
 .parentDIV{
   position: relative;
 }

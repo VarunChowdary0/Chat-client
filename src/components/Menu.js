@@ -38,7 +38,7 @@ const Menu = () => {
           <div style={{ backgroundColor: BgColor }} className='fixed top-0 left-0 bottom-0 w-[20vw]
                             flex justify-start
                           items-center p-5 flex-col
-                          gap-3 max-sm:hidden min-w-[200px] overflow-y-auto
+                          gap-3 max-sm:hidden min-w-[200px] Menu-container
                           '>
             {(AllRooms.length === 0)?
             <div style={{ color: TextColor }} className={` text-lg`}>No Rooms</div>
