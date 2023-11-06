@@ -16,7 +16,6 @@
         const {URL} = useContext(Globals)
         const {LocalDataOnNotifications,updateLocalnotifiation} = useContext(Globals);
         const [Temp , setTemp] = useState([]);
-        const {BgColor} =useContext(Globals)
         const [isCode , changeCode] = useState(false);
         const {TextColor} =useContext(Globals)
         const [Code_ , takeCode] = useState();
@@ -27,43 +26,55 @@
         const [KeyWord,setKeyWord] = useState("")
         const [MassagesFetched,setMessageFetched] = useState(false)
         const [CurrentDate,SetCurrentDate] = useState("")
+        const [MembersofRoom,setMembersOfRoom] = useState([])
+        const [allUsersPop,changeusrsPop]=useState("translate-y-[-30vh]")
+        const [thisRoomAdmin,setRoomAdmin] = useState("")
         const [onlines,addOnlines] = useState(['A','B','C','A','B','C','A','B','C','A','B','C','A','B','C','A','B','C','A','B','C']);
 
         const UpdayeIt = (x)=>{
             LocalDataOnNotifications.forEach(local => {
                 let MyOp;
-                console.log('loc') 
+                //console.log('loc') 
                 if(local['room']===roomID)  {
                     MyOp = { 'room': local['room'], 'length': x };
+                    //console.log("current => ",MyOp)
                 }
                 else{
                     MyOp = local;
                 }
                 //  console.log(`{'room': ${hold.room}, 'length': ${fetched.length  - hold.length}`)
                     TempUp(MyOp)
-                });   
-            opu();
-        }
+                });
+            }
         const TempUp = (gh) =>{
-            console.log(gh)
-            const MyTemp =[] 
-            gh.forEach(element => {
-                const myO = MyTemp.find(item => item.room === element.room);
-                if (myO === undefined) {
-                MyTemp.push(element);
-                }
-            });
+            // const MyTemp =[] 
+            // LocalDataOnNotifications.forEach(element => {
+            //     const myO = MyTemp.find(item => item.room === element.room);
+            //     if (myO === undefined) {
+            //     MyTemp.push(element);
+            //     }
+            // });
+            // MyTemp.push(gh)
             // console.log(MyTemp)
-            setTemp(MyTemp);
+            if (Temp.length === 0){
+                setTemp((x)=>[...x,gh]);
+            }
+            else{
+                const TheFind  = Temp.find(i => i.room === gh.room)
+                if(TheFind === undefined){
+                    setTemp((x)=>[...x,gh]);
+                }
+            }
         }
-        useEffect(()=>{
-            console.log("local",LocalDataOnNotifications);
-        },[])
+        // useEffect(()=>{
+        //     //console.log('Temp',Temp)
+        //     console.log("local",LocalDataOnNotifications);
+        // },[])
 
         useEffect(()=>{
             axios.get(URL+'/get_length_of_room',{params:{'room':roomID}})
                 .then((res)=>{
-                    console.log(res.data['length']);
+                    // console.log(res.data['length']);
                     UpdayeIt(res.data['length']);
                 })
                 .catch((err)=>{
@@ -71,18 +82,22 @@
                 })
         },[])
 
+        useEffect(()=>{
+            opu();
+        },[Temp])
 
         const opu =() =>{
+            // console.log('opu called -> ',Temp)
             const MyTemp =[] 
             Temp.forEach(element => {
                 const myO = MyTemp.find(item => item.room === element.room);
                 if (myO === undefined) {
-                MyTemp.push(element);
+                    MyTemp.push(element);
                 }
             });
-            console.log(MyTemp)
+            // console.log(MyTemp)
             localStorage.setItem('_Local_Notifications_',JSON.stringify(MyTemp));
-            console.log(localStorage.getItem("_Local_Notifications_"))
+            // console.log(localStorage.getItem("_Local_Notifications_"))
             updateLocalnotifiation(MyTemp);
         }
         useEffect(() => {
@@ -222,22 +237,22 @@
         })
         
         const Private_ = (x)=>{
-            console.log("Called")
+            // console.log("Called")
             if(IsPublic){
                 SetPublic(false)
-                console.log(x)
+                // console.log(x)
                 setKeyWord(x)
-                console.log("private")
+                // console.log("private")
             }
         }
         useEffect(()=>{
             if(AllMessages !== undefined){
                 const MyTemp = AllMessages[0]
                 if(MyTemp!==undefined){
-                    console.log(MyTemp.message)
+                    //console.log(MyTemp.message)
                     if(MyTemp.message.startsWith("[-->private<--]-")){
                         const x =MyTemp.message.replace("[-->private<--]- ","")
-                        console.log(x)
+                        //console.log(x)
                         Private_(x)
                     }
                 }
@@ -284,10 +299,33 @@
             if (Date[1] === undefined || Date[1] === CurrentDate) {
                 return false;
             } else {
-                console.log(CurrentDate , Date[1])
+                //console.log(CurrentDate , Date[1])
               return true;
             }
           };
+
+
+            useEffect(() => {
+            const uniqueMembers = new Set(MembersofRoom);
+            AllMessages.forEach(msg => {
+                const usrnme = MembersofRoom.find(nme => nme === msg.auther);
+                if (usrnme === undefined) {
+                uniqueMembers.add(msg.auther); 
+                }
+                if(thisRoomAdmin ===""){
+                    setRoomAdmin(AllMessages[0].auther)
+                }
+            });
+            const uniqueMembersArray = Array.from(uniqueMembers);
+            setMembersOfRoom(uniqueMembersArray);
+            }, [AllMessages]);
+
+        useEffect(()=>{
+            const me = MembersofRoom.find(nme => nme === username);
+            if(me === undefined){
+                setMembersOfRoom((x)=>[...x,username])
+            }
+        },[MembersofRoom])
         
     return (
         <div className="h-screen w-full  flex flex-col">
@@ -305,9 +343,31 @@
                     8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z"/>
                 </svg>
                 </a>
-                <p className='flex'><span className='text-yellow-500 ml-[70px] max-sm:ml-[35px]'>RoomID : </span><p className='max-sm:text-[18px] max-sm:max-w-[90px] overflow-x-auto'> {roomID}</p></p>
+                <p className='flex'><span className='text-yellow-500 ml-[70px] max-sm:ml-[35px]'></span><p className='max-sm:text-[18px] max-sm:max-w-[90px] overflow-x-auto'> {roomID}</p></p>
                 <h1 style={{ color: TextColor }} className={`text-3xl `}>Chat</h1>
-                <p className=' text-xl max-sm:text-sm'>{username}</p>
+                { allUsersPop.length !==0 &&
+                    <div className='w-8 h-8 transition-colors
+                    rounded-full fill-white hover:bg-[#3e3e3e]
+                   flex items-center justify-center' onClick={()=>{changeusrsPop("")}}>
+                       <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 128 512">
+                           <path d="M64 360a56 56 0 1 0 0 112 56 56 0 1 0 0-112zm0-160a56 
+                           56 0 1 0 0 112 56 56 0 1 0 0-112zM120 96A56 56 0 1 0 8 96a56 
+                           56 0 1 0 112 0z"/>
+                       </svg>
+                   </div>
+                }
+                { allUsersPop.length ===0 &&
+                    <div className='w-8 h-8 transition-colors
+                    rounded-full fill-white hover:bg-[#3e3e3e] rotate-180
+                   flex items-center justify-center' onClick={()=>{changeusrsPop("translate-y-[-30vh]")}}>
+                       <svg xmlns="http://www.w3.org/2000/svg" height="1em" 
+                            viewBox="0 0 320 512">
+                                <path d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 
+                                11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6
+                                19.8s-2.2 25.7 6.9 34.9l128 128z"/>
+                        </svg>
+                   </div>
+                }
             </div>
             {/* <div className='w-full h-10 bg-black/60 flex gap-4 items-center px-3 overflow-x-auto scrollable-container'>
             {onlines.map((ele)=>{
@@ -328,7 +388,7 @@
                             {index===0 && ele.message === `[-->private<--]- ${username}`?
                             (
                                 <div className='w-full h-[40px] flex 
-                                justify-center items-center text-[#9ac4ff] font-semibold text-2xl ml-0
+                                justify-center items-center text-[#a8a8a8] font-semibold text-2xl ml-0
                                 '>
                                     <p className='flex-1'>Private Room</p>
                                     <div className='max-md:w-[15vw] h-4 flex-1'></div>
@@ -349,16 +409,15 @@
                             {ele.message === `[-->private<--]- ${ele.auther}`?
                             (
                                 <div className='w-full h-[40px] flex
-                                justify-center items-center text-[#9ac4ff] font-semibold text-2xl
+                                justify-center items-center text-[#434343] font-semibold text-2xl
                                 '>
                                     Private Room</div>
                             )
                             :
                             <>
                         <div key={index} className={`w-fit max-w-[70%]  max-md:w-[50%] h-fit px-4 py-4
-                                    bg-[#373737]   rounded-lg max-sm:w-[80vw]  max-h-[76vh]
-                                    max-sm:max-w-[80vw]     
-                                                                   overflow-x-auto overflow-y-auto mb-2 scrollable-container flex flex-col
+                                    bg-[#373737]   rounded-lg max-sm:max-w-[80vw]  max-h-[76vh] max-sm:w-fit
+                                     overflow-x-auto overflow-y-auto mb-2 scrollable-container flex flex-col
                                         
                         `}>
             {(ele.message.startsWith('http'))
@@ -449,12 +508,11 @@
                                         '>
                                     {(ele.message.startsWith('http'))
                                         ? (ele.message.endsWith('.gif')
-                                            ? 
-                                            <iframe className=' scale-100 pt-4' src={ele.message}></iframe>
+                                            ? <iframe className=' scale-100 pt-4' src={ele.message}></iframe>
                                             : 
                                             <div>
-                                                <iframe className=' scale-100 pt-4' src={`${ele.message}`}></iframe>
-                                                <a href={ele.message} target='_blank'><div className='text-lg text-violet-600'>{ele.message}</div></a>
+                                                <img className='scale-100 pt-4 rounded-md mb-3' src={`https://${URL_domain(ele.message)}/favicon.ico`} alt='' />
+                                            <a href={ele.message} target='_blank'><div className='text-lg text-violet-600'>{ele.message}</div></a>
                                             </div>
                                             )
                                         : 
@@ -501,7 +559,7 @@
                     {(!IsPublic && KeyWord !== username)
                     ?
                         <div>
-                            <div style={{ color: TextColor }} className='h-[50px] bg-black/60 flex justify-center max-sm:text-sm text-center
+                            <div style={{ color: TextColor }} className='h-[50px] bg-[#1e1e1e] flex justify-center max-sm:text-sm text-center
                             fixed bottom-0 left-0 right-0 items-center gap-4 text-lg'>
                                                 Cannot reply in this room,
                                     This is a private room only the owner can send messages 
@@ -602,7 +660,38 @@
             }
             </div>
             
-        
+        <div className={`fixed top-[60px] max-sm:w-full right-0 scrollable-container
+          w-[25vw] bg-[#424243] h-[30vh] text-white transition-all 
+           rounded-b-lg flex flex-col items-center gap-3 py-5 overflow-y-auto
+          ${allUsersPop}`}>
+            {
+                MembersofRoom.map(ele=>{
+                    return(
+                        <>
+                        {ele === thisRoomAdmin ?
+                        <div className={`w-[70%] px-4 py-2 rounded-[10px] ${ele===username? "text-green-600" : ""}
+                            font-semibold bg-[#2c2c2c] flex justify-between`}>
+                            {ele}
+                            <span className=' font-light text-yellow-600'>~ Admin</span>
+                        </div>
+                        :
+                        (ele === username ? 
+                            <div className='w-[70%] px-4 py-2 rounded-[10px] text-green-700
+                                   font-semibold bg-[#2c2c2c] flex justify-between'>
+                                       {ele}
+                                       <span className=' font-light text-yellow-600'>~ me</span>
+                           </div>:
+                               <div className='w-[70%] px-4 py-2 rounded-[10px]
+                                    font-semibold bg-[#2c2c2c]'>
+                                       {ele}
+                               </div>
+                        )
+                        }
+                        </>
+                    )
+                })
+            }
+        </div>
 
         </div>
     )

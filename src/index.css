@@ -7,7 +7,7 @@
     transition: all 0.3s;
 }
 .Off{
-    transform: translateX(-300px);
+    transform: translateX(-100vw);
 }
 .scrollable-container {
     overflow: auto;    /* Enable scrolling */

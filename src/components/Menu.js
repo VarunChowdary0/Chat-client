@@ -75,14 +75,14 @@ const Menu = () => {
 
 
         <div className={
-          `fixed top-0 left-0 bottom-0
-          bg-[#515151e9] flex justify-start
-          items-center p-5 flex-col w-[200px]
-          gap-3 w-[300px] z-40 pt-11 transition-all sm:hidden
+          `fixed top-0 left-0 bottom-0 w-full
+          bg-[#515151] flex justify-start
+          items-center p-5 flex-col
+          gap-3  z-40 pt-11 transition-all sm:hidden
           ${menuO} overflow-y-auto
           `
         }>
-            <div  className='h-4 w-5 fill-[#000001] absolute top-4 right-3 ' onClick={handleClose}>
+            <div  className='h-4 w-7 scale-125 fill-[#ffffff] absolute top-4 right-3 ' onClick={handleClose}>
               <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512">
                 <path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 
                 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 
@@ -91,7 +91,8 @@ const Menu = () => {
             </div>
           {FinalNotifications.map((ele,index)=>{
             return(
-              <div key={index} className='w-[100%]  bg-[#0000009d] rounded-md relative'>
+              <div key={index} className='w-[100%]  bg-[#0000009d] px-[2vw]
+               rounded-md relative'>
                 {ele.length===0 ? 
                 <></>
                 : 

@@ -10,7 +10,7 @@ const GetNotification = () => {
     // Check if the LocalDataOnNotifications is empty
     if (LocalDataOnNotifications.length === 0) {
       localStorage.setItem('_Local_Notifications_', JSON.stringify(vb));
-      console.log(localStorage.getItem("_Local_Notifications_"))
+      //console.log(localStorage.getItem("_Local_Notifications_"))
       updateLocalnotifiation(vb);
     }
     sml(vb.length);
@@ -23,9 +23,9 @@ const GetNotification = () => {
     }
   })
 
-  useEffect(()=>{
-    console.log(ml);
-  },[ml])
+  // useEffect(()=>{
+  //   //console.log(ml);
+  // },[ml])
   const Check = (vb) => {
     const latestNotification = vb[vb.length - 1];
     const existingNotification = LocalDataOnNotifications.find((x) => x.room === latestNotification.room);
@@ -53,10 +53,10 @@ const GetNotification = () => {
               MyTemp.push(element);
             }
           });
-    console.log(MyTemp)
+    //console.log(MyTemp)
     localStorage.setItem('_Local_Notifications_',null);
     localStorage.setItem('_Local_Notifications_', JSON.stringify(MyTemp));
-    console.log(JSON.parse(localStorage.getItem("_Local_Notifications_")).length)
+    //console.log(JSON.parse(localStorage.getItem("_Local_Notifications_")).length)
   };
 
   useEffect(() => {
@@ -71,7 +71,7 @@ const GetNotification = () => {
   }, [LocalDataOnNotifications]);
 
   useEffect(() => {
-    console.log(FinalNotifications);
+    //console.log(FinalNotifications);
   }, []);
 
   return null; // You need to return something in a React component.

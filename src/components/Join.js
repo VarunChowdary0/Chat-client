@@ -31,10 +31,7 @@ const Join = () => {
               })
       }
     }
-    const handleUsername = (event)=>{
-      setUsername(event.target.value)
-      localStorage.setItem("username",event.target.value);
-    }
+
     //console.log(AllRooms)
     const handleRoomID = (event)=>{
       setRoomID(event.target.value)
@@ -45,15 +42,6 @@ const Join = () => {
   // useEffect(() => {
   //   console.log("local: ", localStorage.getItem('saver'));
   // }, []);
-
-  const offSaver=()=>{
-    changeSavermode(false)
-    localStorage.setItem('isSaverOff',false)
-  }
-  const onSaver=()=>{
-    changeSavermode(true)
-    localStorage.setItem('isSaverOff',true)
-  }
   useEffect(()=>{
       axios.get(URL + "/get_all_rooms", { params: {'username':username} })
                   .then((res) => {
@@ -72,6 +60,10 @@ const Join = () => {
   }
   const HandleSetting = () =>{
       ToggleSettings(true);
+  } 
+  const openTheUpdates = ()=>{
+      localStorage.setItem('roomID',"Phsdvjbk00");
+      window.location.href='/chat'
   } 
     return (
       <div style={{ backgroundColor: BgColor }} className={`flex h-screen justify-center items-center`} >
@@ -143,14 +135,17 @@ const Join = () => {
               <div className='h-fit w-[350px] bg-white fixed
                             bottom-9 right-7 rounded-xl px-3 py-5
                             overflow-hidden hover:cursor-pointer
-                            max-sm:w-[200px] max-sm:w-[85vw]  
+                            max-sm:w-[200px] max-sm:w-[85vw] overflow-y-auto
                             max-sm:h-[25vh] max-sm:text-sm max-sm:max-w-[400px]
                         '>
                   <div className='flex flex-col space-y-3' >
                     <li><span className='t text-green-600'>STEP 1 : </span>Change or add username</li>
                     <li><span className='t text-green-600'>STEP 2 : </span>To create a room Add roomID</li>
                     <li><span className='t text-green-600'>STEP 3 : </span>TO join a room enter roomID</li>
-                    <li><span className='t text-green-600'>Notice : </span>If your account keeps getting Logged out Message in room : <span className=' text-green-400'>Phsdvjbk00</span></li>
+                    <li><span className='t text-green-600'>Notice : </span>Click on the
+                     link to Know more <span onClick={openTheUpdates} 
+                     className=' px-[100px] text-green-400'>UPDATES</span>
+                     </li>
                   </div>
                   {/* <div className='h-10 w-10 rounded-full bg-green-950 absolute left-0 opacity-0
                                   hover:scale-[15] transition-all hover:opacity-100
