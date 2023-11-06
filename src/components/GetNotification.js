@@ -6,6 +6,7 @@ import { json } from 'react-router-dom';
 const GetNotification = () => {
   const { URL, username, LocalDataOnNotifications, updateLocalnotifiation, FinalNotifications, UpdateFinalNotifaction } = useContext(Globals);
   const [ml,sml] = useState(0);
+  const [cut,sortIT] =useState(1)
   const handleNotifications = (vb) => {
     // Check if the LocalDataOnNotifications is empty
     if (LocalDataOnNotifications.length === 0) {
@@ -22,6 +23,12 @@ const GetNotification = () => {
       window.location.href = '/'
     }
   })
+
+  useEffect(()=>{
+    console.log(FinalNotifications)
+    const ordered_Notify = [...FinalNotifications].sort((a, b) => b.length - a.length);
+    UpdateFinalNotifaction(ordered_Notify)
+  },[cut])
 
   // useEffect(()=>{
   //   //console.log(ml);
@@ -43,6 +50,8 @@ const GetNotification = () => {
         const notificationUpdate = { room: fetched.room, length: diffLength };
         UpdateFinalNotifaction((list) => [...list, notificationUpdate]);
       }
+    
+    sortIT(cut+1)
     });
 
     // Update local storage only once at the end
