@@ -51,8 +51,8 @@ const router = createBrowserRouter([
 ]);
 
 export default function App() {
-  const apiURl = 'https://chat-server-backend-sockets.onrender.com'
- // const apiURl = "http://localhost:10209"
+ // const apiURl = 'https://chat-server-backend-sockets.onrender.com'
+  const apiURl = "http://localhost:10209"
   const [username,setUsername] = useState(localStorage.getItem("username")||"");
   const [roomID,setRoomID] = useState(localStorage.getItem("roomID")||"");
   const [newMessage,setNewMessage] = useState("");
@@ -66,8 +66,8 @@ export default function App() {
   const [NotificationArray , UpdateNotifaction] = useState([]);
   const [FinalNotifications , UpdateFinalNotifaction] = useState([]);
   const [ShowSettings,ToggleSettings] = useState(false)
-  //const URL = "http://localhost:10209" 
-  const URL = "https://chat-server-backend-sockets.onrender.com"
+  const URL = "http://localhost:10209" 
+  //const URL = "https://chat-server-backend-sockets.onrender.com"
 
   useEffect(()=>{
     axios.get(apiURl,{params:{'username':username}})
@@ -132,5 +132,5 @@ export default function App() {
     
   )
 }
-export const socket = io.connect("https://chat-server-backend-sockets.onrender.com/");
-//export const socket = io.connect("http://localhost:10209/");
+//export const socket = io.connect("https://chat-server-backend-sockets.onrender.com/");
+export const socket = io.connect("http://localhost:10209/");

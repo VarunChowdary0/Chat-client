@@ -32,3 +32,16 @@
     background-position: center;
     background-size: contain;
   }
+.parentDIV{
+  position: relative;
+}
+.ChildDiv{
+  position: absolute;
+  transform: translateY(30px);
+  opacity: 0;
+  transition: transform 0.3s ease;
+}
+.parentDIV:hover .ChildDiv, .ChildDiv:hover {
+  opacity: 1;
+  transform: translateY(0);
+}

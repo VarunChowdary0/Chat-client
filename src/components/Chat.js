@@ -326,6 +326,23 @@
                 setMembersOfRoom((x)=>[...x,username])
             }
         },[MembersofRoom])
+
+        const DELETE_MSG = (_id) =>{
+            axios.get(URL+'/delete_one_message',{params:{'roomID':roomID,'message_ID':_id}})
+            .then((res)=>{
+                window.location.href='/chat'
+            })
+            .catch((err)=>{
+                console.log("Error: ",err);
+            })
+        }
+
+        const DeleteMessage = (id) =>{
+            console.log(id)
+            // const msg = AllMessages.find(ele => ele._id === id);
+            // console.log(msg)
+            DELETE_MSG(id)
+        }
         
     return (
         <div className="h-screen w-full  flex flex-col">
@@ -409,16 +426,17 @@
                             {ele.message === `[-->private<--]- ${ele.auther}`?
                             (
                                 <div className='w-full h-[40px] flex
-                                justify-center items-center text-[#434343] font-semibold text-2xl
+                                justify-center items-center text-[#989898] font-semibold text-2xl
                                 '>
                                     Private Room</div>
                             )
                             :
                             <>
-                        <div key={index} className={`w-fit max-w-[70%]  max-md:w-[50%] h-fit px-4 py-4
-                                    bg-[#373737]   rounded-lg max-sm:max-w-[80vw]  max-h-[76vh] max-sm:w-fit
-                                     overflow-x-auto overflow-y-auto mb-2 scrollable-container flex flex-col items-center
-                                    justify-center
+                        <div key={index} className={`w-fit h-fit px-4 py-4 max-w-[60vw]
+                                        max-sm:max-w-[80vw] pr-3
+                                        bg-[#373737] rounded-lg max-h-[76vh] mb-2
+                                        overflow-x-auto overflow-y-auto  scrollable-container flex  
+                                        
                                         
                         `}>
             {(ele.message.startsWith('http'))
@@ -435,16 +453,17 @@
                 : 
                 (ele.message.startsWith('code ') ? 
                 <div className=' w-fit  h-fit px-4 py-2
-                bg-black/70 rounded-lg  max-sm:w-fit
-                '>
-                    <div className='px-2 py-1 w-fit mb-3 bg-green-600 rounded-md text-white'>Code</div>
-                        <pre className={`text-lg text-[#fbaf69]`}>
-                        {ele.message.replace("code ","").startsWith("<blockquote")||ele.message.replace("code ","").startsWith("<iframe")?
-                                                         <div dangerouslySetInnerHTML={{ __html: (ele.message.replace('code ',"")) }}></div>
-                                                            :
-                                                         (ele.message.replace('code ',''))
-                                                        }
-                        </pre>
+                    bg-black/70 rounded-lg  max-sm:w-fit
+                    '>
+                        <div className='px-2 py-1 w-fit mb-3 bg-green-600 rounded-md text-white'>Code</div>
+                            <pre className={`text-lg text-[#fbaf69] mt-10`}>
+                            {ele.message.replace("code ","").startsWith("<blockquote")||ele.message.replace("code ","").startsWith("<iframe")?
+                                    <div dangerouslySetInnerHTML={{ __html: (ele.message.replace('code ',"")) }}></div>
+                                :
+                                (ele.message.replace('code ',''))
+                                }
+                                
+                                </pre>
                         <div className=' fill-gray-300 text-white mt-4 flex w-full justify-start '>
                             {(!Iscopied)
                             ?             
@@ -504,6 +523,37 @@
                                 <div className='flex w-full'>
                                     <div className='flex-1'></div>
                                     <div className=' w-fit'>
+                                    {ele.message !== '--DELETED--'?
+                                    <div className= {`fill-white flex mr-5 mb-3 parentDIV bg-white/0 h-5`}>
+                                        <div className=' flex w-full'>
+                                            <div className='flex-1 hover:opacity-0'></div>
+                                        <svg className=' rotate-180 fill-white hover:opacity-0' xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 320 512">
+                                            <path d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 
+                                            0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32
+                                             192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"/>
+                                        </svg>
+                                        </div>
+
+                                    <div className='flex-1 ChildDiv'></div>
+                                    <div onClick={()=>{DeleteMessage(ele._id)}} className='z-0 ChildDiv hover:fill-red-700'>
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
+                                        <path d="M170.5 51.6L151.5
+                                        80h145l-19-28.4c-1.5-2.2-4-3.6-6.7-3.6H177.1c-2.7 0-5.2 1.3-6.7
+                                        3.6zm147-26.6L354.2 80H368h48 8c13.3 0 24 10.7 24 24s-10.7 24-24 
+                                        24h-8V432c0 44.2-35.8 80-80 80H112c-44.2 0-80-35.8-80-80V128H24c-13.3
+                                        0-24-10.7-24-24S10.7 80 24 80h8H80 93.8l36.7-55.1C140.9 9.4 158.4 0
+                                            177.1 0h93.7c18.7 0 36.2 9.4 46.6 24.9zM80 128V432c0 17.7 14.3 32 
+                                            32 32H336c17.7 0 32-14.3 32-32V128H80zm80 64V400c0 8.8-7.2 16-16 
+                                            16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 
+                                            8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 
+                                            16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 
+                                            16-16s16 7.2 16 16z"/>
+                                    </svg>
+                                    </div>
+                                </div>
+                                :
+                                <></>
+                                    }
                                     <div className='w-fit h-fit px-4 py-4 max-w-[60vw]
                                      max-sm:max-w-[80vw] pr-3
                                     bg-[#373737] rounded-lg max-h-[76vh] mb-2
@@ -523,7 +573,7 @@
                                         : 
                                         (ele.message.startsWith('code ') ? 
                                             <div className=' w-fit  h-fit px-4 py-2
-                                            bg-black/70 rounded-lg  max-sm:w-fit 
+                                            bg-black/70 rounded-lg  max-sm:w-fit
                                             '>
                                                 <div className='px-2 py-1 w-fit mb-3 bg-green-600 rounded-md text-white'>Code</div>
                                                     <pre className={`text-lg text-[#fbaf69]`}>
@@ -538,7 +588,19 @@
                                             </div>
 
                                             :
-                                            <div style={{ color: TextColor }} className={`text-lg`}>{ele.message}</div>
+                                            <>
+                                               {ele.message === "--DELETED--"?
+                                                    <>
+                                                        <div className={`text-lg w-[50vw] max-sm:hidden text-center text-[#818181]`}
+                                                    >-------- This message has been deleted --------</div>
+                                                        <div className={`text-lg w-[50vw] max-sm:w-[80vw] text-sm
+                                                        sm:hidden text-center text-[#818181]`}
+                                                    >-- This message has been deleted --</div>
+                                                    </>
+                                                    :
+                                                    <div style={{ color: TextColor }} className={`text-lg`}>{ele.message}</div>
+                                                }
+                                        </>
                                         )
                                         
                                     }                      
