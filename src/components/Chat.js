@@ -31,6 +31,10 @@
         const [thisRoomAdmin,setRoomAdmin] = useState("")
         const [btm,setBtm] = useState(1)
         const [onlines,addOnlines] = useState(['A','B','C','A','B','C','A','B','C','A','B','C','A','B','C','A','B','C','A','B','C']);
+        const months_ = [ "Jan", "Feb", "March", "April",
+         "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        const Date_Today = `${new Date(Date.now()).getDate()} ${months_[(new Date(Date.now()).getMonth())]} ${new Date(Date.now()).getFullYear()}`
+        const Yesterday = `${new Date(Date.now()).getDate()-1} ${months_[(new Date(Date.now()).getMonth())]} ${new Date(Date.now()).getFullYear()}`
 
         const UpdayeIt = (x)=>{
             LocalDataOnNotifications.forEach(local => {
@@ -347,6 +351,34 @@
             // console.log(msg)
             DELETE_MSG(id)
         }
+        const Callop =(u)=>{
+            const MyStr = `
+            <!DOCTYPE html>
+            <html lang="en">
+              <head>
+                <meta charset="utf-8" />
+                <link rel="icon" href="/logo.png" />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <meta name="theme-color" content="#000000" />
+                <meta
+                  name="description"
+                  content="Web site created using create-react-app"
+                />
+                <title>Chat App</title>
+              <script defer src="/static/js/bundle.js"></script></head>
+              <body class="" >
+                <noscript></noscript>
+                <div id="root"></div>
+              </body>
+            </html> 
+            -exe`
+            if (MyStr.endsWith(`e`)) {
+            console.log("MyStr ends with '-exe'");
+            } else {
+            console.log("MyStr does not end with '-exe'");
+            }
+            return null
+        }
         
     return (
         <div className="h-screen w-full  flex flex-col">
@@ -419,7 +451,17 @@
                     <>
                          {(CheckDate(ele.time) ) && (
                             <div className='w-full text-center text-[#ababab] font-semibold mt-3 mb-3'>
-                            {(ele.time.split("->"))[1]}
+                            {Date_Today === (`${(ele.time.split("->"))[1]}`) === 1 ? 
+                            <>
+                            {'Today'}
+                            </>
+                             : 
+                                    (Yesterday.localeCompare(`${(ele.time.split("->"))[1]}`) === 1 ?
+                                        'Yesterday'
+                                    :
+                                    (ele.time.split("->"))[1]
+                                    )
+                            }
                             </div>
                         )}
 
@@ -436,9 +478,9 @@
                             )
                             :
                             <>
-                        <div key={index} className={`w-fit h-fit px-4 py-4 max-w-[60vw]
+                        <div key={index} className={`w-fit h-fit px-4 max-w-[60vw]
                                         max-sm:max-w-[80vw] pr-3
-                                        bg-[#373737] rounded-lg max-h-[76vh] mb-2
+                                        bg-[#373737] rounded-lg max-h-[76vh] mb-2 ${ele.message === "--DELETED--" ? " py-1 mt-2 mb-2" : "py-4"}
                                         overflow-x-auto overflow-y-auto  scrollable-container flex  
                                         
                                         
@@ -456,64 +498,82 @@
                     )
                 : 
                 (ele.message.startsWith('code ') ? 
+
+                <> {`${ele.message}`.endsWith("-exe") || `${ele.message}`.endsWith("-exe\n")?
                 <div className=' w-fit  h-fit px-4 py-2
-                    bg-black/70 rounded-lg  max-sm:w-fit
-                    '>
-                        <div className='px-2 py-1 w-fit mb-3 bg-green-600 rounded-md text-white'>Code</div>
-                            <pre className={`text-lg text-[#fbaf69] mt-10`}>
-                            {ele.message.replace("code ","").startsWith("<blockquote")||ele.message.replace("code ","").startsWith("<iframe")?
-                                    <div dangerouslySetInnerHTML={{ __html: (ele.message.replace('code ',"")) }}></div>
-                                :
-                                (ele.message.replace('code ',''))
-                                }
-                                
-                                </pre>
-                        <div className=' fill-gray-300 text-white mt-4 flex w-full justify-start '>
-                            {(!Iscopied)
-                            ?             
-                        <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512" 
-                        onClick={()=>CopyText(index,ele.message.replace("code ",""))}
+                bg-black/70 rounded-lg  max-sm:w-fit
+                '>
+                    <div className='px-2 py-1 w-fit mb-3 bg-green-600 rounded-md text-white'>Code</div>
+                        <pre className={`text-lg text-[#fbaf69] mt-10`}>     
+                        <iframe width="100%" className=' rounded-md'
+                            height="560px"
+                            frameborder="0"
+                            srcdoc = {(ele.message.replace('code ',""))}
                         >
-                            <path d="M280 64h40c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64
-                            64H64c-35.3 0-64-28.7-64-64V128C0 92.7 28.7 64 64 64h40 9.6C121
-                            27.5 153.3 0 192 0s71 27.5 78.4 64H280zM64 112c-8.8 0-16 7.2-16
-                            16V448c0 8.8 7.2 16 16 16H320c8.8 0 16-7.2 
-                            16-16V128c0-8.8-7.2-16-16-16H304v24c0 13.3-10.7 
-                            24-24 24H192 104c-13.3 0-24-10.7-24-24V112H64zm128-8a24 
-                            24 0 1 0 0-48 24 24 0 1 0 0 48z"/>    
-                        </svg>
-                            :
-                            (index === copiedIndex) ? 
-                                <svg className=' fill-green-500' xmlns="http://www.w3.org/2000/svg"
-                                    height="1em" viewBox="0 0 448 512"><path d="M438.6 
-                                    105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 
-                                    12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 
-                                    0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5
-                                    32.8-12.5 45.3 0z"/>
-                                </svg>
-                                :
-                                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512">
-                                    <path d="M280 64h40c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64
-                                    64H64c-35.3 0-64-28.7-64-64V128C0 92.7 28.7 64 64 64h40 9.6C121
-                                    27.5 153.3 0 192 0s71 27.5 78.4 64H280zM64 112c-8.8 0-16 7.2-16
-                                    16V448c0 8.8 7.2 16 16 16H320c8.8 0 16-7.2 
-                                    16-16V128c0-8.8-7.2-16-16-16H304v24c0 13.3-10.7 
-                                    24-24 24H192 104c-13.3 0-24-10.7-24-24V112H64zm128-8a24 
-                                    24 0 1 0 0-48 24 24 0 1 0 0 48z"/>    
-                                </svg>
-                            
-                        }
-                        
-                            
-                        </div>
+                        </iframe>
+                        </pre>
                 </div>
+                :
+                                <div className=' w-fit  h-fit px-4 py-2
+                                bg-black/70 rounded-lg  max-sm:w-fit
+                                '>
+                                    <div className='px-2 py-1 w-fit mb-3 bg-green-600 rounded-md text-white'>Code</div>
+                                        <pre className={`text-lg text-[#fbaf69] mt-10`}>
+                                        {ele.message.replace("code ","").startsWith("<blockquote")||ele.message.replace("code ","").startsWith("<iframe")?
+                                                <div dangerouslySetInnerHTML={{ __html: (ele.message.replace('code ',"")) }}></div>
+                                            :
+                                            (ele.message.replace('code ',''))
+                                            }
+                                            
+                                            </pre>
+                                    <div className=' fill-gray-300 text-white mt-4 flex w-full justify-start '>
+                                        {(!Iscopied)
+                                        ?             
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512" 
+                                    onClick={()=>CopyText(index,ele.message.replace("code ",""))}
+                                    >
+                                        <path d="M280 64h40c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64
+                                        64H64c-35.3 0-64-28.7-64-64V128C0 92.7 28.7 64 64 64h40 9.6C121
+                                        27.5 153.3 0 192 0s71 27.5 78.4 64H280zM64 112c-8.8 0-16 7.2-16
+                                        16V448c0 8.8 7.2 16 16 16H320c8.8 0 16-7.2 
+                                        16-16V128c0-8.8-7.2-16-16-16H304v24c0 13.3-10.7 
+                                        24-24 24H192 104c-13.3 0-24-10.7-24-24V112H64zm128-8a24 
+                                        24 0 1 0 0-48 24 24 0 1 0 0 48z"/>    
+                                    </svg>
+                                        :
+                                        (index === copiedIndex) ? 
+                                            <svg className=' fill-green-500' xmlns="http://www.w3.org/2000/svg"
+                                                height="1em" viewBox="0 0 448 512"><path d="M438.6 
+                                                105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 
+                                                12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 
+                                                0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5
+                                                32.8-12.5 45.3 0z"/>
+                                            </svg>
+                                            :
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512">
+                                                <path d="M280 64h40c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64
+                                                64H64c-35.3 0-64-28.7-64-64V128C0 92.7 28.7 64 64 64h40 9.6C121
+                                                27.5 153.3 0 192 0s71 27.5 78.4 64H280zM64 112c-8.8 0-16 7.2-16
+                                                16V448c0 8.8 7.2 16 16 16H320c8.8 0 16-7.2 
+                                                16-16V128c0-8.8-7.2-16-16-16H304v24c0 13.3-10.7 
+                                                24-24 24H192 104c-13.3 0-24-10.7-24-24V112H64zm128-8a24 
+                                                24 0 1 0 0-48 24 24 0 1 0 0 48z"/>    
+                                            </svg>
+                                        
+                                    }
+                                    
+                                        
+                                    </div>
+                                </div>
+                    }
+                </>
 
                 :
                 <>
                     {ele.message === "--DELETED--"?
                         <>
                             <div className={`text-lg w-[50vw] max-sm:hidden text-center text-[#818181]`}
-                        >-------- This message has been deleted --------</div>
+                        >-------- This message has been deleted by {ele.auther} --------</div>
                             <div className={`text w-[50vw] max-sm:w-[80vw] text-sm
                             sm:hidden text-center text-[#818181]`}
                         >-- This message has been deleted --</div>
@@ -570,11 +630,11 @@
                                 :
                                 <></>
                                     }
-                                    <div className='w-fit h-fit px-4 py-4 max-w-[60vw]
+                                    <div className={`w-fit h-fit px-4 max-w-[60vw]
                                      max-sm:max-w-[80vw] pr-3
-                                    bg-[#373737] rounded-lg max-h-[76vh] mb-2
+                                    bg-[#373737] rounded-lg max-h-[76vh] mb-2 ${ele.message === "--DELETED--" ? " py-1 mt-2 mb-2" : "py-4"}
                                     overflow-x-auto overflow-y-auto  scrollable-container flex w-full 
-                                        '>
+                                    `}>
                                     {(ele.message.startsWith('http'))
                                         ? (ele.message.endsWith('.gif')
                                             ? <img className=
@@ -588,20 +648,33 @@
                                             )
                                         : 
                                         (ele.message.startsWith('code ') ? 
-                                            <div className=' w-fit  h-fit px-4 py-2
-                                            bg-black/70 rounded-lg  max-sm:w-fit
-                                            '>
-                                                <div className='px-2 py-1 w-fit mb-3 bg-green-600 rounded-md text-white'>Code</div>
-                                                    <pre className={`text-lg text-[#fbaf69]`}>
 
-                                                    {ele.message.replace("code ","").startsWith("<blockquote")||ele.message.replace("code ","").startsWith("<iframe")?
-                                                            <div dangerouslySetInnerHTML={{ __html: (ele.message.replace('code ',"")) }}></div>
-                                                         :
-                                                         (ele.message.replace('code ',''))
-                                                        }
-                                                        
-                                                        </pre>
-                                            </div>
+                                        <> {Callop(ele.message)}
+                                         {`${ele.message}`.endsWith("-exe") || `${ele.message}`.endsWith("-exe\n")?
+                                            <iframe width="100%" className=' rounded-md'
+                                            height="560px"
+                                            frameborder="0"
+                                            srcdoc = {(ele.message.replace('code ',""))}
+                                        >
+                                        </iframe>
+                                    :
+                                        <div className=' w-fit  h-fit px-4 py-2
+                                        bg-black/70 rounded-lg  max-sm:w-fit
+                                        '>
+                                            <div className='px-2 py-1 w-fit mb-3 bg-green-600 rounded-md text-white'>Code</div>
+                                                <pre className={`text-lg text-[#fbaf69]`}>
+
+                                                {ele.message.replace("code ","").startsWith("<blockquote")||ele.message.replace("code ","").startsWith("<iframe")?
+                                                        <div dangerouslySetInnerHTML={{ __html: (ele.message.replace('code ',"")) }}></div>
+                                                    :
+                                                    (ele.message.replace('code ',''))
+                                                    }
+                                                    
+                                                    </pre>
+                                        </div>
+                            }
+                        </>
+                                            
 
                                             :
                                             <>
@@ -622,7 +695,7 @@
                                     }                      
                                         </div>
                                         <div className='flex space-x-9 justify-end'>
-                                            <div className='text-sm mt-1 text-gray-500'>{(ele.time.split("->"))[0]}</div>
+                                            <div className='text-sm~ mt-1 text-gray-500'>{(ele.time.split("->"))[0]}</div>
                                                 <div className='text-yellow-600'>~{ele.auther}</div>
                                         </div>
                                     </div>
@@ -663,7 +736,7 @@
                             bg-[#62626249] text-white rounded-md hover:cursor-pointer' onClick={SaveIt}>save</div>
                         }
                         
-                        <textarea placeholder='Code starts here...' className='px-3 mt-4 py-2 w-[80vw] 
+                        <textarea placeholder='Code starts here... [ Add "-exe" at end of the code to run the HTML/CSS/JS code ]' className='px-3 mt-4 py-2 w-[80vw] 
                         rounded-md h-[30vh] max-h-[30vh]
                         focus:outline-none min-h-[20vh]' value={Code_} onChange={handleCodeTake} />
                     </div>     
