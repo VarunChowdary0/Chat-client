@@ -1082,7 +1082,7 @@
                text-white z-[1000]
                 absolute right-5 scale-75
                 max-sm:right-[64px] max-sm:top-10
-                p-2 bg-[#201d1d]
+                p-2  rounded-full hover:bg-[#292828]
                '
                onClick={()=>{
                     setGifShow(!ShowGifFrame);
