@@ -499,10 +499,14 @@
                     ' h-fit flex items-center w-fit justify-center scale-100 pt-4'
                      src={ele.message}></img>
                     : 
-                    <div>
-                        <img className='scale-100 pt-4 rounded-md mb-3' src={`https://${URL_domain(ele.message)}/favicon.ico`} alt='' />
-                    <a href={ele.message} target='_blank'><div className='text-lg text-blue-400 font-light'>{ele.message}</div></a>
-                    </div>
+                    <div className='flex w-fit items-center justify-center gap-2'>
+                                                <div className='w-10 h-10 bg-black/10 rounded-full flex items-center justify-center'>
+                                                <img className='scale-100 pt-4 rounded-md mb-3' src={`https://${URL_domain(ele.message)}/favicon.ico`} alt='' />
+                                                </div>
+                                                <a href={ele.message} target='_blank'>
+                                                    <div className='text-lg text-blue-400 font-light'>{ele.message}</div>
+                                                </a>
+                                            </div>
                     )
                 : 
                 (ele.message.startsWith('code ') ? 
@@ -649,9 +653,13 @@
                                             ' h-fit flex items-center w-fit justify-center scale-100 pt-4'
                                              src={ele.message}></img>
                                             : 
-                                            <div>
+                                            <div className='flex w-fit items-center justify-center gap-2'>
+                                                <div className='w-10 h-10 bg-black/10 rounded-full flex items-center justify-center'>
                                                 <img className='scale-100 pt-4 rounded-md mb-3' src={`https://${URL_domain(ele.message)}/favicon.ico`} alt='' />
-                                            <a href={ele.message} target='_blank'><div className='text-lg text-blue-400 font-light'>{ele.message}</div></a>
+                                                </div>
+                                                <a href={ele.message} target='_blank'>
+                                                    <div className='text-lg text-blue-400 font-light'>{ele.message}</div>
+                                                </a>
                                             </div>
                                             )
                                         : 
