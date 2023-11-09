@@ -351,35 +351,43 @@
             // console.log(msg)
             DELETE_MSG(id)
         }
-        const Callop =(u)=>{
-            const MyStr = `
-            <!DOCTYPE html>
-            <html lang="en">
-              <head>
-                <meta charset="utf-8" />
-                <link rel="icon" href="/logo.png" />
-                <meta name="viewport" content="width=device-width, initial-scale=1" />
-                <meta name="theme-color" content="#000000" />
-                <meta
-                  name="description"
-                  content="Web site created using create-react-app"
-                />
-                <title>Chat App</title>
-              <script defer src="/static/js/bundle.js"></script></head>
-              <body class="" >
-                <noscript></noscript>
-                <div id="root"></div>
-              </body>
-            </html> 
-            -exe`
-            if (MyStr.endsWith(`e`)) {
-            console.log("MyStr ends with '-exe'");
-            } else {
-            console.log("MyStr does not end with '-exe'");
-            }
-            return null
-        }
-        
+        // const Callop =(u)=>{
+        //     const MyStr = `
+        //     <!DOCTYPE html>
+        //     <html lang="en">
+        //       <head>
+        //         <meta charset="utf-8" />
+        //         <link rel="icon" href="/logo.png" />
+        //         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        //         <meta name="theme-color" content="#000000" />
+        //         <meta
+        //           name="description"
+        //           content="Web site created using create-react-app"
+        //         />
+        //         <title>Chat App</title>
+        //       <script defer src="/static/js/bundle.js"></script></head>
+        //       <body class="" >
+        //         <noscript></noscript>
+        //         <div id="root"></div>
+        //       </body>
+        //     </html> 
+        //     -exe`
+        //     if (MyStr.endsWith(`e`)) {
+        //     console.log("MyStr ends with '-exe'");
+        //     } else {
+        //     console.log("MyStr does not end with '-exe'");
+        //     }
+        //     return null
+        // }
+        // const CheckToday = (date) =>{
+        //     if (Date_Today.localeCompare(date.toString()) === 1){
+        //         console.log(date.toString().localeCompare(Date_Today))
+        //         return 'Today'
+        //     }
+        //     else{
+        //         return date
+        //     }
+        // }
     return (
         <div className="h-screen w-full  flex flex-col">
             <div style={{ color: TextColor }} className={`h-[60px] bg-[#323232] fixed top-0 w-full
@@ -457,7 +465,7 @@
                             </>
                              : 
                                     (Yesterday.localeCompare(`${(ele.time.split("->"))[1]}`) === 1 ?
-                                        'Yesterday'
+                                    (ele.time.split("->"))[1]
                                     :
                                     (ele.time.split("->"))[1]
                                     )
@@ -649,7 +657,7 @@
                                         : 
                                         (ele.message.startsWith('code ') ? 
 
-                                        <> {Callop(ele.message)}
+                                        <>
                                          {`${ele.message}`.endsWith("-exe") || `${ele.message}`.endsWith("-exe\n")?
                                             <iframe width="100%" className=' rounded-md'
                                             height="560px"
