@@ -30,12 +30,178 @@
         const [allUsersPop,changeusrsPop]=useState("translate-y-[-30vh]")
         const [thisRoomAdmin,setRoomAdmin] = useState("")
         const [btm,setBtm] = useState(1)
+        const [messagePlaceHolder,setPaceHolder] = useState("Type a message")
+        const [moreOptions,setMore] =useState("translate-y-[100px] opacity-0")
         const [onlines,addOnlines] = useState(['A','B','C','A','B','C','A','B','C','A','B','C','A','B','C','A','B','C','A','B','C']);
         const months_ = [ "Jan", "Feb", "March", "April",
          "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"]
         const Date_Today = `${new Date(Date.now()).getDate()} ${months_[(new Date(Date.now()).getMonth())]} ${new Date(Date.now()).getFullYear()}`
         const Yesterday = `${new Date(Date.now()).getDate()-1} ${months_[(new Date(Date.now()).getMonth())]} ${new Date(Date.now()).getFullYear()}`
 
+        const TheGifFrame = `
+        <!DOCTYPE html>
+        <html>
+            <style>
+                body {
+                    background-color: rgb(29, 29, 29);
+                    display: flex;
+                    padding-top : 10px;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 20px;
+                    overflow: auto;  
+                    scrollbar-width: 5px;
+                }
+                body::-webkit-scrollbar {
+                    width: 10px;
+                    height: 5px;
+                  }
+                  body::-webkit-scrollbar-track{
+                    background: #f0f0f000;
+                  }
+                  body::-webkit-scrollbar-thumb {
+                    height: 10px;
+                    border-radius: 10px;
+                    background-color: rgba(0, 0, 0, 0.349); /* Hide the scrollbar thumb */
+                  }
+                .gif_img {
+                    width: 130px;
+                    height: fit-content;
+                    border-radius: 10px;
+                    display: block;
+                    transition: all 0.23s;
+                }
+                .gif_img:hover{
+                    cursor: pointer;
+                    box-shadow:-1px 3px 20px 0px;
+                }
+                .imho {
+                    display: flex;
+                    flex-direction: row;
+                    flex-wrap: wrap;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 20px;
+                    border-radius: 5px;
+                }
+                .boxio {
+                    width: 50vw;
+                    height: 10vh;
+                    font-size: 3vw;
+                    padding-left: 2vw;
+                    border: none;
+                    border-radius: 50px;
+                }
+                .boxio:focus {
+                    outline: none;
+                    border: none;
+                }
+                .iopp{
+                    padding: 3vw;
+                    background-color: rgb(255, 213, 0);
+                    border: none;
+                    font-size: 3vw;
+                    border-radius: 50%;
+                }
+                .iopp:hover{
+                    cursor: pointer;
+                }
+                .inputer{
+                    width: 100vw;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 2vw;
+                }
+            </style>
+            <body>
+                <div class="inputer">
+                    <input class="boxio" type="text" id="searchInput" placeholder="Search GIFs...">
+                    <button class="iopp" id="searchButton">Go</button>
+                </div>
+                <div class="imho"></div>
+        
+                <script>
+                    let searchTerm = "trending"||"popular";
+                    // Function to perform the search when the "Go" button is clicked
+                    function performSearch() {
+                        searchTerm = document.getElementById("searchInput").value || "popular";
+                        document.querySelector(".imho").innerHTML=""
+                        console.log(searchTerm)
+                        if(searchTerm.trim()!==""){
+                            grab_data(searchTerm)
+                        }
+                    }
+        
+                    // URL Async requesting function
+                    function httpGetAsync(theUrl, callback) 
+                    {
+                        // create the request object
+                        var xmlHttp = new XMLHttpRequest();
+        
+                        // set the state change callback to capture when the response comes in
+                        xmlHttp.onreadystatechange = function()
+                        {
+                            if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+                            {
+                                callback(xmlHttp.responseText);
+                            }
+                        }
+        
+                        // open as a GET call, pass in the url and set async = True
+                        xmlHttp.open("GET", theUrl, true);
+        
+                        // call send with no params as they were passed in on the url string
+                        xmlHttp.send(null);
+        
+                        return;
+                    }
+                    // Callback for the top 8 GIFs of search
+                    function tenorCallback_search(responsetext) {
+                        // Parse the JSON response
+                        var response_objects = JSON.parse(responsetext);
+        
+                        top_10_gifs = response_objects["results"];
+        
+                        for(i=0;i<top_10_gifs.length+1;i++){
+                            const img = document.querySelector(".imho").innerHTML+='<img class="gif_img" src="'+top_10_gifs[i]["media_formats"]["gif"]["url"]+'" alt="cannot load">'
+                        }
+                        if (top_10_gifs.length === 0){
+                            document.querySelector(".imho").innerHTML = "<p>no results found</p>"
+                        }
+                        return;
+        
+                    }
+                    // Function to call the search endpoint
+                    function grab_data(searchTerm) 
+                        {
+                        // set the apikey and limit
+                        var apikey = "AIzaSyDmx3zTDhjRG9Z6mu-_V1xPlHaDlFI1BmA";
+                        var clientkey = "my_test_app";
+                        var lmt = 100;
+        
+                        // using default locale of en_US
+                        var search_url = "https://tenor.googleapis.com/v2/search?q=" + searchTerm + "&key=" +
+                                apikey +"&client_key=" + clientkey +  "&limit=" + lmt;
+        
+                        httpGetAsync(search_url,tenorCallback_search);
+        
+                        // data will be loaded by each call's callback
+                        return;
+                    }
+        
+                    // Add an event listener to the "Go" button
+                    document.getElementById("searchButton").addEventListener("click", performSearch);
+        
+                    // Initial data load with "popular" as the default search term
+                    grab_data("trending"||"popular");
+                </script>
+            </body>
+        </html>
+        
+        `
+        const [ShowGifFrame,setGifShow] = useState(false)
         const UpdayeIt = (x)=>{
             LocalDataOnNotifications.forEach(local => {
                 let MyOp;
@@ -239,8 +405,12 @@
         }   
         useEffect(()=>{
             var myDiv = document.getElementById("myDiv");
+            var myDiv2 = document.getElementById("myDiv2");
             if (myDiv) {
                 myDiv.scrollIntoView({ behavior: "smooth" });
+            }
+            if (myDiv2) {
+                myDiv2.scrollIntoView({ behavior: "smooth" });
             }
         },[,GoBottom])
         
@@ -351,43 +521,17 @@
             // console.log(msg)
             DELETE_MSG(id)
         }
-        // const Callop =(u)=>{
-        //     const MyStr = `
-        //     <!DOCTYPE html>
-        //     <html lang="en">
-        //       <head>
-        //         <meta charset="utf-8" />
-        //         <link rel="icon" href="/logo.png" />
-        //         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        //         <meta name="theme-color" content="#000000" />
-        //         <meta
-        //           name="description"
-        //           content="Web site created using create-react-app"
-        //         />
-        //         <title>Chat App</title>
-        //       <script defer src="/static/js/bundle.js"></script></head>
-        //       <body class="" >
-        //         <noscript></noscript>
-        //         <div id="root"></div>
-        //       </body>
-        //     </html> 
-        //     -exe`
-        //     if (MyStr.endsWith(`e`)) {
-        //     console.log("MyStr ends with '-exe'");
-        //     } else {
-        //     console.log("MyStr does not end with '-exe'");
-        //     }
-        //     return null
-        // }
-        // const CheckToday = (date) =>{
-        //     if (Date_Today.localeCompare(date.toString()) === 1){
-        //         console.log(date.toString().localeCompare(Date_Today))
-        //         return 'Today'
-        //     }
-        //     else{
-        //         return date
-        //     }
-        // }
+
+        const [isHovered, setIsHovered] = useState(false);
+
+        const showHover = () => {
+          setIsHovered(true);
+        };
+      
+        const hideHover = () => {
+          setIsHovered(false);
+        };
+
     return (
         <div className="h-screen w-full  flex flex-col">
             <div style={{ color: TextColor }} className={`h-[60px] bg-[#323232] fixed top-0 w-full
@@ -520,7 +664,7 @@
                         <iframe width="100%" className=' rounded-md'
                             height="560px"
                             frameborder="0"
-                            srcdoc = {(ele.message.replace('code ',""))}
+                            srcDoc = {(ele.message.replace('code ',""))}
                         >
                         </iframe>
                         </pre>
@@ -670,7 +814,7 @@
                                             <iframe width="100%" className=' rounded-md'
                                             height="560px"
                                             frameborder="0"
-                                            srcdoc = {(ele.message.replace('code ',""))}
+                                            srcDoc = {(ele.message.replace('code ',""))}
                                         >
                                         </iframe>
                                     :
@@ -739,7 +883,9 @@
                         </div>
                         :
                 (isCode) ? 
-                    <div className=' h-[40vh] relative  bg-[#1e1e1ec0] flex flex-col items-center rounded-lg justify-center'>
+                    <>
+                    <div className={` h-[40vh] relative  bg-[#1e1e1ec0] flex flex-col  transition-all
+                                    items-center rounded-lg justify-center`}>
                         <div className='h-7 w-7 absolute top-3 left-[5vh] hover:bg-[#3b3b3bc0] transition-colors
                          rounded-md text-white font-bold flex items-center justify-center  hover:cursor-pointer'
                         onClick={ToChat}>T</div>
@@ -748,37 +894,90 @@
                                 bg-[#5b5b5b49] text-white rounded-md hover:cursor-pointer
                                 ' onClick={handleSendCode}>send</div>
                             :
-                            <div className='absolute bottom-2 right-[3vw] px-2 py-1 
-                            bg-[#62626249] text-white rounded-md hover:cursor-pointer' onClick={SaveIt}>save</div>
-                        }
-                        
-                        <textarea placeholder='Code starts here... [ Add "-exe" at end of the code to run the HTML/CSS/JS code ]' className='px-3 mt-4 py-2 w-[80vw] 
-                        rounded-md h-[30vh] max-h-[30vh]
-                        focus:outline-none min-h-[20vh]' value={Code_} onChange={handleCodeTake} />
-                    </div>     
+                                <div className='absolute bottom-2 right-[3vw] px-2 py-1 
+                                bg-[#62626249] text-white rounded-md hover:cursor-pointer' onClick={SaveIt}>save</div>
+                            }
+                            
+                            <textarea placeholder='Code starts here... [ Add "-exe" at end of the code to run the HTML/CSS/JS code ]' className='px-3 mt-4 py-2 w-[80vw] 
+                            rounded-md h-[30vh] max-h-[30vh]
+                            focus:outline-none min-h-[20vh]' value={Code_} onChange={handleCodeTake} />
+                        </div>  
+                    <div id='myDiv2'></div> 
+                    </>  
                 :
                     <div className='h-[70px] bg-[#262626] flex justify-center fixed bottom-3 left-[10vw] right-[10vw] rounded-lg
-                                max-sm:left-0 max-sm:right-0 max-sm:bottom-0
+                                max-sm:left-0 max-sm:right-0 max-sm:bottom-0 max-sm:px-4
                                     items-center gap-4'>
                                         <div className='h-10 w-10 mr-5  rounded-full fill-[#9a9a9a]
                                          flex items-center justify-center  hover:cursor-pointer
-                                          hover:bg-[#303030]
+                                          hover:bg-[#303030] relative
                                          '
-                                        onClick={ToCode}>
-                                        <svg className=' scale-140 ' xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512">
-                                            <path d="M392.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 
-                                            39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6zm80.6 120.1c-12.5 
-                                            12.5-12.5 32.8 0 45.3L562.7 256l-89.4 89.4c-12.5 12.5-12.5 32.8 0 
-                                            45.3s32.8 12.5 45.3 0l112-112c12.5-12.5 12.5-32.8 
-                                            0-45.3l-112-112c-12.5-12.5-32.8-12.5-45.3 0zm-306.7 
-                                            0c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 
-                                            45.3l112 112c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 
-                                            256l89.4-89.4c12.5-12.5 12.5-32.8 0-45.3z"/>
+                                        onClick={()=>{
+                                            if (moreOptions === "translate-y-[100px] opacity-0"){
+                                                setMore("translate-y-0 opacity-01");
+                                            }
+                                            else{
+                                                setMore("translate-y-[100px] opacity-0")
+                                            }
+                                            }
+                                        }
+                                        >
+                                        <svg  className=' rotate-180'
+                                        xmlns="http://www.w3.org/2000/svg" height="1em" 
+                                            viewBox="0 0 320 512">
+                                                <path d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 
+                                                11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6
+                                                19.8s-2.2 25.7 6.9 34.9l128 128z"/>
                                         </svg>
+                                        <div className={` absolute h-[80px] bottom-[60px] rounded-xl max-sm:left-[20px]
+                                                    w-[130px] bg-[#3a3a3a] ${moreOptions} transition-all flex justify-around
+                                                     items-center max-sm:w-[100px] max-sm:h-[60px]
+                                                    `} 
+                                        >
+                                            <div className='h-10 w-10 mr-5  rounded-full fill-[#9a9a9a]
+                                         flex items-center justify-center  hover:cursor-pointer
+                                          hover:bg-[#303030] ml-5 
+                                         ' onClick={()=>{
+                                                changeCode(!isCode);
+                                            }
+                                        }>
+                                                <svg className=' scale-140 ' xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512">
+                                                    <path d="M392.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 
+                                                    39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6zm80.6 120.1c-12.5 
+                                                    12.5-12.5 32.8 0 45.3L562.7 256l-89.4 89.4c-12.5 12.5-12.5 32.8 0 
+                                                    45.3s32.8 12.5 45.3 0l112-112c12.5-12.5 12.5-32.8 
+                                                    0-45.3l-112-112c-12.5-12.5-32.8-12.5-45.3 0zm-306.7 
+                                                    0c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 
+                                                    45.3l112 112c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 
+                                                    256l89.4-89.4c12.5-12.5 12.5-32.8 0-45.3z"/>
+                                                </svg>
+                                            </div>
+                                            <div className='h-10 w-10 mr-5  rounded-full fill-[#9a9a9a]
+                                         flex items-center justify-center  hover:cursor-pointer
+                                          hover:bg-[#303030] 
+                                         ' onClick={()=>{
+                                                setGifShow(!ShowGifFrame);
+                                                setPaceHolder("Drag and drop the gif here...")
+                                                }
+                                            }>
+                                                {/* <svg className=' scale-140 ' xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512">
+                                                    <path d="M392.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 
+                                                    39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6zm80.6 120.1c-12.5 
+                                                    12.5-12.5 32.8 0 45.3L562.7 256l-89.4 89.4c-12.5 12.5-12.5 32.8 0 
+                                                    45.3s32.8 12.5 45.3 0l112-112c12.5-12.5 12.5-32.8 
+                                                    0-45.3l-112-112c-12.5-12.5-32.8-12.5-45.3 0zm-306.7 
+                                                    0c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 
+                                                    45.3l112 112c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 
+                                                    256l89.4-89.4c12.5-12.5 12.5-32.8 0-45.3z"/>
+                                                </svg> */}
+                                                <p className=' text-sm font-thin text-[#a2a2a2]'>gif</p>
+                                            </div>
+                                        </div>
+
                                         </div>
                         <input className='px-3 py-2 w-[60vw] rounded-md 
                                             focus:outline-none' type='text'
-                                            placeholder='Type a message' 
+                                            placeholder={messagePlaceHolder} 
                                             value={newMessage}
                         onKeyDown={handleKeyDown}
                         onChange={handleMessageInp}/>
@@ -875,6 +1074,41 @@
                  329.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128z"/>
             </svg>
             </div>}
+            {ShowGifFrame &&
+            <div className='fixed bottom-[100px]
+                max-sm:left-[0vw]
+                left-[30vw] rounded-lg'>
+              <div className='
+               text-white z-[1000]
+                absolute right-5 scale-75
+                max-sm:right-[64px] max-sm:top-10
+                p-2 bg-[#201d1d]
+               '
+               onClick={()=>{
+                    setGifShow(!ShowGifFrame);
+                    setPaceHolder("Type a message")
+                }
+            }
+              >
+                  <svg className=' fill-white' xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512">
+                      <path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1
+                       4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9
+                        7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8
+                         9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1
+                          4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"/>
+                  </svg>
+
+              </div>
+                <iframe className=' rounded-md scrollable-container max-sm:scale-75'
+                    height="300px"
+                    width="350px"
+                    frameborder="0"
+                    srcDoc = {TheGifFrame}
+                >
+                </iframe>
+            </div>
+            }
+            
         </div>
     )
     }
