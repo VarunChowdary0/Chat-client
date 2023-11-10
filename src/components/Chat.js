@@ -77,6 +77,7 @@
                 .gif_img:hover{
                     cursor: pointer;
                     box-shadow:-1px 3px 20px 0px;
+                    scale : 1.01;
                 }
                 .imho {
                     display: flex;
@@ -1107,9 +1108,9 @@
                     max-sm:left-[0vw]
                     left-[30vw] rounded-lg'>
                 <div className='
-                text-white z-[1000]
-                    absolute right-5 scale-75
-                    max-sm:right-[64px] max-sm:top-10
+                text-white z-[1000] scale-90
+                    absolute right-5 max-sm:scale-75
+                    max-sm:right-[33px] max-sm:top-5
                     p-2  rounded-full hover:bg-[#292828]
                 '
                 onClick={()=>{
@@ -1127,7 +1128,7 @@
                     </svg>
 
                 </div>
-                    <iframe className=' rounded-md scrollable-container max-sm:scale-75'
+                    <iframe className=' rounded-md scrollable-container max-sm:scale-90'
                         height="300px"
                         width="350px"
                         frameborder="0"
