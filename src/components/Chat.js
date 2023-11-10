@@ -685,7 +685,7 @@
                             <iframe width="100%" className=' rounded-md'
                                 height="560px"
                                 frameborder="0"
-                                srcDoc = {(ele.message.replace('code ',""))}
+                                srcDoc = {(ele.message.replace('code ',"").replace('-exe',""))}
                             >
                             </iframe>
                             </pre>
@@ -835,8 +835,8 @@
                                                 <iframe width="100%" className=' rounded-md'
                                                 height="560px"
                                                 frameborder="0"
-                                                srcDoc = {(ele.message.replace('code ',""))}
-                                            >
+                                                srcDoc = {(ele.message.replace('code ',"").replace('-exe',""))}
+                                                >
                                             </iframe>
                                         :
                                             <div className=' w-fit  h-fit px-4 py-2
