@@ -598,7 +598,8 @@
                     )
                 })}
                 </div> */}
-                <div className='h-fit w-full BG-IMG flex flex-col'>
+                <div className='h-fit w-full BG-IMG flex flex-col bg-black'>
+
                     
                     <div  className={`flex-1 flex flex-col px-1 gap-4 h-fit overflow-y-auto min-h-[92vh] mt-[65px]
                     ${ IsPublic ? "" : "ml-[7vw] md:ml-[20vw]"
@@ -862,7 +863,7 @@
                                                         <>
                                                             <div className={`text-lg w-[50vw] max-sm:hidden text-center text-[#818181]`}
                                                         >-------- This message has been deleted --------</div>
-                                                            <div className={`text-lg w-[50vw] max-sm:w-[80vw] text-sm
+                                                            <div className={` w-[50vw] max-sm:w-[80vw] text-sm
                                                             sm:hidden text-center text-[#818181]`}
                                                         >-- This message has been deleted --</div>
                                                         </>
