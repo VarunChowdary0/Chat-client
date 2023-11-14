@@ -327,7 +327,7 @@
          "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"]
         const SendMessage =async () => {
             const hrs = new Date(Date.now()).getHours()
-            const format_ = (hrs>12)? "Pm" : "Am" ;
+            const format_ = (hrs>12)? "PM" : "AM" ;
             if (!connected){
                 console.log("You are ofline.")
                 setOflineWaring(true)
@@ -338,7 +338,7 @@
                     auther : username,
                     message : newMessage,
                     time : hrs%12 +
-                    ':'+ new Date(Date.now()).getMinutes()+
+                    ':'+ `${new Date(Date.now()).getMinutes()}`+
                     " "+format_+
                     " -> "+new Date(Date.now()).getDate()+
                     " "+months[(new Date(Date.now()).getMonth())]+
