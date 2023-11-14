@@ -64,7 +64,7 @@ const Login = () => {
             axios.get(`${URL}/login`,{params:Data_Obj})
                 .then((res)=>{
                     console.log(res.data)
-                    setFlasher('Login Sucessful.')
+                    setFlasher('Login Successful !')
                     localStorage.setItem('username',userName)
                     console.log(localStorage.getItem('username'));
                     localStorage.setItem('ISloggedIN',true);
@@ -73,7 +73,7 @@ const Login = () => {
                 })
                 .catch((err)=>{
                     setBuffer(false)
-                    setFlasher("Invalied credentials.")
+                    setFlasher("Invalied credentials !")
                     setTimeout(()=>setFlasher(''),1000)
                     setPassword('');
                 })
