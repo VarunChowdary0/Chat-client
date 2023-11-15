@@ -28,7 +28,7 @@ import Colours from './Colours';
         const [MassagesFetched,setMessageFetched] = useState(false)
         const [CurrentDate,SetCurrentDate] = useState("")
         const [MembersofRoom,setMembersOfRoom] = useState([])
-        const [allUsersPop,changeusrsPop]=useState("translate-y-[-30vh]")
+        const [allUsersPop,changeusrsPop]=useState("translate-y-[-30vh] opacity-0")
         const [thisRoomAdmin,setRoomAdmin] = useState("")
         const [btm,setBtm] = useState(1)
         const [messagePlaceHolder,setPaceHolder] = useState("Type a message")
@@ -505,7 +505,8 @@ import Colours from './Colours';
     return (
         <>
             <div className={`h-screen w-full  flex flex-col ${OflineWarning && "blur-md"} transition-all duration-500`}>
-                <div style={{ color: TextColor }} className={`h-[60px] bg-[#323232] fixed top-0 w-full
+                <div style={{ color: TextColor }} className={`h-[60px] bg-[#32323272] fixed top-0 w-full
+                 backdrop-blur
                 flex justify-between px-10 items-center text-2xl max-sm:text-sm max-sm:px-4 z-[1000]`}>
                     <a className='fixed' href='/o'>
                     <svg className=' fill-slate-50 max-sm:scale-110' xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512">
@@ -519,7 +520,10 @@ import Colours from './Colours';
                         8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z"/>
                     </svg>
                     </a>
-                    <p className='flex'><span className='text-yellow-500 ml-[70px] max-sm:ml-[35px]'></span><p className='max-sm:text-[18px] max-sm:max-w-[90px] overflow-x-auto'> {roomID}</p></p>
+                    <p className='flex'><span className='text-yellow-500 ml-[70px]
+                     max-sm:ml-[35px]'></span>
+                     <p className='max-sm:text-[18px] max-sm:max-w-[90px] overflow-x-auto'> {roomID}</p>
+                     </p>
                     <h1 style={{ color: TextColor }} className={`text-3xl `}>Chat</h1>
                     { allUsersPop.length !==0 &&
                         <div className='w-8 h-8 transition-colors
@@ -535,7 +539,7 @@ import Colours from './Colours';
                     { allUsersPop.length ===0 &&
                         <div className='w-8 h-8 transition-colors
                         rounded-full fill-white hover:bg-[#3e3e3e] rotate-180
-                    flex items-center justify-center' onClick={()=>{changeusrsPop("translate-y-[-30vh]")}}>
+                    flex items-center justify-center' onClick={()=>{changeusrsPop("translate-y-[-30vh] opacity-0")}}>
                         <svg xmlns="http://www.w3.org/2000/svg" height="1em" 
                                 viewBox="0 0 320 512">
                                     <path d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 
@@ -998,9 +1002,10 @@ import Colours from './Colours';
                 </div>
                 
             <div className={`fixed top-[60px] max-sm:w-full right-0 scrollable-container
-            w-[25vw] bg-[#424243] h-[30vh] text-white transition-all 
-            rounded-b-lg flex flex-col items-center gap-3 py-5 overflow-y-auto
-            ${allUsersPop}`}>
+                w-[25vw] bg-[#32323272] h-[30vh] text-white transition-all
+                 backdrop-blur
+                rounded-b-lg flex flex-col items-center gap-3 py-5 overflow-y-auto
+                ${allUsersPop}`}>
                 <div>
                     {
                         connected?

@@ -37,7 +37,8 @@ const Menu = () => {
       32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 
       32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 
       32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg>
-                    </div>
+    </div>
+
         <div className=' bg-[#00000064] z-[900]'>
           <div style={{ backgroundColor: BgColor }} className='fixed top-0 left-0 bottom-0 w-[20vw]
                             flex justify-start
@@ -83,7 +84,8 @@ const Menu = () => {
 
         <div className={
           `fixed top-0 left-0 bottom-0 w-full
-          bg-[#515151] flex justify-start
+          bg-[#161616d7] flex justify-start
+           backdrop-blur-lg
           items-center p-5 flex-col
           gap-3  z-40 pt-11 transition-all sm:hidden
           ${menuO} overflow-y-auto

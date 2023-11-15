@@ -7,7 +7,7 @@ const Settings = () => {
     const {TextColor,setTextColor} =useContext(Globals)
     const {colorSaturation,setColorSaturation} = useContext(Globals);
     const {CurrentButtonColor,setCurrentButtonColor} = useContext(Globals);
-    const Colors = ['green','teal','orange','yellow','purple','blue']
+    const Colors = ['green','teal','orange','rose','yellow','purple','blue']
     const HandleSetting = () =>{
         ToggleSettings(false);
     } 
@@ -41,7 +41,7 @@ const Settings = () => {
     }
 
   return (
-    <div style={{ backgroundColor: BgColor }} className={` z-[1000] 
+    <div style={{ backgroundColor: BgColor }} className={` z-[1000]
     fixed top-0 bottom-0  left-0 right-0`}>
         <div className='fixed top-12 right-6 active:rotate-[-90deg]
          fill-white scale-125 
@@ -104,7 +104,8 @@ const Settings = () => {
                         {
                             Colors.map((col)=>{
                                 return (
-                                    <div onClick={()=>{HandleChangeInColor(col)}} className={` flex justify-center items-center 
+                                    <div onClick={()=>{HandleChangeInColor(col)}} className={` 
+                                    flex justify-center items-center  hover:scale-110 transition-all duration-150 active:scale-75
                                         w-10 h-10 rounded-xl bg-${col}-${colorSaturation}`}>
                                         {col === CurrentButtonColor &&
                                             <svg className=' fill-[#ffffff]' xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
@@ -122,7 +123,6 @@ const Settings = () => {
                 </div>
             </div>
         </div>
-
     </div>
   )
 }

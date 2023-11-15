@@ -44,6 +44,13 @@ const Colours = () => {
             <div className=' bg-yellow-600'></div>
             <div className=' bg-yellow-700'></div>
             <div className=' bg-yellow-800'></div>
+
+            <div className=' bg-rose-300'></div>
+            <div className=' bg-rose-400'></div>
+            <div className=' bg-rose-500'></div>
+            <div className=' bg-rose-600'></div>
+            <div className=' bg-rose-700'></div>
+            <div className=' bg-rose-800'></div>
              </div>
   )
 }
