@@ -6,13 +6,13 @@ import { RaceBy } from '@uiball/loaders'
 
 const Login = () => {
     const {URL} = useContext(Globals)
-    const {username,setUsername} = useContext(Globals)
     const [userName,setusername] = useState('');
     const [Password,setPassword] = useState('');
     const [Email,SetEmail] = useState('');
     const [flasher,setFlasher] = useState('')
     const [action,setAction] = useState('login');
     const [doBuffer,setBuffer] = useState(false)
+    const [PawdType,setPswdType] = useState('password')
     const handleUserName = (e)=>{
         setusername(e.target.value);
     }
@@ -89,25 +89,75 @@ const Login = () => {
     const tosignin =()=>{
         setAction('login')
     }
+    const handleKeyDown = (event)=>{
+        if(event.key === 'Enter'){
+            sendDATA_signup();
+        }
+    }
+    const handleKeyDown_1 = (event)=>{
+        if(event.key === 'Enter'){
+            sendLogin();
+        }
+    }
+
+    const ShowPswd = () =>{
+        setPswdType('text');
+        setTimeout(()=>{
+            ClosePswd();
+        },800)
+    }
+    const ClosePswd = () =>{
+        setPswdType('password');
+    }
   return (
 
     <>
         <div className='flex w-full h-screen justify-center items-center max-sm:pb-[100px] 
-                                max-md:pb-[100px] max-lg:pb-[100px] bg-black/50'>
+                                max-md:pb-[100px] max-lg:pb-[100px] bg-[#201a28]'>
             {action === 'signup'?
-            <div className="h-[50vh] w-[30vw] bg-black/30 relative max-sm:w-[80vw]
+            <div className="h-[50vh] w-[30vw] bg-black/50 relative max-sm:w-[80vw]
                     max-lg:w-[60vw] 
                 rounded-md flex flex-col p-5 space-y-7">
             <h1 className='text-white text-2xl text-center'>GET Signed Up</h1>
             <input className='h-10 pl-4 focus:outline-none rounded-md' 
                         value={userName} placeholder='Your name..' 
                         onChange={handleUserName}/>
-            <input type='password' className='h-10 pl-4 focus:outline-none rounded-md' 
+            <div className=' flex flex-row relative justify-center items-center'>
+            <input type={PawdType} className='h-10 pl-4 flex-1 focus:outline-none rounded-md' 
                         value={Password} placeholder='Password'
                         onChange={handlePassword}/>
+                        <div className=' fill-[#4e4e4e] hover:cursor-pointer absolute right-6'>
+                            {
+                                PawdType === 'text' ?
+                                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512">
+                                    <path d="M288 80c-65.2 0-118.8 29.6-159.9 67.7C89.6 183.5 63 
+                                    226 49.4 256c13.6 30 40.2 72.5 78.6 108.3C169.2 402.4 222.8 
+                                    432 288 432s118.8-29.6 159.9-67.7C486.4 328.5 513 286 526.6 
+                                    256c-13.6-30-40.2-72.5-78.6-108.3C406.8 109.6 353.2 80 288 
+                                    80zM95.4 112.6C142.5 68.8 207.2 32 288 32s145.5 36.8 192.6 
+                                    80.6c46.8 43.5 78.1 95.4 93 131.1c3.3 7.9 3.3 16.7 0 24.6c-14.9
+                                     35.7-46.2 87.7-93 131.1C433.5 443.2 368.8 480 288 
+                                     480s-145.5-36.8-192.6-80.6C48.6 356 17.3 304 2.5 
+                                     268.3c-3.3-7.9-3.3-16.7 0-24.6C17.3 208 48.6 156 95.4 
+                                     112.6zM288 336c44.2 0 80-35.8 80-80s-35.8-80-80-80c-.7 
+                                     0-1.3 0-2 0c1.3 5.1 2 10.5 2 16c0 35.3-28.7 64-64 64c-5.5 
+                                     0-10.9-.7-16-2c0 .7 0 1.3 0 2c0 44.2 35.8 80 80 80zm0-208a128 
+                                     128 0 1 1 0 256 128 128 0 1 1 0-256z"/>
+                                </svg>
+                                :
+                                <svg onClick={ShowPswd} xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
+                                    <path d="M144 144v48H304V144c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 
+                                    192V144C80 64.5 144.5 0 224 0s144 64.5 144 144v48h16c35.3 0 64 28.7
+                                     64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V256c0-35.3
+                                      28.7-64 64-64H80z"/>'
+                                </svg>
+                            }
+                        </div>
+            </div>
             <input className='h-10 pl-4 focus:outline-none rounded-md' 
                         value={Email} placeholder='abc@gmail.com'
-                        onChange={handleEmail}/>
+                        onChange={handleEmail} onKeyDown={handleKeyDown}/>
+                        
             <p className='text-center mr-10 text-yellow-400'>{flasher}</p>
            {doBuffer? <div className='w-full flex justify-center mr-4'><RaceBy 
                                                 size={80}
@@ -145,9 +195,38 @@ const Login = () => {
                     <input className='h-10 pl-4 focus:outline-none rounded-md' 
                                 value={userName} placeholder='Your name..' 
                                 onChange={handleUserName}/>
-                    <input type='password' className='h-10 pl-4 focus:outline-none rounded-md' 
-                                value={Password} placeholder='Password'
-                                onChange={handlePassword}/>
+                    <div className=' flex flex-row relative justify-center items-center'>
+            <input type={PawdType} className='h-10 pl-4 flex-1 focus:outline-none rounded-md' 
+                        value={Password} placeholder='Password'
+                        onChange={handlePassword} onKeyDown={handleKeyDown_1}/>
+                        <div className=' fill-[#4e4e4e] hover:cursor-pointer absolute right-6'>
+                            {
+                                PawdType === 'text' ?
+                                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512">
+                                    <path d="M288 80c-65.2 0-118.8 29.6-159.9 67.7C89.6 183.5 63 
+                                    226 49.4 256c13.6 30 40.2 72.5 78.6 108.3C169.2 402.4 222.8 
+                                    432 288 432s118.8-29.6 159.9-67.7C486.4 328.5 513 286 526.6 
+                                    256c-13.6-30-40.2-72.5-78.6-108.3C406.8 109.6 353.2 80 288 
+                                    80zM95.4 112.6C142.5 68.8 207.2 32 288 32s145.5 36.8 192.6 
+                                    80.6c46.8 43.5 78.1 95.4 93 131.1c3.3 7.9 3.3 16.7 0 24.6c-14.9
+                                     35.7-46.2 87.7-93 131.1C433.5 443.2 368.8 480 288 
+                                     480s-145.5-36.8-192.6-80.6C48.6 356 17.3 304 2.5 
+                                     268.3c-3.3-7.9-3.3-16.7 0-24.6C17.3 208 48.6 156 95.4 
+                                     112.6zM288 336c44.2 0 80-35.8 80-80s-35.8-80-80-80c-.7 
+                                     0-1.3 0-2 0c1.3 5.1 2 10.5 2 16c0 35.3-28.7 64-64 64c-5.5 
+                                     0-10.9-.7-16-2c0 .7 0 1.3 0 2c0 44.2 35.8 80 80 80zm0-208a128 
+                                     128 0 1 1 0 256 128 128 0 1 1 0-256z"/>
+                                </svg>
+                                :
+                                <svg onClick={ShowPswd} xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
+                                    <path d="M144 144v48H304V144c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 
+                                    192V144C80 64.5 144.5 0 224 0s144 64.5 144 144v48h16c35.3 0 64 28.7
+                                     64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V256c0-35.3
+                                      28.7-64 64-64H80z"/>'
+                                </svg>
+                            }
+                        </div>
+            </div>
                     <p className='text-center mr-10 text-yellow-400'>{flasher}</p>
                     {doBuffer? <div className='w-full flex justify-center mr-4'><RaceBy 
                                                         size={80}

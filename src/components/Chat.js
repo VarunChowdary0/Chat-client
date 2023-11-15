@@ -34,7 +34,6 @@
         const [moreOptions,setMore] =useState("translate-y-[100px] opacity-0")
         const [connected,setConnectionStatus] = useState(true)
         const [OflineWarning,setOflineWaring] = useState(false)
-        const [onlines,addOnlines] = useState(['A','B','C','A','B','C','A','B','C','A','B','C','A','B','C','A','B','C','A','B','C']);
         const months_ = [ "Jan", "Feb", "March", "April",
          "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"]
         const Date_Today = `${new Date(Date.now()).getDate()} ${months_[(new Date(Date.now()).getMonth())]} ${new Date(Date.now()).getFullYear()}`
@@ -208,28 +207,16 @@
         const UpdayeIt = (x)=>{
             LocalDataOnNotifications.forEach(local => {
                 let MyOp;
-                //console.log('loc') 
                 if(local['room']===roomID)  {
                     MyOp = { 'room': local['room'], 'length': x };
-                    //console.log("current => ",MyOp)
                 }
                 else{
                     MyOp = local;
                 }
-                //  console.log(`{'room': ${hold.room}, 'length': ${fetched.length  - hold.length}`)
                     TempUp(MyOp)
                 });
             }
         const TempUp = (gh) =>{
-            // const MyTemp =[] 
-            // LocalDataOnNotifications.forEach(element => {
-            //     const myO = MyTemp.find(item => item.room === element.room);
-            //     if (myO === undefined) {
-            //     MyTemp.push(element);
-            //     }
-            // });
-            // MyTemp.push(gh)
-            // console.log(MyTemp)
             if (Temp.length === 0){
                 setTemp((x)=>[...x,gh]);
             }
@@ -240,15 +227,10 @@
                 }
             }
         }
-        // useEffect(()=>{
-        //     //console.log('Temp',Temp)
-        //     console.log("local",LocalDataOnNotifications);
-        // },[])
 
         useEffect(()=>{
             axios.get(URL+'/get_length_of_room',{params:{'room':roomID}})
                 .then((res)=>{
-                    // console.log(res.data['length']);
                     UpdayeIt(res.data['length']);
                 })
                 .catch((err)=>{
@@ -261,7 +243,6 @@
         },[Temp])
 
         const opu =() =>{
-            // console.log('opu called -> ',Temp)
             const MyTemp =[] 
             Temp.forEach(element => {
                 const myO = MyTemp.find(item => item.room === element.room);
@@ -269,9 +250,7 @@
                     MyTemp.push(element);
                 }
             });
-            // console.log(MyTemp)
             localStorage.setItem('_Local_Notifications_',JSON.stringify(MyTemp));
-            // console.log(localStorage.getItem("_Local_Notifications_"))
             updateLocalnotifiation(MyTemp);
         }
         useEffect(() => {
@@ -283,10 +262,8 @@
                 axios.get(URL + "/get_old_messages", { params: { roomID } })
                     .then((res) => {
                             const datas = res.data.data;
-                            // Call UpdateMessages_1 once with the array of messages
                             UpdateMessages_1(datas);
                             setMessageFetched(true)
-                        // console.log(datas);
                     })
                     .catch((err) => {
                         console.log("Error: ", err);
@@ -299,16 +276,13 @@
 
         useEffect(() => {
             socket.on("recive_message", (data) => {
-            //  localStorage.setItem("Allmessages",AllMessages.concat(data))
                 UpdateMessages(data);
             });
             socket.on("disconnect", () => {
-                // console.log(`Socket is disconnected.`);
                 setConnectionStatus(false)
                 setOflineWaring(true)
             });
             socket.on("connect", (socket)=>{
-                // console.log(`Socket connected .`,socket)
                 setConnectionStatus(true)
                 setOflineWaring(false)
             })
@@ -321,7 +295,6 @@
             data.map((ele)=>{
                 addMessages((list)=>[...list,ele ]);
             })
-            //console.log(AllMessages)
         }
         const months = [ "Jan", "Feb", "March", "April",
          "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"]
@@ -344,10 +317,8 @@
                     " "+months[(new Date(Date.now()).getMonth())]+
                     " "+new Date(Date.now()).getFullYear()
                 };
-                //console.log(AllMessages.length)
 
                 await socket.emit("send_message",messageINFO)
-                //localStorage.setItem("Allmessages",AllMessages.concat(messageINFO))
                 UpdateMessages(messageINFO)
                 setNewMessage("");
                 setSave(false)
@@ -355,7 +326,6 @@
         }
         const UpdateMessages=(data)=>{
             addMessages((list)=>[...list , data]);
-            //console.log(AllMessages)
         }
         const handleMessageInp = (event) =>{
             setNewMessage(event.target.value)
@@ -388,7 +358,6 @@
         }
         const CopyText = (ind,text) => {
             if (navigator.clipboard) {
-                // Disable scroll behavior temporarily
                 document.body.style.overflow = 'hidden';
             
                 navigator.clipboard.writeText(text)
@@ -399,12 +368,10 @@
                     setCopied(false);
                     }, 5000);
             
-                    // Re-enable scroll behavior
                     document.body.style.overflow = 'auto';
                 })
                 .catch((error) => {
                     console.error('Failed to copy text to clipboard:', error);
-                    // Make sure to re-enable scroll behavior even on error
                     document.body.style.overflow = 'auto';
                 });
             }
@@ -431,22 +398,17 @@
         },[,GoBottom])
         
         const Private_ = (x)=>{
-            // console.log("Called")
             if(IsPublic){
                 SetPublic(false)
-                // console.log(x)
                 setKeyWord(x)
-                // console.log("private")
             }
         }
         useEffect(()=>{
             if(AllMessages !== undefined){
                 const MyTemp = AllMessages[0]
                 if(MyTemp!==undefined){
-                    //console.log(MyTemp.message)
                     if(MyTemp.message.startsWith("[-->private<--]-")){
                         const x =MyTemp.message.replace("[-->private<--]- ","")
-                        //console.log(x)
                         Private_(x)
                     }
                 }
@@ -493,7 +455,6 @@
             if (Date[1] === undefined || Date[1] === CurrentDate) {
                 return false;
             } else {
-                //console.log(CurrentDate , Date[1])
               return true;
             }
           };
@@ -533,20 +494,9 @@
 
         const DeleteMessage = (id) =>{
             console.log(id)
-            // const msg = AllMessages.find(ele => ele._id === id);
-            // console.log(msg)
             DELETE_MSG(id)
         }
 
-        const [isHovered, setIsHovered] = useState(false);
-
-        const showHover = () => {
-          setIsHovered(true);
-        };
-      
-        const hideHover = () => {
-          setIsHovered(false);
-        };
 
     return (
         <>
@@ -591,13 +541,7 @@
                     </div>
                     }
                 </div>
-                {/* <div className='w-full h-10 bg-black/60 flex gap-4 items-center px-3 overflow-x-auto scrollable-container'>
-                {onlines.map((ele)=>{
-                    return(
-                        <div className='text-green-500 h-5 px-2 bg-black text-center flex items-center justify-center'>{ele}</div>
-                    )
-                })}
-                </div> */}
+
                 <div className='h-fit w-full BG-IMG flex flex-col bg-black'>
 
                     
@@ -987,16 +931,7 @@
                                                     setPaceHolder("Drag and drop the gif here...")
                                                     }
                                                 }>
-                                                    {/* <svg className=' scale-140 ' xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512">
-                                                        <path d="M392.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 
-                                                        39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6zm80.6 120.1c-12.5 
-                                                        12.5-12.5 32.8 0 45.3L562.7 256l-89.4 89.4c-12.5 12.5-12.5 32.8 0 
-                                                        45.3s32.8 12.5 45.3 0l112-112c12.5-12.5 12.5-32.8 
-                                                        0-45.3l-112-112c-12.5-12.5-32.8-12.5-45.3 0zm-306.7 
-                                                        0c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 
-                                                        45.3l112 112c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 
-                                                        256l89.4-89.4c12.5-12.5 12.5-32.8 0-45.3z"/>
-                                                    </svg> */}
+                                                   
                                                     <p className=' text-sm font-thin text-[#a2a2a2]'>gif</p>
                                                 </div>
                                             </div>

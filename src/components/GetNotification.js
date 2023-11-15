@@ -1,7 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
+import  { useContext, useEffect, useState } from 'react';
 import { Globals } from '../globals/Globals';
 import axios from 'axios';
-import { json } from 'react-router-dom';
 
 const GetNotification = () => {
   const { URL, username, LocalDataOnNotifications, updateLocalnotifiation, FinalNotifications, UpdateFinalNotifaction } = useContext(Globals);
@@ -18,7 +17,7 @@ const GetNotification = () => {
     Check(vb);
   }
   useEffect(()=>{
-    if(localStorage.getItem('username')==undefined){
+    if(localStorage.getItem('username')===undefined){
       localStorage.clear();
       window.location.href = '/'
     }

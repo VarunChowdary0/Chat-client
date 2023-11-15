@@ -5,14 +5,13 @@ import axios from 'axios';
 import Settings from './Settings';
 
 const Join = () => {
-    const {username,setUsername} = useContext(Globals);
+    const {username} = useContext(Globals);
     const {BgColor} =useContext(Globals)
     const {TextColor} =useContext(Globals)
     const {roomID,setRoomID} =  useContext(Globals);
-    const {saverModeOn,changeSavermode} = useContext(Globals);
     const {URL} = useContext(Globals)
     const [showIT,setShow] = useState(false); 
-    const {AllRooms,setAllRooms} = useContext(Globals)
+    const {setAllRooms} = useContext(Globals)
     const {ShowSettings,ToggleSettings} =useContext(Globals);
     
     const JoinRoom = () => {
@@ -32,16 +31,13 @@ const Join = () => {
       }
     }
 
-    //console.log(AllRooms)
     const handleRoomID = (event)=>{
       setRoomID(event.target.value)
       localStorage.setItem('roomID',event.target.value)
     }
 
 
-  // useEffect(() => {
-  //   console.log("local: ", localStorage.getItem('saver'));
-  // }, []);
+
   useEffect(()=>{
       axios.get(URL + "/get_all_rooms", { params: {'username':username} })
                   .then((res) => {
@@ -55,7 +51,6 @@ const Join = () => {
     setAllRooms(data)
   }
   const handleShow=()=>{
-    //console.log("opooas")
     setShow(true);
   }
   const HandleSetting = () =>{
@@ -65,6 +60,12 @@ const Join = () => {
       localStorage.setItem('roomID',"Phsdvjbk00");
       window.location.href='/chat'
   } 
+
+  const handleKeyDown = (event)=>{
+    if(event.key === 'Enter'){
+      JoinRoom();
+    }
+}
     return (
       <div style={{ backgroundColor: BgColor }} className={`flex h-screen justify-center items-center`} >
         <div style={{ color: TextColor }} className={`fixed top-10 right-[0px] mr-[100px] text-lg ]
@@ -90,10 +91,7 @@ const Join = () => {
                     max-md:ml-[100px]
                     max-sm:ml-0
                 rounded-md flex flex-col p-5 space-y-7"> 
-          {/* <input className='h-10 pl-4 focus:outline-none rounded-md' 
-                                value={username} placeholder='Your name..' 
-                                onChange={handleUsername}/>
-           */}
+      
               <div className='flex justify-around items-center gap-2'>
                 <div style={{ color: TextColor }} onClick={handleShow} className={`h-[150px] w-[150px] bg-green-500 flex 
                                 justify-center items-center text-xl 
@@ -116,7 +114,7 @@ const Join = () => {
                      <div className=' flex justify-center items-center gap-2 w-full'>
                       <input className='h-10 pl-4 focus:outline-none rounded-md flex justify-center' 
                         value={roomID} placeholder='Room ID'
-                        onChange={handleRoomID}/>
+                        onChange={handleRoomID} onKeyDown={handleKeyDown}/>
                         <button className='px-4 py-2 bg-green-500 w-[100px]  
                                  rounded-md 
                                 hover:bg-green-600 transition-all
@@ -147,10 +145,6 @@ const Join = () => {
                      className=' px-[100px] text-green-400'>UPDATES</span>
                      </li>
                   </div>
-                  {/* <div className='h-10 w-10 rounded-full bg-green-950 absolute left-0 opacity-0
-                                  hover:scale-[15] transition-all hover:opacity-100
-                  '         >
-                  </div> */}
               </div>
         </div>
         <div onClick={()=>HandleSetting()} className=' fill-white scale-150 fixed top-12 hover:cursor-pointer 
