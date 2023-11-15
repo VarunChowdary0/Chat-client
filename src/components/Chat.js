@@ -694,16 +694,17 @@
                                     <div className=' w-fit  h-fit px-4 py-2
                                     bg-black/70 rounded-lg  max-sm:w-fit
                                     '>
-                                        <div className='px-2 py-1 w-fit mb-3 bg-green-600 rounded-md text-white'>Code</div>
-                                            <pre className={`text-lg text-[#fbaf69] mt-10`}>
-                                            {ele.message.replace("code ","").startsWith("<blockquote")||ele.message.replace("code ","").startsWith("<iframe")?
-                                                    <div dangerouslySetInnerHTML={{ __html: (ele.message.replace('code ',"")) }}></div>
-                                                :
-                                                (ele.message.replace('code ',''))
-                                                }
-                                                
-                                                </pre>
-                                        <div className=' fill-gray-300 text-white mt-4 flex w-full justify-start '>
+                                                    {ele.message.replace("code ","").startsWith("<blockquote")||ele.message.replace("code ","").startsWith("<iframe")?
+                                                    <pre className={`text-lg text-[#fbaf69]`}>
+                                                            <div dangerouslySetInnerHTML={{ __html: (ele.message.replace('code ',"")) }}></div>
+                                                    </pre>
+                                                        :
+                                                        <>
+                                                        <div className='px-2 py-1 w-fit mb-3 bg-green-600 rounded-md text-white'>Code</div>
+                                                        <pre className={`text-lg text-[#fbaf69]`}>
+                                                            {ele.message.replace('code ','')}     
+                                                        </pre>
+                                                        <div className=' fill-gray-300 text-white mt-4 flex w-full justify-start '>
                                             {(!Iscopied)
                                             ?             
                                         <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512" 
@@ -741,6 +742,9 @@
                                         
                                             
                                         </div>
+                                                        </>
+                                                    }
+                                       
                                     </div>
                         }
                     </>
@@ -842,16 +846,18 @@
                                             <div className=' w-fit  h-fit px-4 py-2
                                             bg-black/70 rounded-lg  max-sm:w-fit
                                             '>
-                                                <div className='px-2 py-1 w-fit mb-3 bg-green-600 rounded-md text-white'>Code</div>
-                                                    <pre className={`text-lg text-[#fbaf69]`}>
-
                                                     {ele.message.replace("code ","").startsWith("<blockquote")||ele.message.replace("code ","").startsWith("<iframe")?
+                                                    <pre className={`text-lg text-[#fbaf69]`}>
                                                             <div dangerouslySetInnerHTML={{ __html: (ele.message.replace('code ',"")) }}></div>
+                                                    </pre>
                                                         :
-                                                        (ele.message.replace('code ',''))
-                                                        }
-                                                        
+                                                        <>
+                                                        <div className='px-2 py-1 w-fit mb-3 bg-green-600 rounded-md text-white'>Code</div>
+                                                        <pre className={`text-lg text-[#fbaf69]`}>
+                                                            {ele.message.replace('code ','')}     
                                                         </pre>
+                                                        </>
+                                                    }
                                             </div>
                                 }
                             </>
