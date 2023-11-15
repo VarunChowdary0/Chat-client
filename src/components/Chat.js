@@ -2,6 +2,7 @@
     import { Globals } from '../globals/Globals'
     import axios from 'axios';
     import { infinity } from 'ldrs'
+import Colours from './Colours';
 
     infinity.register()
 
@@ -39,6 +40,9 @@
         const Date_Today = `${new Date(Date.now()).getDate()} ${months_[(new Date(Date.now()).getMonth())]} ${new Date(Date.now()).getFullYear()}`
         const Yesterday = `${new Date(Date.now()).getDate()-1} ${months_[(new Date(Date.now()).getMonth())]} ${new Date(Date.now()).getFullYear()}`
 
+        const {colorSaturation} = useContext(Globals);
+        const {CurrentButtonColor} = useContext(Globals);
+    
         const TheGifFrame = `
         <!DOCTYPE html>
         <html>
@@ -624,7 +628,7 @@
                     <div className=' w-fit  h-fit px-4 py-2
                     bg-black/70 rounded-lg  max-sm:w-fit
                     '>
-                        <div className='px-2 py-1 w-fit mb-3 bg-green-600 rounded-md text-white'>Code</div>
+                        <div className={`px-2 py-1 w-fit mb-3 bg-${CurrentButtonColor}-${colorSaturation} rounded-md text-white`}>Code</div>
                             <pre className={`text-lg text-[#fbaf69] mt-10`}>     
                             <iframe width="100%" className=' rounded-md'
                                 height="560px"
@@ -644,7 +648,7 @@
                                                     </pre>
                                                         :
                                                         <>
-                                                        <div className='px-2 py-1 w-fit mb-3 bg-green-600 rounded-md text-white'>Code</div>
+                                                        <div className={`px-2 py-1 w-fit mb-3 bg-${CurrentButtonColor}-${colorSaturation} rounded-md text-white`}>Code</div>
                                                         <pre className={`text-lg text-[#fbaf69]`}>
                                                             {ele.message.replace('code ','')}     
                                                         </pre>
@@ -796,7 +800,7 @@
                                                     </pre>
                                                         :
                                                         <>
-                                                        <div className='px-2 py-1 w-fit mb-3 bg-green-600 rounded-md text-white'>Code</div>
+                                                        <div className={`px-2 py-1 w-fit mb-3 bg-${CurrentButtonColor}-${colorSaturation} rounded-md text-white`}>Code</div>
                                                         <pre className={`text-lg text-[#fbaf69]`}>
                                                             {ele.message.replace('code ','')}     
                                                         </pre>
@@ -969,7 +973,7 @@
                             >
                             <p className=' text-white font-semibold text-center'>Make This a Private room Room</p>
                             <p className=' text-[#ffbe57] text-center'>You cannot change it later if first message is sent</p>
-                            <div onClick={Caller} className=' bg-green-600 px-2 py-1 rounded-md text-white font-semibold'>Make</div>
+                            <div onClick={Caller} className={` bg-${CurrentButtonColor}-${colorSaturation} px-2 py-1 rounded-md text-white font-semibold `}>Make</div>
                         </div>
                         : 
                         <div className='fixed top-[40%] left-[47%]
@@ -1109,6 +1113,7 @@
                                 <p className=' max-sm:hidden'>Connection failed</p>
                             </div>
                     </div>
+                    <Colours/>
                 </div>
         </>
     )

@@ -1,8 +1,12 @@
 import React, { useContext, useState } from 'react'
 import { Globals } from '../globals/Globals'
 import { socket } from '../App';
+import Colours from './Colours';
 
 const Menu = () => {
+  const {colorSaturation} = useContext(Globals);
+  const {CurrentButtonColor} = useContext(Globals);
+
   const {AllRooms} = useContext(Globals) ; 
   const {username} = useContext(Globals);
   const {FinalNotifications} = useContext(Globals)
@@ -23,11 +27,11 @@ const Menu = () => {
   }
   return (
     <>
-    <div onClick={handleOpen} className='sm:hidden h-10 w-10 bg-white/90 
+    <div onClick={handleOpen} className={`sm:hidden h-10 w-10 bg-white/90 
                           rounded-lg fixed top-5 left-3
                           flex items-center justify-center
-                          fill-green-600 hover:bg-slate-500 transition-colors
-                          '>
+                          bg-${CurrentButtonColor}-${colorSaturation}  hover:bg-slate-500 transition-colors
+                          `}>
     <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
       <path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 
       32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 
@@ -52,17 +56,20 @@ const Menu = () => {
                   : 
                         <div className={`absolute h-5 w-5 rounded-full 
                         bg-blue-500 right-[-5px] top-[-5px] text-sm
-                        text-center 
+                        text-center overflow-hidden
                               `} style={{ color: TextColor }}> 
                               {ele.length}
                     </div>}
                   <div style={{ color: TextColor }} className={` p-4 flex justify-between items-center`}>
                       <p>{ele.room}</p>
-                      <button onClick={() => JoinROOM(ele.room)} className='px-4 py-2 
-                      bg-green-500 w-[60px]  rounded-md 
-                                  hover:bg-green-600 transition-all
-                                  active:bg-green-200
-                                  active:text-green-800'>
+                      <button onClick={() => JoinROOM(ele.room)} className={`px-4 py-2 
+                        bg-${CurrentButtonColor}-${colorSaturation} w-[60px]  rounded-md 
+                          hover: bg-${CurrentButtonColor}-${colorSaturation-100} transition-all
+                          active: bg-${CurrentButtonColor}-200 
+                          active:text-${CurrentButtonColor}-800 
+                          active:opacity-[1]
+                                    hover:opacity-[0.7]
+                                  `}>
 
                           Join</button>
                   </div>
@@ -104,10 +111,15 @@ const Menu = () => {
                   </div>}
                 <div className={` p-4 flex justify-between items-center`} style={{ color: TextColor }}>
                     <p>{ele.room}</p>
-                    <button onClick={()=>JoinROOM(ele.room)} className='px-4 py-2 bg-green-500 w-[60px]  rounded-md 
-                                hover:bg-green-600 transition-all
-                                active:bg-green-200
-                                    active:text-green-800' >
+                    <button onClick={()=>JoinROOM(ele.room)} className={`px-4 py-2  bg-${CurrentButtonColor}-${colorSaturation} 
+                     w-[60px]  rounded-md 
+                                hover: bg-${CurrentButtonColor}-${colorSaturation-100} transition-all
+                                active: bg-${CurrentButtonColor}-200 
+                                    active:text-${CurrentButtonColor}-800 
+                                    active:opacity-[1]
+                                    hover:opacity-[0.8]
+                                   
+                                    `} >
                         Join</button>
                 </div>
                 
@@ -115,6 +127,7 @@ const Menu = () => {
             )
           })}
         </div>
+        <Colours/>
     </>
   )
 }

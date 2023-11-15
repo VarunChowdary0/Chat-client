@@ -13,6 +13,7 @@ import Menu from './components/Menu';
 import Login from './components/Login';
 import Redirect from './components/Redirect';
 import GetNotification from './components/GetNotification';
+import Colours from './components/Colours';
 const router = createBrowserRouter([
   {
     path : '/',
@@ -65,7 +66,10 @@ export default function App() {
   const [LocalDataOnNotifications , updateLocalnotifiation] = useState(JSON.parse(localStorage.getItem('_Local_Notifications_'))||[])
   const [NotificationArray , UpdateNotifaction] = useState([]);
   const [FinalNotifications , UpdateFinalNotifaction] = useState([]);
-  const [ShowSettings,ToggleSettings] = useState(false)
+  const [ShowSettings,ToggleSettings] = useState(false);
+  const [CurrentButtonColor,setCurrentButtonColor] = useState(localStorage.getItem('TheButtonColor')||'green')
+  const [colorSaturation,setColorSaturation] = useState(JSON.parse(localStorage.getItem('ColorSaturation'))||500);
+
   //const URL = "http://localhost:10209" 
   const URL = "https://chat-server-backend-sockets.onrender.com"
 
@@ -109,9 +113,14 @@ export default function App() {
             BgColor,
             setBgColor,
             TextColor,
-            setTextColor
+            setTextColor,
+            CurrentButtonColor,
+            setCurrentButtonColor,
+            colorSaturation,
+            setColorSaturation
             }}>
             <RouterProvider router={router} />
+              <Colours/>
             </Globals.Provider>
     :
           <div className='w-full h-screen flex flex-col justify-center

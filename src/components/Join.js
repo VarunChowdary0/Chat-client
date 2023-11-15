@@ -3,6 +3,7 @@ import { Globals } from '../globals/Globals';
 import { socket } from '../App';
 import axios from 'axios';
 import Settings from './Settings';
+import Colours from './Colours';
 
 const Join = () => {
     const {username} = useContext(Globals);
@@ -13,6 +14,9 @@ const Join = () => {
     const [showIT,setShow] = useState(false); 
     const {setAllRooms} = useContext(Globals)
     const {ShowSettings,ToggleSettings} =useContext(Globals);
+
+    const {colorSaturation} = useContext(Globals);
+    const {CurrentButtonColor} = useContext(Globals);
     
     const JoinRoom = () => {
       if(username.trim()!=="" && roomID.trim()!==""){
@@ -93,18 +97,22 @@ const Join = () => {
                 rounded-md flex flex-col p-5 space-y-7"> 
       
               <div className='flex justify-around items-center gap-2'>
-                <div style={{ color: TextColor }} onClick={handleShow} className={`h-[150px] w-[150px] bg-green-500 flex 
+                <div style={{ color: TextColor }} onClick={handleShow} className={`h-[150px] w-[150px] bg-${CurrentButtonColor}-${colorSaturation} flex 
                                 justify-center items-center text-xl 
-                                rounded-lg  hover:bg-green-700 
+                                rounded-lg  hover:bg-${CurrentButtonColor}-700 
                                 hover:cursor-pointer max-sm:w-[120px]  max-sm:h-[120px]
+                                hover:opacity-[0.85]
+                                active:opacity-1
                                 transition-all`}>
                   Join a Room
                 </div>
-                <div style={{ color: TextColor }} onClick={handleShow} className={`h-[150px] w-[150px] bg-green-500 flex 
+                <div style={{ color: TextColor }} onClick={handleShow} className={`h-[150px] w-[150px] bg-${CurrentButtonColor}-${colorSaturation} flex 
                                 justify-center items-center text-xl 
                                 rounded-lg  max-sm:w-[120px]
                                 hover:cursor-pointer  max-sm:h-[120px]  max-sm:pl-4
-                                hover:bg-green-700 transition-all`}>
+                                hover:opacity-[0.85]
+                                active:opacity-1
+                                hover:bg-${CurrentButtonColor}-700 transition-all`}>
                   Create a Room
                 </div>
               </div>
@@ -115,11 +123,10 @@ const Join = () => {
                       <input className='h-10 pl-4 focus:outline-none rounded-md flex justify-center' 
                         value={roomID} placeholder='Room ID'
                         onChange={handleRoomID} onKeyDown={handleKeyDown}/>
-                        <button className='px-4 py-2 bg-green-500 w-[100px]  
-                                 rounded-md 
-                                hover:bg-green-600 transition-all
-                                active:bg-green-200
-                                  active:text-green-800'
+                        <button className={`px-4 py-2 bg-${CurrentButtonColor}-${colorSaturation} w-[100px]  
+                                 rounded-md  text-white
+                                hover:bg-${CurrentButtonColor}-${colorSaturation-100} transition-all
+                                active:bg-${CurrentButtonColor}-${colorSaturation/10}`}
                         onClick={JoinRoom}>
                           Continue
                         </button>
@@ -137,12 +144,12 @@ const Join = () => {
                             max-sm:h-[25vh] max-sm:text-sm max-sm:max-w-[400px]
                         '>
                   <div className='flex flex-col space-y-3' >
-                    <li><span className='t text-green-600'>STEP 1 : </span>Change or add username</li>
-                    <li><span className='t text-green-600'>STEP 2 : </span>To create a room Add roomID</li>
-                    <li><span className='t text-green-600'>STEP 3 : </span>TO join a room enter roomID</li>
-                    <li><span className='t text-green-600'>Notice : </span>Click on the
+                    <li><span className={`text-${CurrentButtonColor && 'green'}-500`}>STEP 1 : </span>Change or add username</li>
+                    <li><span className={`text-${CurrentButtonColor && 'green'}-500`}>STEP 2 : </span>To create a room Add roomID</li>
+                    <li><span className={`text-${CurrentButtonColor && 'green'}-500`}>STEP 3 : </span>TO join a room enter roomID</li>
+                    <li><span className={`text-${CurrentButtonColor && 'green'}-500`}>Notice : </span>Click on the
                      link to Know more <span onClick={openTheUpdates} 
-                     className=' px-[100px] text-green-400'>UPDATES</span>
+                     className={` px-[100px] text-green-600`}>UPDATES</span>
                      </li>
                   </div>
               </div>
@@ -172,7 +179,7 @@ const Join = () => {
           :
           <div></div>
         }
-
+        <Colours/>
       </div>
     )
   }
