@@ -290,9 +290,9 @@ import Colours from './Colours';
                 setConnectionStatus(true)
                 setOflineWaring(false)
             })
-            // return () => {
-            //     socket.off("recive_message");
-            // };
+            return () => {
+                socket.off("recive_message");
+            };
         }, [socket]);
 
         const UpdateMessages_1=(data)=>{
