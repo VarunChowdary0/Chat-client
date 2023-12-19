@@ -41,12 +41,12 @@ const Settings = () => {
     }
 
   return (
-    <div style={{ backgroundColor: BgColor }} className={` z-[1000]
-    fixed top-0 bottom-0  left-0 right-0`}>
+    <div  className={` z-[1000] bg-[#18181872] 
+    fixed top-0 bottom-0  left-0 right-0 backdrop-blur-md transition`}>
         <div className='fixed top-12 right-6 active:rotate-[-90deg]
-         fill-white scale-125 
+         fill-white scale-125 bg-black/50 hover:bg-black/30 p-2 rounded-xl
         transition-all' onClick={()=>HandleSetting()}>
-            <svg xmlns="http://www.w3.org/2000/svg" height="1em"
+            <svg  xmlns="http://www.w3.org/2000/svg" height="1em"
              viewBox="0 0 384 512"><path
             d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 
             4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 
