@@ -62,7 +62,7 @@ const Menu = () => {
                               {ele.length}
                     </div>}
                   <div style={{ color: TextColor }} className={` p-4 flex justify-between items-center`}>
-                      <p>{ele.room}</p>
+                      <p className=' truncate'>{ele.room}</p>
                       <button onClick={() => JoinROOM(ele.room)} className={`px-4 py-2 
                         bg-${CurrentButtonColor}-${colorSaturation} w-[60px]  rounded-md 
                           hover: bg-${CurrentButtonColor}-${colorSaturation-100} transition-all
