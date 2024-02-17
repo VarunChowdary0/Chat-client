@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import io from 'socket.io-client'
-import Chat from './components/Chat';
 import { Globals } from "./globals/Globals";
 import {
   createBrowserRouter,
   RouterProvider,
-  Route,
-  Link,
 } from "react-router-dom";
 import Join from './components/Join';
 import axios from 'axios'
@@ -40,10 +37,17 @@ const router = createBrowserRouter([
     path : '/o',
     element: 
     <>
-      <GetNotification/>
-      <Menu/>
-      <Join/>
-    </>
+    {localStorage.getItem('ISloggedIN')?
+      <>
+        <GetNotification/>
+        <Menu/>
+        <Join/>
+      </>
+      :
+      <Login/>
+    }
+  </>
+   
   }
   ,{
     path:'/chat/:id',
@@ -79,13 +83,12 @@ export default function App() {
   useEffect(()=>{
     axios.get(apiURl,{params:{'username':username}})
       .then((res)=>{
-       // console.log(res.data)
         changeStatus(true)
       })
       .catch((err)=>{
         console.log("Not online yet")
       })
-  } ,[])
+  } ,[]);
 
   return (
     <>

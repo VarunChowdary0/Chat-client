@@ -8,8 +8,13 @@ const ChatByLink = (props) => {
     const {id} = useParams();
     const {setRoomID} = useContext(Globals);
     useEffect(()=>{
-        localStorage.setItem('roomID',id);
-        setRoomID(id);
+        if (localStorage.getItem('ISloggedIN')){
+          localStorage.setItem('roomID',id);
+          setRoomID(id);
+        }
+        else{
+          window.location.href='/';
+        }
     })
   return (
     <Chat id={id}/>
