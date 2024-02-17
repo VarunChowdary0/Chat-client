@@ -4,7 +4,6 @@ const Redirect = () => {
   window.location.href='/o'
   return (
     <div>
-
     </div>
   )
 }

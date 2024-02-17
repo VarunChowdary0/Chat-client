@@ -5,6 +5,8 @@ import { Globals } from "./globals/Globals";
 import {
   createBrowserRouter,
   RouterProvider,
+  Route,
+  Link,
 } from "react-router-dom";
 import Join from './components/Join';
 import axios from 'axios'
@@ -14,6 +16,7 @@ import Login from './components/Login';
 import Redirect from './components/Redirect';
 import GetNotification from './components/GetNotification';
 import Colours from './components/Colours';
+import ChatByLink from './components/ChatByLink';
 const router = createBrowserRouter([
   {
     path : '/',
@@ -41,12 +44,12 @@ const router = createBrowserRouter([
       <Menu/>
       <Join/>
     </>
-  },
-  {
-    path:'/chat',
+  }
+  ,{
+    path:'/chat/:id',
     element:
     <>
-      <Chat/>
+      <ChatByLink id={':id'} />
     </>
   }
 ]);

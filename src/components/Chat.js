@@ -9,8 +9,18 @@ import Colours from './Colours';
 // Default values shown
 
 
-    const Chat = () => {
-        const {socket , username , roomID} = useContext(Globals)
+    const Chat = (props) => {
+        const {socket , username , roomID , setRoomID} = useContext(Globals);
+        useEffect(()=>{
+            setRoomID(props.id);
+        })
+        useEffect(()=>{
+            if(props.id !== roomID){
+                setRoomID(props.id);
+                window.location.reload();
+                localStorage.setItem('roomID',props.id);
+            }
+        })
         const {newMessage,setNewMessage} = useContext(Globals);
         const {AllMessages,addMessages}=useContext(Globals);
         const {saverModeOn} = useContext(Globals);
@@ -489,7 +499,7 @@ import Colours from './Colours';
         const DELETE_MSG = (_id) =>{
             axios.get(URL+'/delete_one_message',{params:{'roomID':roomID,'message_ID':_id}})
             .then((res)=>{
-                window.location.href='/chat'
+                window.location.href='/chat/'+roomID
             })
             .catch((err)=>{
                 console.log("Error: ",err);

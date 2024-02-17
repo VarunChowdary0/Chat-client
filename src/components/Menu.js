@@ -17,7 +17,7 @@ const Menu = () => {
     //console.log(room)
     localStorage.setItem('roomID',room);
     socket.emit("join_room",{'room':room,'username':username});
-    window.location.href="/chat";
+    window.location.href="/chat/"+room;
   }
   const handleOpen = () =>{
     SetMenu("Active")

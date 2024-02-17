@@ -27,7 +27,7 @@ const Join = () => {
               .then((res)=>{
                // console.log(res)
                 socket.emit("join_room",{'room':roomID.trim(),'username':username.trim()});
-                window.location.href="/chat";
+                window.location.href=`/chat/`+roomID;
               })
               .catch((err)=>{
                 console.log("Error to Add room",err)
@@ -61,8 +61,8 @@ const Join = () => {
       ToggleSettings(true);
   } 
   const openTheUpdates = ()=>{
-      localStorage.setItem('roomID',"Phsdvjbk00");
-      window.location.href='/chat'
+      // localStorage.setItem('roomID',"Phsdvjbk00");
+      window.location.href='/chat/Phsdvjbk00'
   } 
 
   const handleKeyDown = (event)=>{
