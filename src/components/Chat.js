@@ -52,6 +52,12 @@ import Colours from './Colours';
 
         const {colorSaturation} = useContext(Globals);
         const {CurrentButtonColor} = useContext(Globals);
+
+        // useEffect(()=>{
+        //     if(!localStorage.getItem('ISloggedIN')){
+        //         SetPublic(true);
+        //     }
+        // },[])
     
         const TheGifFrame = `
         <!DOCTYPE html>
@@ -863,13 +869,13 @@ import Colours from './Colours';
                                 {/* (roomID==='Phsdvjbk00' || roomID === 'Welcome') && */}
                         {(!IsPublic && KeyWord !== username)
                         ?
-                            <div>
-                                <div style={{ color: TextColor }} className='h-[50px] bg-[#1e1e1e] flex justify-center max-sm:text-sm text-center
-                                fixed bottom-0 left-0 right-0 items-center gap-4 text-lg'>
-                                                    Cannot reply in this room,
-                                        This is a private room only the owner can send messages 
-                                </div>
+                        (<div>
+                            <div style={{ color: TextColor }} className='h-[50px] bg-[#1e1e1e] flex justify-center max-sm:text-sm text-center
+                            fixed bottom-0 left-0 right-0 items-center gap-4 text-lg'>
+                                                Cannot reply in this room,
+                                    This is a private room only the owner can send messages 
                             </div>
+                        </div>)
                             :
                     (isCode) ? 
                         <>
@@ -894,6 +900,8 @@ import Colours from './Colours';
                         <div id='myDiv2'></div> 
                         </>  
                     :
+                        (
+                            localStorage.getItem('ISloggedIN') ?
                         <div className='h-[70px] bg-[#262626] flex justify-center fixed bottom-3 left-[10vw] right-[10vw] rounded-lg
                                     max-sm:left-0 max-sm:right-0 max-sm:bottom-0 max-sm:px-4
                                         items-center gap-4'>
@@ -971,6 +979,17 @@ import Colours from './Colours';
                             </svg>
                             </button>
                         </div>
+                        :
+                        <>
+                            (<div>
+                            <div style={{ color: TextColor }} className='h-[50px] bg-[#1e1e1e] flex justify-center max-sm:text-sm text-center
+                            fixed bottom-0 left-0 right-0 items-center gap-4 text-lg'>
+                                                Cannot reply in this room,
+                                    Login to message 
+                            </div>
+                        </div>)
+                        </>
+                        )
                     }
                 </div>
                 <div className='fixed top-[30%] left-[40%]
